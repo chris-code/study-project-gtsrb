@@ -43,6 +43,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('path', help='Path to csv file that lists input images')
 parser.add_argument('-r', '--resolution', help='Resample images to AxB resolution. Default is 48x48.')
 parser.add_argument('-l', '--datalimit', help='Maximum number of data points to read from PATH', type=int)
+parser.add_argument('-v', '--verbose', help='Set the verbosity level of keras (valid values: 0, 1, 2)', type=int)
 args = parser.parse_args()
 if args.resolution:
 	try:
@@ -58,6 +59,10 @@ if args.datalimit:
 	data_limit = args.datalimit
 else:
 	data_limit = None
+if args.verbose:
+	verbosity = args.verbose
+else:
+	verbosity = 1
 
 x_train, y_train = GTSRB_io.read_data(args.path, resolution, data_limit)
 class_count = int(np.max(y_train) + 1)
@@ -70,7 +75,7 @@ input_shape = (3, 48, 48)
 model = build_model(input_shape);
 #~ model.summary()
 
-model.fit(x_train, y_train, batch_size=10, nb_epoch=1, show_accuracy=True)
+model.fit(x_train, y_train, nb_epoch=10, show_accuracy=True, verbose=verbosity)
 
 
 
