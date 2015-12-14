@@ -95,7 +95,7 @@ def read_data(filename, resolution, n=None):
 		im = pil.open(image['path'])
 
 		# crop image
-		#im.crop(image['corners'])
+		im = im.crop(image['corners'])
 
 		# resize image to desired size
 		im = im.resize(resolution)
