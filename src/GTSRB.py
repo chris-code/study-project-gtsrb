@@ -1,9 +1,11 @@
 import argparse
 
+import numpy as np
 import keras.models as models
 import keras.layers.core as core_layers
 import keras.layers.convolutional as conv_layers
 import keras.optimizers as optimizers
+import keras.utils.np_utils as np_utils
 
 import GTSRB_io
 
@@ -57,8 +59,19 @@ if args.datalimit:
 else:
 	data_limit = None
 
-GTSRB_io.read_data(args.path, resolution, data_limit)
+x_train, y_train = GTSRB_io.read_data(args.path, resolution, data_limit)
+class_count = int(np.max(y_train) + 1)
+if class_count != 43:
+	print('There are {0} classes instead of 43!'.format(class_count))
+	exit()
+y_train = np_utils.to_categorical(y_train, class_count)
 
 input_shape = (3, 48, 48)
 model = build_model(input_shape);
 #~ model.summary()
+
+model.fit(x_train, y_train, batch_size=10, nb_epoch=1, show_accuracy=True)
+
+
+
+
