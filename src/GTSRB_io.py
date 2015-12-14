@@ -26,7 +26,7 @@ def read_data(filename, resolution, n=None):
 				# create csv reader
 				csv_reader = csv.reader(csv_file, delimiter=";")
 
-				# skip first line, which contains the headings
+				# skip first line, which contains the headlines
 				next(csv_reader)
 
 				# save path to the folder, which contains the images
@@ -74,7 +74,7 @@ def read_data(filename, resolution, n=None):
 
 if __name__ == "__main__":
 	size = (48,48)
-	csv_filename = "/home/yannickubuntu/workspaceStudienprojekt/study-project-gtsrb/data/csv_list.txt"
+	csv_filename = "data/csv_list_train.txt"
 
 	start_time = time.time()
 	X_train, y_train = read_data(csv_filename, size, 1)
