@@ -71,7 +71,7 @@ if class_count != 43:
 	exit()
 y_train = np_utils.to_categorical(y_train, class_count)
 
-input_shape = (3, x_train.shape[2], x_train.shape[3])
+input_shape = (x_train.shape[1], x_train.shape[2], x_train.shape[3])
 model = build_model(input_shape);
 #~ model.summary()
 
