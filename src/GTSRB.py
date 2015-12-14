@@ -5,6 +5,8 @@ import keras.layers.core as core_layers
 import keras.layers.convolutional as conv_layers
 import keras.optimizers as optimizers
 
+import GTSRB_io
+
 def build_model(input_shape):
 	model = models.Sequential()
 
@@ -36,8 +38,27 @@ def build_model(input_shape):
 	return model
 
 parser = argparse.ArgumentParser()
-parser.add_argument('path', help='Path to file that specifies input data')
+parser.add_argument('path', help='Path to csv file that lists input images')
+parser.add_argument('-r', '--resolution', help='Resample images to AxB resolution. Default is 48x48.')
+parser.add_argument('-l', '--datalimit', help='Maximum number of data points to read from PATH', type=int)
 args = parser.parse_args()
+if args.resolution:
+	try:
+		sizes = args.resolution.split('x', maxsplit=1)
+		resolution = (int(sizes[0]), int(sizes[1]))
+	except:
+		print('Invalid resolution specification: \'{0}\''.format(args.resolution))
+		print('Resolution must be of the format \'AxB\'')
+	exit(1)
+else:
+	resolution = (48, 48)
+if args.datalimit:
+	data_limit = args.datalimit
+else:
+	data_limit = None
+
+GTSRB_io.read_data(args.path, resolution, data_limit)
 
 input_shape = (3, 48, 48)
 model = build_model(input_shape);
+#~ model.summary()
