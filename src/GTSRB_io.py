@@ -46,7 +46,7 @@ def read_data(filename, resolution, n=None):
 
 	# open file which contains the csv list
 	with open(filename, "r") as f:
-		# read csv paths from file and safe them in a list
+		# read csv paths from file and save them in a list
 		csv_paths = f.readlines()
 		
 		# create list, which is supposed to save information about the images
@@ -54,7 +54,7 @@ def read_data(filename, resolution, n=None):
 
 		# iterate over csv files
 		for csv_path in csv_paths:
-			# remove possible new lines at the end of the path
+			# remove possible '\n' at the end of the path
 			csv_path = csv_path.strip()
 
 			# open csv file to read images
@@ -62,10 +62,16 @@ def read_data(filename, resolution, n=None):
 				# create csv reader
 				csv_reader = csv.reader(csv_file, delimiter=";")
 
+				# skip first line, which contains the headings
+				next(csv_reader)
+
+				# save path to the folder, which contains the images
+				folder_path = csv_path[:csv_path.rfind('/')] + "/"
+
 				# iterate over images
 				for image_row in csv_reader:
 					# build path to image
-					image_path = csv_path[:csv_path.rfind('/')] + "/" + image_row[0]
+					image_path = folder_path + image_row[0]
 
 					# append image to image list
 					image_list.append({'path': image_path, 'corners':  (int(image_row[3]), int(image_row[4]), int(image_row[5]), int(image_row[6])), 'label': image_row[7]})
@@ -85,13 +91,13 @@ def read_data(filename, resolution, n=None):
 		if idx >= number_of_images:
 			break;
 		
-		# read line until the space character, which separates the path from the label
+		# open the image
 		im = pil.open(image['path'])
 
 		# crop image
-		im.crop(image['corners'])
+		#im.crop(image['corners'])
 
-		# resize image so desired size
+		# resize image to desired size
 		im = im.resize(resolution)
 		
 		# save image as array within the result array
@@ -100,29 +106,27 @@ def read_data(filename, resolution, n=None):
 		# save label
 		y[idx] = image['label']
 
-	#print(image_list)
-
 	return X, y
 
 if __name__ == "__main__":
 	size = (48,48)
-	img_filename = "/home/yannickubuntu/workspaceStudienprojekt/study-project-gtsrb/data/image_list.txt"
 	csv_filename = "/home/yannickubuntu/workspaceStudienprojekt/study-project-gtsrb/data/csv_list.txt"
 
 	start_time = time.time()
-	X_train, y_train = read_data(csv_filename, size, 10)
+	X_train, y_train = read_data(csv_filename, size, 1)
 	end_time = time.time()
 
 	print("Execution time: " + str(end_time - start_time) + "s")
 
+	
 	'''
+	img_filename = "/home/yannickubuntu/workspaceStudienprojekt/study-project-gtsrb/data/image_list.txt"
+
 	start_time = time.time()
-	X_train, y_train = read_data_from_imagelist(img_filename, size)
+	X_train2, y_train2 = read_data_from_imagelist(img_filename, size, 1)
 	end_time = time.time()
 
-	print(X_train.shape)
-	print(y_train.shape)
-	print (y_train)
-
 	print("Execution time: " + str(end_time - start_time) + "s")
+	
+	print(X_train2[0])
 	'''
