@@ -4,10 +4,8 @@ import time
 import random
 import csv
 
-
-def read_data(filename, resolution, n=None):
-	'''This method takes a file containing the csv paths and returns a 4D array containing the image data and a 1D array containing the labels.'''
-
+def create_image_list(filename):
+	'''This method takes the path to a list of csv files, which contain information about the images.'''
 	# open file which contains the csv list
 	with open(filename, "r") as f:
 		# read csv paths from file and save them in a list
@@ -43,6 +41,13 @@ def read_data(filename, resolution, n=None):
 	# shuffle images
 	random.shuffle(image_list)
 
+	return image_list
+
+def read_data(filename, resolution, n=None):
+	'''This method takes a file containing the csv paths and returns a 4D array containing the image data and a 1D array containing the labels.'''
+	# create image list
+	image_list = create_image_list(filename)
+
 	# check whether there is a limit for the images to be loaded
 	number_of_images = n if n is not None else len(image_list)
 
@@ -77,7 +82,7 @@ if __name__ == "__main__":
 	csv_filename = "data/csv_list_train.txt"
 
 	start_time = time.time()
-	X_train, y_train = read_data(csv_filename, size, 1)
+	X_train, y_train = read_data(csv_filename, size, 1000)
 	end_time = time.time()
 
 	print("Execution time: " + str(end_time - start_time) + "s")
