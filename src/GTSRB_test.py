@@ -24,12 +24,8 @@ except:
 	exit(1)
 
 #~ Load data
-x_test, y_test = GTSRB_io.read_data(args.path, resolution, args.datalimit)
-class_count = int(np.max(y_test) + 1)
-if class_count != 43:
-	print('There are {0} classes instead of 43!'.format(class_count))
-	exit()
-y_test = np_utils.to_categorical(y_test, class_count)
+x_test, y_test, num_classes = GTSRB_io.read_data(args.path, resolution, args.datalimit)
+y_test = np_utils.to_categorical(y_test, num_classes)
 
 input_shape = (x_test.shape[1], x_test.shape[2], x_test.shape[3])
 model = GTSRB_nn.build_model(input_shape)

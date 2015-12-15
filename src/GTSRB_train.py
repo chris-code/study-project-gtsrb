@@ -27,10 +27,6 @@ except:
 
 #~ Load data
 x_train, y_train, num_classes = GTSRB_io.read_data(args.path, resolution, args.datalimit)
-#~ class_count = int(np.max(y_train) + 1)
-#~ if class_count != num_classes:
-	#~ print('There are {0} classes instead of 43!'.format(class_count))
-	#~ exit()
 y_train = np_utils.to_categorical(y_train, num_classes)
 
 input_shape = (x_train.shape[1], x_train.shape[2], x_train.shape[3])
