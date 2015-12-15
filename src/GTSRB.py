@@ -42,6 +42,7 @@ def build_model(input_shape):
 parser = argparse.ArgumentParser()
 parser.add_argument('path', help='Path to csv file that lists input images')
 parser.add_argument('-e', '--epochs', help='Numper of epochs to train for', type=int, default=10)
+parser.add_argument('-b', '--batchsize', help='Size of the batches to be learned on', type=int, default=128)
 parser.add_argument('-r', '--resolution', help='Resample images to AxB resolution. Default is 48x48.', default='48x48')
 parser.add_argument('-d', '--datalimit', help='Maximum number of data points to read from PATH', type=int, default=None)
 parser.add_argument('-l', '--load-weights', help='Load weights from specified file')
@@ -71,7 +72,8 @@ if args.load_weights:
 	print('Loading weights from {0}'.format(args.load_weights))
 	model.load_weights(args.load_weights)
 
-model.fit(x_train, y_train, nb_epoch=args.epochs, show_accuracy=True, verbose=args.verbose)
+print('Training on {0} samples in batches of size {1} for {2} epochs'.format(x_train.shape[0], args.batchsize, args.epochs))
+model.fit(x_train, y_train, nb_epoch=args.epochs, batch_size=args.batchsize, show_accuracy=True, verbose=args.verbose)
 
 if args.store_weights:
 	print('Storing weights to {0}'.format(args.store_weights))
