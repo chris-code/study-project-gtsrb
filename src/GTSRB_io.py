@@ -43,13 +43,13 @@ def create_image_list(filename):
 
 	return image_list
 
-def read_data(filename, resolution, n=None):
+def read_data(filename, resolution, d=None):
 	'''This method takes a file containing the csv paths and returns a 4D array containing the image data and a 1D array containing the labels.'''
 	# create image list
 	image_list = create_image_list(filename)
 
 	# check whether there is a limit for the images to be loaded
-	number_of_images = n if n is not None else len(image_list)
+	number_of_images = d if d is not None else len(image_list)
 
 	# create empty arrays with appropriate size
 	X = np.empty((number_of_images, 3, resolution[0], resolution[1]))
@@ -73,7 +73,7 @@ def read_data(filename, resolution, n=None):
 		X[idx] = np.transpose(np.asarray(im), [2,0,1])
 
 		# save label
-		y[idx] = image['label']
+		y[idx] = image['label']	
 
 	return X, y
 
