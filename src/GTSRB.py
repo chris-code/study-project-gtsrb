@@ -57,9 +57,9 @@ except:
 	print('Resolution must be of the format \'AxB\'')
 	exit(1)
 
-x_train, y_train = GTSRB_io.read_data(args.path, resolution, args.datalimit)
+x_train, y_train, num_classes = GTSRB_io.read_data(args.path, resolution, args.datalimit)
 class_count = int(np.max(y_train) + 1)
-if class_count != 43:
+if class_count != num_classes:
 	print('There are {0} classes instead of 43!'.format(class_count))
 	exit()
 y_train = np_utils.to_categorical(y_train, class_count)
