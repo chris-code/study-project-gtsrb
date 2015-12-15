@@ -42,7 +42,9 @@ def build_model(input_shape):
 parser = argparse.ArgumentParser()
 parser.add_argument('path', help='Path to csv file that lists input images')
 parser.add_argument('-r', '--resolution', help='Resample images to AxB resolution. Default is 48x48.')
-parser.add_argument('-l', '--datalimit', help='Maximum number of data points to read from PATH', type=int)
+parser.add_argument('-d', '--datalimit', help='Maximum number of data points to read from PATH', type=int)
+parser.add_argument('-l', '--load-weights', help='Load weights from specified file')
+parser.add_argument('-s', '--store-weights', help='Store weights to specified file')
 parser.add_argument('-v', '--verbose', help='Set the verbosity level of keras (valid values: 0, 1, 2)', type=int)
 args = parser.parse_args()
 if args.resolution:
@@ -71,12 +73,15 @@ if class_count != 43:
 	exit()
 y_train = np_utils.to_categorical(y_train, class_count)
 
-input_shape = (3, 48, 48)
+input_shape = (x_train.shape[1], x_train.shape[2], x_train.shape[3])
 model = build_model(input_shape);
+if args.load-weights:
+	model.load_weights(args.load-weights)
 #~ model.summary()
 
 model.fit(x_train, y_train, nb_epoch=10, show_accuracy=True, verbose=verbosity)
 
-
+if args.store-weights:
+	model.save_weights(args.store-weights)
 
 
