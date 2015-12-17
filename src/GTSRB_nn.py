@@ -3,7 +3,7 @@ import keras.layers.core as core_layers
 import keras.layers.convolutional as conv_layers
 import keras.optimizers as optimizers
 
-def build_model(input_shape):
+def build_model(input_shape, num_classes=43):
 	model = models.Sequential()
 
 	l1 = conv_layers.Convolution2D(100, 7, 7, init='uniform', activation='tanh', input_shape=input_shape) # TODO activation function?
@@ -16,7 +16,7 @@ def build_model(input_shape):
 	l6 = conv_layers.MaxPooling2D(pool_size=(2, 2))
 
 	l7 = core_layers.Dense(300, init='uniform', activation='tanh')
-	l8 = core_layers.Dense(43, init='uniform', activation='softmax')
+	l8 = core_layers.Dense(num_classes, init='uniform', activation='softmax')
 
 	model.add(l1)
 	model.add(l2)

@@ -1,6 +1,5 @@
 import argparse
 
-import numpy as np
 import keras.utils.np_utils as np_utils
 
 import GTSRB_nn
@@ -28,8 +27,7 @@ x_test, y_test, num_classes = GTSRB_io.read_data(args.path, resolution, args.dat
 y_test = np_utils.to_categorical(y_test, num_classes)
 
 input_shape = (x_test.shape[1], x_test.shape[2], x_test.shape[3])
-model = GTSRB_nn.build_model(input_shape)
-#~ model.summary()
+model = GTSRB_nn.build_model(input_shape, num_classes)
 
 #~ Load weights
 print('Loading weights from {0}'.format(args.load_weights))
