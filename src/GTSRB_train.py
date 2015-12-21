@@ -4,6 +4,7 @@ import keras.utils.np_utils as np_utils
 
 import GTSRB_nn
 import GTSRB_io
+import GTSRB_distortions
 
 #~ Parse parameters
 parser = argparse.ArgumentParser()
@@ -36,9 +37,12 @@ if args.load_weights:
 	print('Loading weights from {0}'.format(args.load_weights))
 	model.load_weights(args.load_weights)
 
+#~ Create distortions callback
+distcall = GTSRB_distortions.Distortions(x_train, y_train.shape[0])
+
 #~ Train the model
 print('Training on {0} samples in batches of size {1} for {2} epochs'.format(x_train.shape[0], args.batchsize, args.epochs))
-model.fit(x_train, y_train, nb_epoch=args.epochs, batch_size=args.batchsize, show_accuracy=True, verbose=args.verbose)
+model.fit(x_train, y_train, nb_epoch=args.epochs, callbacks=[distcall], batch_size=args.batchsize, show_accuracy=True, verbose=args.verbose)
 
 #~ Store weights
 if args.store_weights:
