@@ -10,7 +10,7 @@ def create_image_list(filename):
 	with open(filename, "r") as f:
 		# read csv paths from file and save them in a list
 		csv_paths = f.readlines()
-		
+
 		# create list, which is supposed to save information about the images
 		image_list = []
 
@@ -64,8 +64,8 @@ def read_data(filename, resolution, d=None, normalize=False):
 	# iterate over images
 	for idx, image in enumerate(image_list):
 		if idx >= number_of_images:
-			break;
-		
+			break
+
 		# open the image
 		im = pil.open(image['path'])
 
@@ -74,7 +74,7 @@ def read_data(filename, resolution, d=None, normalize=False):
 
 		# resize image to desired size
 		im = im.resize(resolution)
-		
+
 		# save image as array within the result array
 		X[idx] = np.transpose(np.asarray(im), [2,0,1])
 
