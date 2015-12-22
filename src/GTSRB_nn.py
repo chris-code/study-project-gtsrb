@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import keras.models as models
 import keras.layers.core as core_layers
 import keras.layers.convolutional as conv_layers

@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import PIL.Image as pil
 import numpy as np
 import time

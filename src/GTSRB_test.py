@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import argparse
 
 import keras.utils.np_utils as np_utils
