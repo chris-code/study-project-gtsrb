@@ -81,8 +81,9 @@ def read_data(filename, resolution, d=None, normalize=True):
 		# save label
 		y[idx] = image['label']
 
+	# normalize images to range [0,1] if desired
 	if normalize:
-		X[idx] /= 255
+		X[2:4] /= 255
 
 	return X, y, num_classes
 
