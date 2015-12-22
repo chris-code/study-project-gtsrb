@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+import theano
+theano.config.openmp = True
 import keras.models as models
 import keras.layers.core as core_layers
 import keras.layers.convolutional as conv_layers

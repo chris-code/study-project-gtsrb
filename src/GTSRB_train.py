@@ -2,6 +2,8 @@
 
 import argparse
 
+import theano
+theano.config.openmp = True
 import keras.utils.np_utils as np_utils
 
 import GTSRB_nn
