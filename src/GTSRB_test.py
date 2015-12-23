@@ -19,7 +19,7 @@ parser.add_argument('-l', '--load-weights', help='Load weights from specified fi
 parser.add_argument('-v', '--verbose', help='Set the verbosity level of keras (valid values: 0, 1, 2)', type=int, default=1)
 args = parser.parse_args()
 try:
-	sizes = args.resolution.split('x', maxsplit=1)
+	sizes = args.resolution.split('x', 1)
 	resolution = (int(sizes[0]), int(sizes[1]))
 except:
 	print('Invalid resolution specification: \'{0}\''.format(args.resolution))
