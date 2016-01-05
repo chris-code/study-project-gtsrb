@@ -10,7 +10,7 @@ class Distortions(keras.callbacks.Callback):
 		self.x = x
 		self.resolution = x.shape[2:4]
 		self.number_of_images = number_of_images
-	
+
 	def cut_image(self, image):
 		# ATTENTION! It is assumed that the images are square!
 
@@ -41,21 +41,21 @@ class Distortions(keras.callbacks.Callback):
 			res[:,:left,bottom:] = image[:,left,bottom-1].resize(res[:,:left,bottom:].shape)
 			res[:,right:,bottom:] = image[:,right-1,bottom-1].resize(res[:,right:,bottom:].shape)
 
-			return res			
+			return res
 
 		# image has a larger resolution than desired
 		else:
-			print("case larger")			
+			print("case larger")
 
 			# calculate boundaries
 			left = (image.shape[1] - self.resolution[0]) // 2
 			top = (image.shape[2] - self.resolution[1]) // 2
-			right = left + self.resolution[0]			
+			right = left + self.resolution[0]
 			bottom = top + self.resolution[1]
 
 			# return result image
 			return image[:,left:right,top:bottom]
-			
+
 
 	def on_epoch_end(self, epoch, logs={}):
 		# create random values for shift, rotation and scaling
@@ -68,7 +68,7 @@ class Distortions(keras.callbacks.Callback):
 			# shift
 			img = trans.shift(self.original_x[img_id], [0, shift_values[img_id], shift_values[img_id]], mode="nearest")
 
-			# rotate			
+			# rotate
 			img = trans.rotate(img, axes=(1,2), angle=rotate_angles[img_id], reshape=False, mode="nearest")
 
 			# scale
