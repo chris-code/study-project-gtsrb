@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import PIL.Image as pil
+import PIL.ImageOps as pilops
 import numpy as np
 import time
 import random
@@ -45,7 +46,7 @@ def create_image_list(filename):
 
 	return image_list
 
-def read_data(filename, resolution, d=None, normalize=True, gray_scale = False):
+def read_data(filename, resolution, d=None, normalize=True, gray_scale=False, autocontrast=True):
 	'''This method takes a file containing the csv paths and returns a 4D array containing the image data and a 1D array containing the labels.'''
 	# create image list
 	image_list = create_image_list(filename)
@@ -77,6 +78,10 @@ def read_data(filename, resolution, d=None, normalize=True, gray_scale = False):
 
 		# crop image
 		im = im.crop(image['corners'])
+
+		# autocontrast
+		if autocontrast:
+			im = pilops.autocontrast(im)
 
 		# resize image to desired size
 		im = im.resize(resolution)
