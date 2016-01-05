@@ -13,13 +13,13 @@ def build_model(input_shape, num_classes=43):
 	(Dan Cireşan ∗ , Ueli Meier, Jonathan Masci, Jürgen Schmidhuber)'''
 
 	#~ Define layers
-	l1 = conv_layers.Convolution2D(100, 7, 7, init='uniform', activation='tanh', input_shape=input_shape) # TODO activation function?
+	l1 = conv_layers.Convolution2D(100, 7, 7, init='uniform', activation='tanh', input_shape=input_shape)
 	l2 = conv_layers.MaxPooling2D(pool_size=(2, 2))
 
-	l3 = conv_layers.Convolution2D(150, 4, 4, init='uniform', activation='tanh') # TODO activation function?
+	l3 = conv_layers.Convolution2D(150, 4, 4, init='uniform', activation='tanh')
 	l4 = conv_layers.MaxPooling2D(pool_size=(2, 2))
 
-	l5 = conv_layers.Convolution2D(250, 4, 4, init='uniform', activation='tanh') # TODO activation function?
+	l5 = conv_layers.Convolution2D(250, 4, 4, init='uniform', activation='tanh')
 	l6 = conv_layers.MaxPooling2D(pool_size=(2, 2))
 
 	l7 = core_layers.Flatten() # Transform convolutable to fully connectable layout.
