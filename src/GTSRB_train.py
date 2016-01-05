@@ -31,7 +31,7 @@ except:
 	exit(1)
 
 #~ Load data
-x_train, y_train, num_classes = GTSRB_io.read_data(args.path, resolution, args.datalimit)
+x_train, y_train, num_classes = GTSRB_io.read_data(args.path, resolution, args.datalimit, gray_scale=True)
 y_train = np_utils.to_categorical(y_train, num_classes)
 
 input_shape = (x_train.shape[1], x_train.shape[2], x_train.shape[3])
