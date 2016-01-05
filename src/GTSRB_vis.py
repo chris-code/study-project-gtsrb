@@ -57,7 +57,7 @@ args = parser.parse_args()
 
 # build model
 input_shape = (3, 48, 48)
-model = GTSRB_nn.build_model(input_shape)
+model, optimizer = GTSRB_nn.build_model(input_shape)
 
 #~ Load weights
 if args.verbose:

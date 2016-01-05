@@ -7,19 +7,19 @@ import keras.layers.core as core_layers
 import keras.layers.convolutional as conv_layers
 import keras.optimizers as optimizers
 
-def build_model(input_shape, num_classes=43):
+def build_model(input_shape, num_classes=43, momentum=0.0, nesterov=False):
 	'''Builds a keras CNN model according to one column of the Multi-CNN architecture described in
 	Multi-column deep neural network for traffic sign classification
 	(Dan Cireşan ∗ , Ueli Meier, Jonathan Masci, Jürgen Schmidhuber)'''
 
 	#~ Define layers
-	l1 = conv_layers.Convolution2D(100, 7, 7, init='uniform', activation='tanh', input_shape=input_shape) # TODO activation function?
+	l1 = conv_layers.Convolution2D(100, 7, 7, init='uniform', activation='tanh', input_shape=input_shape)
 	l2 = conv_layers.MaxPooling2D(pool_size=(2, 2))
 
-	l3 = conv_layers.Convolution2D(150, 4, 4, init='uniform', activation='tanh') # TODO activation function?
+	l3 = conv_layers.Convolution2D(150, 4, 4, init='uniform', activation='tanh')
 	l4 = conv_layers.MaxPooling2D(pool_size=(2, 2))
 
-	l5 = conv_layers.Convolution2D(250, 4, 4, init='uniform', activation='tanh') # TODO activation function?
+	l5 = conv_layers.Convolution2D(250, 4, 4, init='uniform', activation='tanh')
 	l6 = conv_layers.MaxPooling2D(pool_size=(2, 2))
 
 	l7 = core_layers.Flatten() # Transform convolutable to fully connectable layout.
@@ -41,7 +41,7 @@ def build_model(input_shape, num_classes=43):
 	model.add(l9)
 
 	#~ Configure optimizer and loss
-	sgd = optimizers.SGD(lr=0.1, decay=1e-6, momentum=0.9, nesterov=True) # TODO parameters
+	sgd = optimizers.SGD(lr=0.1, decay=1e-6, momentum=momentum, nesterov=nesterov) # TODO parameters
 	model.compile(loss='categorical_crossentropy', optimizer=sgd)
 
 	return model, sgd

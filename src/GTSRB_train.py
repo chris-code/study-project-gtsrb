@@ -14,7 +14,7 @@ import GTSRB_distortions
 #~ Parse arguments
 parser = argparse.ArgumentParser()
 parser.add_argument('path', help='Path to csv file that lists input images')
-parser.add_argument('-e', '--epochs', help='Numper of epochs to train for [default 10]', type=int, default=1)
+parser.add_argument('-e', '--epochs', help='Numper of epochs to train for [default 1]', type=int, default=1)
 parser.add_argument('-b', '--batchsize', help='Size of the batches to be learned on [default 128]', type=int, default=128)
 parser.add_argument('-r', '--resolution', help='Resample images to AxB resolution. [default \'48x48\']', default='48x48')
 parser.add_argument('-d', '--datalimit', help='Maximum number of data points to read from PATH [if missing, read all]', type=int, default=None)
