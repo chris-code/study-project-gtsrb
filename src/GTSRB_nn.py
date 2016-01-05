@@ -44,4 +44,4 @@ def build_model(input_shape, num_classes=43):
 	sgd = optimizers.SGD(lr=0.1, decay=1e-6, momentum=0.9, nesterov=True) # TODO parameters
 	model.compile(loss='categorical_crossentropy', optimizer=sgd)
 
-	return model
+	return model, sgd
