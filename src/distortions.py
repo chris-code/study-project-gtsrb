@@ -2,8 +2,6 @@ import numpy as np
 import keras.callbacks
 import scipy.ndimage.interpolation as trans
 
-#from scipy.misc import toimage
-
 class Distortions(keras.callbacks.Callback):
 	def __init__(self, x, number_of_images):
 		self.original_x = np.copy(x)
@@ -16,8 +14,6 @@ class Distortions(keras.callbacks.Callback):
 
 		# image has a smaller resolution than desired
 		if image.shape[1] < self.resolution[0]:
-			print("case smaller")
-
 			# initialize result image
 			res = np.empty((3,self.resolution[0],self.resolution[1]))
 
@@ -36,17 +32,15 @@ class Distortions(keras.callbacks.Callback):
 			res[:,left:right,bottom:] = image[:,:,-1].reshape(3,-1,1)
 
 			# interpolate empty pixels (topleft, topright, bottomleft, bottomright corner)
-			res[:,:left,:top] = image[:,left,top].resize(res[:,:left,:top].shape)
-			res[:,right:,:top] = image[:,right-1,top].resize(res[:,right:,:top].shape)
-			res[:,:left,bottom:] = image[:,left,bottom-1].resize(res[:,:left,bottom:].shape)
-			res[:,right:,bottom:] = image[:,right-1,bottom-1].resize(res[:,right:,bottom:].shape)
+			res[:,:left,:top] = image[:,0,0].resize(res[:,:left,:top].shape)
+			res[:,right:,:top] = image[:,-1,0].resize(res[:,right:,:top].shape)
+			res[:,:left,bottom:] = image[:,0,-1].resize(res[:,:left,bottom:].shape)
+			res[:,right:,bottom:] = image[:,-1,-1].resize(res[:,right:,bottom:].shape)
 
 			return res
 
 		# image has a larger resolution than desired
 		else:
-			print("case larger")
-
 			# calculate boundaries
 			left = (image.shape[1] - self.resolution[0]) // 2
 			top = (image.shape[2] - self.resolution[1]) // 2
@@ -73,6 +67,5 @@ class Distortions(keras.callbacks.Callback):
 
 			# scale
 			img = trans.zoom(img, zoom=[1,scale_factors[img_id],scale_factors[img_id]], mode="nearest")
-			#toimage(img).show()
 
 			self.x[img_id] = self.cut_image(img)
