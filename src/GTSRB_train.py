@@ -78,3 +78,5 @@ if args.store_status:
 	optimizer_state = optimizer.get_state()
 	with open(train_filename, 'wb') as train_file:
 		pickle.dump(optimizer_state, train_file, pickle.HIGHEST_PROTOCOL)
+
+print('Done')
