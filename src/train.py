@@ -37,19 +37,8 @@ x_train, y_train, num_classes = dataset_io.read_data(args.path, resolution, args
 y_train = np_utils.to_categorical(y_train, num_classes)
 
 input_shape = (x_train.shape[1], x_train.shape[2], x_train.shape[3])
-#~ model, optimizer = nn.build_model(input_shape, num_classes)
-
-layout = []
-layout.append( ('conv2D', {'nb_filter': 100, 'nb_row': 7, 'nb_col': 7, 'init': 'uniform', 'activation': 'tanh', 'input_shape': input_shape}) )
-layout.append( ('maxpool2D', {'pool_size': (2,2)}) )
-layout.append( ('conv2D', {'nb_filter': 150, 'nb_row': 4, 'nb_col': 4, 'init': 'uniform', 'activation': 'tanh'}) )
-layout.append( ('maxpool2D', {'pool_size': (2,2)}) )
-layout.append( ('conv2D', {'nb_filter': 250, 'nb_row': 4, 'nb_col': 4, 'init': 'uniform', 'activation': 'tanh'}) )
-layout.append( ('maxpool2D', {'pool_size': (2,2)}) )
-layout.append( ('flatten', None) )
-layout.append( ('dense', {'output_dim': 300, 'init': 'uniform', 'activation': 'tanh'}) )
-layout.append( ('dense', {'output_dim': num_classes, 'init': 'uniform', 'activation': 'softmax'}) )
-model, optimizer = nn.build_model_to_layout(layout, num_classes)
+layout = nn.get_gtsrb_layout(input_shape, num_classes)
+model, optimizer = nn.build_model_to_layout(layout)
 
 #~ Load status
 if args.load_status:

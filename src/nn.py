@@ -12,6 +12,12 @@ def build_model(input_shape, num_classes=43, momentum=0.0, nesterov=False):
 	Multi-column deep neural network for traffic sign classification
 	(Dan Cireşan ∗ , Ueli Meier, Jonathan Masci, Jürgen Schmidhuber)'''
 
+layout.append( ('conv2D', {'nb_filter': 250, 'nb_row': 4, 'nb_col': 4, 'init': 'uniform', 'activation': 'tanh'}) )
+layout.append( ('maxpool2D', {'pool_size': (2,2)}) )
+layout.append( ('flatten', None) )
+layout.append( ('dense', {'output_dim': 300, 'init': 'uniform', 'activation': 'tanh'}) )
+layout.append( ('dense', {'output_dim': num_classes, 'init': 'uniform', 'activation': 'softmax'}) )
+
 	#~ Define layers
 	l1 = conv_layers.Convolution2D(100, 7, 7, init='uniform', activation='tanh', input_shape=input_shape)
 	l2 = conv_layers.MaxPooling2D(pool_size=(2, 2))
@@ -46,7 +52,7 @@ def build_model(input_shape, num_classes=43, momentum=0.0, nesterov=False):
 
 	return model, sgd
 
-def build_model_to_layout(layout, num_classes, momentum=0.0, nesterov=False):
+def build_model_to_layout(layout, momentum=0.0, nesterov=False):
 	model = models.Sequential()
 
 	for ltype, lspec in layout:
@@ -67,3 +73,17 @@ def build_model_to_layout(layout, num_classes, momentum=0.0, nesterov=False):
 	model.compile(loss='categorical_crossentropy', optimizer=sgd)
 
 	return model, sgd
+
+def get_gtsrb_layout(input_shape, num_classes):
+	layout = []
+	layout.append( ('conv2D', {'nb_filter': 100, 'nb_row': 7, 'nb_col': 7, 'init': 'uniform', 'activation': 'tanh', 'input_shape': input_shape}) )
+	layout.append( ('maxpool2D', {'pool_size': (2,2)}) )
+	layout.append( ('conv2D', {'nb_filter': 150, 'nb_row': 4, 'nb_col': 4, 'init': 'uniform', 'activation': 'tanh'}) )
+	layout.append( ('maxpool2D', {'pool_size': (2,2)}) )
+	layout.append( ('conv2D', {'nb_filter': 250, 'nb_row': 4, 'nb_col': 4, 'init': 'uniform', 'activation': 'tanh'}) )
+	layout.append( ('maxpool2D', {'pool_size': (2,2)}) )
+	layout.append( ('flatten', None) )
+	layout.append( ('dense', {'output_dim': 300, 'init': 'uniform', 'activation': 'tanh'}) )
+	layout.append( ('dense', {'output_dim': num_classes, 'init': 'uniform', 'activation': 'softmax'}) )
+
+	return layout

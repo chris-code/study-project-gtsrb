@@ -12,6 +12,8 @@ def create_folders():
 		name = str(i).zfill(5)
 		os.makedirs("data/MNIST_TRAIN/" + name)
 
+create_folders()
+
 # load MNIST and prepare some counters
 mnist = sklearn.datasets.fetch_mldata('MNIST original')
 previouslabel = 0
