@@ -35,5 +35,9 @@ model.load_weights(args.load_weights)
 
 #~ Create predictions
 print('Predicting labels for {0} samples in batches of size {1}'.format(x_test.shape[0], args.batchsize))
-pred = model.predict_classes(x_test, batch_size=args.batchsize, verbose=args.verbose)
-print(pred.shape)
+predictions = model.predict_proba(x_test, batch_size=args.batchsize, verbose=args.verbose)
+
+import numpy as np
+predictions = model.predict_classes(x_test, batch_size=args.batchsize, verbose=args.verbose)
+s = np.sum(predictions != np.array([8]))
+print(s)

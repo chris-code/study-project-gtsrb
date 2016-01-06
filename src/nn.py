@@ -45,3 +45,25 @@ def build_model(input_shape, num_classes=43, momentum=0.0, nesterov=False):
 	model.compile(loss='categorical_crossentropy', optimizer=sgd)
 
 	return model, sgd
+
+def build_model_to_layout(layout, num_classes, momentum=0.0, nesterov=False):
+	model = models.Sequential()
+
+	for ltype, lspec in layout:
+		if ltype == 'conv2D':
+			layer = conv_layers.Convolution2D(**lspec)
+		elif ltype == 'maxpool2D':
+			layer = conv_layers.MaxPooling2D(**lspec)
+		elif ltype == 'flatten':
+			layer = core_layers.Flatten()
+		elif ltype == 'dense':
+			layer = core_layers.Dense(**lspec)
+		else:
+			raise NotImplementedError
+
+		model.add(layer)
+
+	sgd = optimizers.SGD(lr=0.1, decay=1e-6, momentum=momentum, nesterov=nesterov) # TODO parameters
+	model.compile(loss='categorical_crossentropy', optimizer=sgd)
+
+	return model, sgd
