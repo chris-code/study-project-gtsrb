@@ -55,7 +55,7 @@ if args.load_status:
 
 #~ Create distortions callback
 if args.morph:
-	distcall = GTSRB_distortions.Distortions(x_train, y_train.shape[0]) #TODO why y_train.shape and not x_train.shape?
+	distcall = GTSRB_distortions.Distortions(x_train, x_train.shape[0])
 	callbacks = [distcall]
 	print('Distortions will be applied to training data between epochs')
 else:
