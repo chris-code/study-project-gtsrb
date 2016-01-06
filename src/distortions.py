@@ -2,8 +2,6 @@ import numpy as np
 import keras.callbacks
 import scipy.ndimage.interpolation as trans
 
-#from scipy.misc import toimage
-
 class Distortions(keras.callbacks.Callback):
 	def __init__(self, x, number_of_images):
 		self.original_x = np.copy(x)
@@ -69,6 +67,5 @@ class Distortions(keras.callbacks.Callback):
 
 			# scale
 			img = trans.zoom(img, zoom=[1,scale_factors[img_id],scale_factors[img_id]], mode="nearest")
-			#toimage(img).show()
 
 			self.x[img_id] = self.cut_image(img)
