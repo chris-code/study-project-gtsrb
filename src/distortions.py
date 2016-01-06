@@ -16,8 +16,6 @@ class Distortions(keras.callbacks.Callback):
 
 		# image has a smaller resolution than desired
 		if image.shape[1] < self.resolution[0]:
-			print("case smaller")
-
 			# initialize result image
 			res = np.empty((3,self.resolution[0],self.resolution[1]))
 
@@ -45,8 +43,6 @@ class Distortions(keras.callbacks.Callback):
 
 		# image has a larger resolution than desired
 		else:
-			print("case larger")
-
 			# calculate boundaries
 			left = (image.shape[1] - self.resolution[0]) // 2
 			top = (image.shape[2] - self.resolution[1]) // 2
