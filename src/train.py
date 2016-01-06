@@ -8,7 +8,7 @@ theano.config.openmp = True
 import keras.utils.np_utils as np_utils
 
 import nn
-import io
+import dataset_io
 import distortions
 
 #~ Parse arguments
@@ -33,7 +33,7 @@ except:
 	exit(1)
 
 #~ Load data
-x_train, y_train, num_classes = io.read_data(args.path, resolution, args.datalimit, gray_scale=args.gray_scale)
+x_train, y_train, num_classes = dataset_io.read_data(args.path, resolution, args.datalimit, gray_scale=args.gray_scale)
 y_train = np_utils.to_categorical(y_train, num_classes)
 
 input_shape = (x_train.shape[1], x_train.shape[2], x_train.shape[3])
