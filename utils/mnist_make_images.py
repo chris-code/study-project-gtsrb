@@ -23,17 +23,19 @@ localcounter = 0
 for globalcounter, image in enumerate(mnist.data[:60000]):
 	print(globalcounter)
 
-	# save image
+	# determine label
 	label = int(mnist.target[globalcounter])	
 	labelstr = str(int(mnist.target[globalcounter])).zfill(5)
-	im = pil.fromarray(np.asarray(image).reshape(28,28))
-	im.save("data/MNIST_TRAIN/" + labelstr + "/" + str(localcounter).zfill(5) + ".ppm")
-
-	localcounter += 1
 
 	if previouslabel != label:
 		previouslabel = label
 		localcounter = 0
+
+	# save image
+	im = pil.fromarray(np.asarray(image).reshape(28,28))
+	im.save("data/MNIST_TRAIN/" + labelstr + "/" + str(localcounter).zfill(5) + ".ppm")
+
+	localcounter += 1
 
 # create csv files
 csv_file_list_str = ""

@@ -90,7 +90,7 @@ def read_data(filename, resolution, d=None, normalize=True, gray_scale=False, au
 		if not gray_scale:
 			X[idx] = np.transpose(np.asarray(im), [2,0,1])
 		else:
-			X[idx] = np.asarray(im)
+			X[idx] = np.asarray(im).reshape(1,resolution[0], resolution[1])
 
 		# save label
 		y[idx] = image['label']
