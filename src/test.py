@@ -7,7 +7,7 @@ theano.config.openmp = True
 import keras.utils.np_utils as np_utils
 
 import nn
-import io
+import dataset_io
 
 #~ Parse parameters
 parser = argparse.ArgumentParser()
@@ -27,7 +27,7 @@ except:
 	exit(1)
 
 #~ Load data
-x_test, y_test, num_classes = io.read_data(args.path, resolution, args.datalimit)
+x_test, y_test, num_classes = dataset_io.read_data(args.path, resolution, args.datalimit)
 y_test = np_utils.to_categorical(y_test, num_classes)
 
 input_shape = (x_test.shape[1], x_test.shape[2], x_test.shape[3])
