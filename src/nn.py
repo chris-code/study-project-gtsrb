@@ -84,14 +84,12 @@ def get_gtsrb_layout(input_shape, num_classes):
 
 def get_mnist_layout(input_shape, num_classes):
 	layout = []
-	layout.append( ('conv2D', {'nb_filter': 24, 'nb_row': 7, 'nb_col': 7, 'init': 'uniform', 'activation': 'tanh', 'input_shape': input_shape}) )
+	layout.append( ('conv2D', {'nb_filter': 20, 'nb_row': 5, 'nb_col': 5, 'init': 'uniform', 'input_shape': input_shape}) )
 	layout.append( ('maxpool2D', {'pool_size': (2,2)}) )
-	layout.append( ('conv2D', {'nb_filter': 48, 'nb_row': 4, 'nb_col': 4, 'init': 'uniform', 'activation': 'tanh'}) )
-	layout.append( ('maxpool2D', {'pool_size': (2,2)}) )
-	layout.append( ('conv2D', {'nb_filter': 64, 'nb_row': 4, 'nb_col': 4, 'init': 'uniform', 'activation': 'tanh'}) )
+	layout.append( ('conv2D', {'nb_filter': 20, 'nb_row': 5, 'nb_col': 5, 'init': 'uniform'}) )
 	layout.append( ('maxpool2D', {'pool_size': (2,2)}) )
 	layout.append( ('flatten', None) )
-	layout.append( ('dense', {'output_dim': 150, 'init': 'uniform', 'activation': 'tanh'}) )
+	layout.append( ('dense', {'output_dim': 500, 'init': 'uniform', 'activation': 'relu'}) )
 	layout.append( ('dense', {'output_dim': num_classes, 'init': 'uniform', 'activation': 'softmax'}) )
 
 	return layout
