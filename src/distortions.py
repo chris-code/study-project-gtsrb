@@ -32,10 +32,10 @@ class Distortions(keras.callbacks.Callback):
 			res[:,left:right,bottom:] = image[:,:,-1].reshape(3,-1,1)
 
 			# interpolate empty pixels (topleft, topright, bottomleft, bottomright corner)
-			res[:,:left,:top] = image[:,left,top].resize(res[:,:left,:top].shape)
-			res[:,right:,:top] = image[:,right-1,top].resize(res[:,right:,:top].shape)
-			res[:,:left,bottom:] = image[:,left,bottom-1].resize(res[:,:left,bottom:].shape)
-			res[:,right:,bottom:] = image[:,right-1,bottom-1].resize(res[:,right:,bottom:].shape)
+			res[:,:left,:top] = image[:,0,0].resize(res[:,:left,:top].shape)
+			res[:,right:,:top] = image[:,-1,0].resize(res[:,right:,:top].shape)
+			res[:,:left,bottom:] = image[:,0,-1].resize(res[:,:left,bottom:].shape)
+			res[:,right:,bottom:] = image[:,-1,-1].resize(res[:,right:,bottom:].shape)
 
 			return res
 
