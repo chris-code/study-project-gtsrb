@@ -3,7 +3,7 @@ import argparse
 import numpy as np
 import PIL.Image as pil
 
-import GTSRB_nn
+import nn
 
 def visualize_filters(model, path):
 	# add "/" to path, if it does not end on this character
@@ -57,7 +57,7 @@ args = parser.parse_args()
 
 # build model
 input_shape = (3, 48, 48)
-model, optimizer = GTSRB_nn.build_model(input_shape)
+model, optimizer = nn.build_model(input_shape)
 
 #~ Load weights
 if args.verbose:

@@ -7,9 +7,9 @@ import theano
 theano.config.openmp = True
 import keras.utils.np_utils as np_utils
 
-import GTSRB_nn
-import GTSRB_io
-import GTSRB_distortions
+import nn
+import io
+import distortions
 
 #~ Parse arguments
 parser = argparse.ArgumentParser()
@@ -33,11 +33,11 @@ except:
 	exit(1)
 
 #~ Load data
-x_train, y_train, num_classes = GTSRB_io.read_data(args.path, resolution, args.datalimit, gray_scale=args.gray_scale)
+x_train, y_train, num_classes = io.read_data(args.path, resolution, args.datalimit, gray_scale=args.gray_scale)
 y_train = np_utils.to_categorical(y_train, num_classes)
 
 input_shape = (x_train.shape[1], x_train.shape[2], x_train.shape[3])
-model, optimizer = GTSRB_nn.build_model(input_shape, num_classes)
+model, optimizer = nn.build_model(input_shape, num_classes)
 
 #~ Load status
 if args.load_status:
@@ -55,7 +55,7 @@ if args.load_status:
 
 #~ Create distortions callback
 if args.morph:
-	distcall = GTSRB_distortions.Distortions(x_train, x_train.shape[0])
+	distcall = distortions.Distortions(x_train, x_train.shape[0])
 	callbacks = [distcall]
 	print('Distortions will be applied to training data between epochs')
 else:
