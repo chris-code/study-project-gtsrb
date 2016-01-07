@@ -37,8 +37,7 @@ x_train, y_train, num_classes = dataset_io.read_data(args.path, resolution, args
 y_train = np_utils.to_categorical(y_train, num_classes)
 
 input_shape = (x_train.shape[1], x_train.shape[2], x_train.shape[3])
-#layout = nn.get_gtsrb_layout(input_shape, num_classes)
-layout = nn.get_mnist_layout(input_shape, num_classes)
+layout = nn.get_gtsrb_layout(input_shape, num_classes)
 model, optimizer = nn.build_model_to_layout(layout)
 
 #~ Load status
