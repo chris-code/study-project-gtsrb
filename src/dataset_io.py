@@ -73,7 +73,7 @@ def read_data(filename, resolution, d=None, normalize=True, gray_scale=False, au
 		im = pil.open(image['path'])
 
 		# to gray scale
-		if gray_scale:		
+		if gray_scale:
 			im = im.convert('L')
 
 		# crop image
@@ -97,7 +97,7 @@ def read_data(filename, resolution, d=None, normalize=True, gray_scale=False, au
 
 	# normalize images to range [0,1] if desired
 	if normalize:
-		X[2:4] /= 255
+		X /= 255.0
 
 	return X, y, num_classes
 
