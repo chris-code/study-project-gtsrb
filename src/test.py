@@ -11,11 +11,11 @@ import dataset_io
 
 #~ Parse parameters
 parser = argparse.ArgumentParser()
+parser.add_argument('weights', help='Path weights in xyz.w file')
 parser.add_argument('path', help='Path to csv file that lists input images')
 parser.add_argument('-b', '--batchsize', help='Size of the batches to be learned on [default 16]', type=int, default=16)
 parser.add_argument('-r', '--resolution', help='Resample images to AxB resolution. [default \'48x48\']', default='48x48')
 parser.add_argument('-d', '--datalimit', help='Maximum number of data points to read from PATH [if missing, read all]', type=int, default=None)
-parser.add_argument('-l', '--load-weights', help='Load weights from specified .w file')
 parser.add_argument('-v', '--verbose', help='Set the verbosity level of keras (valid values: 0, 1, 2)', type=int, default=1)
 args = parser.parse_args()
 try:
@@ -34,8 +34,8 @@ input_shape = (x_test.shape[1], x_test.shape[2], x_test.shape[3])
 model, optimizer = nn.build_model(input_shape, num_classes)
 
 #~ Load weights
-print('Loading weights from {0}'.format(args.load_weights))
-model.load_weights(args.load_weights)
+print('Loading weights from {0}'.format(args.weights))
+model.load_weights(args.weights)
 
 #~ Test the model
 print('Testing on {0} samples in batches of size {1}'.format(x_test.shape[0], args.batchsize))
