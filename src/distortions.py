@@ -32,10 +32,10 @@ class Distortions(keras.callbacks.Callback):
 			res[:,left:right,bottom:] = image[:,:,-1].reshape(3,-1,1)
 
 			# interpolate empty pixels (topleft, topright, bottomleft, bottomright corner)
-			res[:,:left,:top] = image[:,0,0].resize(res[:,:left,:top].shape)
-			res[:,right:,:top] = image[:,-1,0].resize(res[:,right:,:top].shape)
-			res[:,:left,bottom:] = image[:,0,-1].resize(res[:,:left,bottom:].shape)
-			res[:,right:,bottom:] = image[:,-1,-1].resize(res[:,right:,bottom:].shape)
+			res[:,:left,:top] = trans.zoom(image[:,0,0].reshape(3,1,1), zoom=[1,left,top])
+			res[:,right:,:top] = trans.zoom(image[:,-1,0].reshape(3,1,1), zoom=[1,self.resolution[0]-right,top])
+			res[:,:left,bottom:] = trans.zoom(image[:,0,-1].reshape(3,1,1), zoom=[1, left, self.resolution[1]-bottom])
+			res[:,right:,bottom:] = trans.zoom(image[:,-1,-1].reshape(3,1,1), zoom=[1, self.resolution[0]-right, self.resolution[1]-bottom])
 
 			return res
 
@@ -50,8 +50,7 @@ class Distortions(keras.callbacks.Callback):
 			# return result image
 			return image[:,left:right,top:bottom]
 
-
-	def on_epoch_end(self, epoch, logs={}):
+	def on_epoch_begin(self, epoch, logs={}):
 		# create random values for shift, rotation and scaling
 		rotate_angles = np.random.uniform(-5., 5., (self.number_of_images))
 		scale_factors = np.random.uniform(0.9, 1.1, (self.number_of_images))
