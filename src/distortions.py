@@ -43,10 +43,10 @@ class Distortions(keras.callbacks.Callback):
 			#res[:,:left,bottom:] = np.empty(res[:,:left,bottom:].shape).fill(image[:,0,-1])
 			#res[:,right:,bottom:] = np.empty(res[:,right:,bottom:].shape).fill(image[:,-1,-1])
 
-			res[:,:left,:top] = scipy.ndimage.zoom(image[:,0,0], (1,left,top), order=0)
-			res[:,right:,:top] = scipy.ndimage.zoom(image[:,-1,0], (1,self.resolution[0]-right,top), order=0)
-			res[:,:left,bottom:] = scipy.ndimage.zoom(image[:,0,-1], (1, left, self.resolution[1]-bottom), order = 0)
-			res[:,right:,bottom:] = scipy.ndimage.zoom(image[:,-1,-1], (1, self.resolution[0]-right, resolution[1]-bottom), order = 0)
+			res[:,:left,:top] = scipy.ndimage.zoom(image[:,0,0], (3,left,top), order=0)
+			res[:,right:,:top] = scipy.ndimage.zoom(image[:,-1,0], (3,self.resolution[0]-right,top), order=0)
+			res[:,:left,bottom:] = scipy.ndimage.zoom(image[:,0,-1], (3, left, self.resolution[1]-bottom), order = 0)
+			res[:,right:,bottom:] = scipy.ndimage.zoom(image[:,-1,-1], (3, self.resolution[0]-right, resolution[1]-bottom), order = 0)
 
 			return res
 
