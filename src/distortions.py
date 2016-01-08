@@ -37,10 +37,10 @@ class Distortions(keras.callbacks.Callback):
 			#res[:,:left,bottom:] = image[:,0,-1].resize(res[:,:left,bottom:].shape)
 			#res[:,right:,bottom:] = image[:,-1,-1].resize(res[:,right:,bottom:].shape)
 
-			res[:,:left,:top] = np.empty(res[:,:left,:top].shape).fill(image[:,0,0])
-			res[:,right:,:top] = np.empty(res[:,right:,:top].shape).fill(image[:,-1,0])
-			res[:,:left,bottom:] = np.empty(res[:,:left,bottom:].shape).fill(image[:,0,-1])
-			res[:,right:,bottom:] = np.empty(res[:,right:,bottom:].shape).fill(image[:,-1,-1])
+			res[:,:left,:top] = np.empty(res[:,:left,:top].shape).full([3,1,1], image[:,0,0])
+			res[:,right:,:top] = np.empty(res[:,right:,:top].shape).full([3,1,1], image[:,-1,0])
+			res[:,:left,bottom:] = np.empty(res[:,:left,bottom:].shape).full([3,1,1], image[:,0,-1])
+			res[:,right:,bottom:] = np.empty(res[:,right:,bottom:].shape).full([3,1,1], image[:,-1,-1])
 
 			return res
 
