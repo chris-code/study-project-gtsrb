@@ -16,7 +16,7 @@ parser.add_argument('path', help='Path to csv file that lists input images')
 parser.add_argument('-b', '--batchsize', help='Size of the batches to be learned on [default 16]', type=int, default=16)
 parser.add_argument('-r', '--resolution', help='Resample images to AxB resolution. [default \'48x48\']', default='48x48')
 parser.add_argument('-d', '--datalimit', help='Maximum number of data points to read from PATH [if missing, read all]', type=int, default=None)
-parser.add_argument('-v', '--verbose', help='Set the verbosity level of keras (valid values: 0, 1, 2)', type=int, default=1)
+parser.add_argument('-v', '--verbosity', help='Set the verbosity level of keras (valid values: 0, 1, 2)', type=int, default=1)
 args = parser.parse_args()
 try:
 	sizes = args.resolution.split('x', 1)
@@ -38,9 +38,9 @@ print('Loading weights from {0}'.format(args.weights))
 model.load_weights(args.weights)
 
 #~ Test the model
-print('Testing on {0} samples in batches of size {1}'.format(x_test.shape[0], args.batchsize))
-score = model.evaluate(x_test, y_test, batch_size=args.batchsize, show_accuracy=True, verbose=args.verbose)
+print('Testing on {0} samples at resolution {1}x{2} in batches of size {3}'.format(x_test.shape[0], resolution[0], resolution[1], args.batchsize))
+score = model.evaluate(x_test, y_test, batch_size=args.batchsize, show_accuracy=True, verbose=args.verbosity)
 print('Test score:', score[0])
 print('Test accuracy:', score[1])
 
-
+print('Done')

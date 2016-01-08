@@ -1,7 +1,7 @@
 import argparse
 
 import numpy as np
-import PIL.Image as pil
+import PIL.Image as pil_img
 
 import nn
 
@@ -26,7 +26,7 @@ def visualize_filters(model, path):
 				# calculate the size of the filter collection image and create it
 				width = num_filters * (xdim + 1) + 1
 				height = num_outputs * (ydim + 1) + 1
-				filter_collection = pil.new("L", (width, height), "white")
+				filter_collection = pil_img.new("L", (width, height), "white")
 
 				# iterate over the output maps of the next layer
 				for i_id, inputs in enumerate(weight_matrices):
@@ -39,7 +39,7 @@ def visualize_filters(model, path):
 						# rescale the grayvalues to visualize them
 						filter -= np.min(filter)
 						filter *= 255./np.max(filter)
-						im_filter = pil.fromarray(filter)
+						im_filter = pil_img.fromarray(filter)
 
 						# paste the filter into the filter collection
 						filter_collection.paste(im_filter, (xpos, ypos))
@@ -47,22 +47,22 @@ def visualize_filters(model, path):
 				# save the filter collection of layer 'id'
 				filter_collection.save(path + "weights_on_layer_" + str(layer_id) + ".png")
 
+if __name__ == "__main__":
+	#~ Parse parameters
+	parser = argparse.ArgumentParser()
+	parser.add_argument('loadpath', help='Path to the weights which are to be loaded')
+	parser.add_argument('-s', '--savepath', help='Path to save location of the visualized filters', default='./')
+	parser.add_argument('-v', '--verbose', help='Determine whether the programm shall print information in the terminal or not', action="store_true")
+	args = parser.parse_args()
 
-#~ Parse parameters
-parser = argparse.ArgumentParser()
-parser.add_argument('loadpath', help='Path to the weights which are to be loaded')
-parser.add_argument('-s', '--savepath', help='Path to save location of the visualized filters', default='./')
-parser.add_argument('-v', '--verbose', help='Determine whether the programm shall print information in the terminal or not', action="store_true")
-args = parser.parse_args()
+	# build model
+	input_shape = (3, 48, 48)
+	model, optimizer = nn.build_model(input_shape)
 
-# build model
-input_shape = (3, 48, 48)
-model, optimizer = nn.build_model(input_shape)
+	#~ Load weights
+	if args.verbose:
+		print('Loading weights from \"{0}\"'.format(args.loadpath))
+	model.load_weights(args.loadpath)
 
-#~ Load weights
-if args.verbose:
-	print('Loading weights from \"{0}\"'.format(args.loadpath))
-model.load_weights(args.loadpath)
-
-# visualize filters
-visualize_filters(model, args.savepath)
+	# visualize filters
+	visualize_filters(model, args.savepath)

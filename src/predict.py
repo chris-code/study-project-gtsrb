@@ -11,7 +11,7 @@ parser.add_argument('path', help='Path to csv file that lists input images')
 parser.add_argument('-b', '--batchsize', help='Size of the batches to be learned on [default 16]', type=int, default=16)
 parser.add_argument('-r', '--resolution', help='Resample images to AxB resolution. [default \'48x48\']', default='48x48')
 parser.add_argument('-d', '--datalimit', help='Maximum number of data points to read from PATH [if missing, read all]', type=int, default=None)
-parser.add_argument('-v', '--verbose', help='Set the verbosity level of keras (valid values: 0, 1, 2)', type=int, default=0)
+parser.add_argument('-v', '--verbosity', help='Set the verbosity level of keras (valid values: 0, 1, 2)', type=int, default=0)
 args = parser.parse_args()
 
 try:
@@ -34,10 +34,7 @@ print('Loading weights from {0}'.format(args.weights))
 model.load_weights(args.weights)
 
 #~ Create predictions
-print('Predicting labels for {0} samples in batches of size {1}'.format(x_test.shape[0], args.batchsize))
-predictions = model.predict_proba(x_test, batch_size=args.batchsize, verbose=args.verbose)
+print('Predicting labels for {0} samples at resolution {1}x{2} in batches of size {3}'.format(x_test.shape[0], resolution[0], resolution[1], args.batchsize))
+predictions = model.predict_proba(x_test, batch_size=args.batchsize, verbose=args.verbosity)
 
-import numpy as np
-predictions = model.predict_classes(x_test, batch_size=args.batchsize, verbose=args.verbose)
-s = np.sum(predictions != np.array([8]))
-print(s)
+print('Done')

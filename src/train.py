@@ -22,7 +22,7 @@ parser.add_argument('-m', '--morph', help='Morph training data between epochs', 
 parser.add_argument('-g', '--gray-scale', help='Determine whether the images shall be transformed to gray scale', action='store_true')
 parser.add_argument('-l', '--load-status', help='Basename of the files to load status from')
 parser.add_argument('-s', '--store-status', help='Basename of the files to store status in')
-parser.add_argument('-v', '--verbose', help='Set the verbosity level of keras (valid values: 0, 1, 2)', type=int, default=1)
+parser.add_argument('-v', '--verbosity', help='Set the verbosity level of keras (valid values: 0, 1, 2)', type=int, default=1)
 args = parser.parse_args()
 try:
 	sizes = args.resolution.split('x', 1)
@@ -63,8 +63,8 @@ else:
 	callbacks = []
 
 #~ Train the model
-print('Training on {0} samples in batches of size {1} for {2} epochs'.format(x_train.shape[0], args.batchsize, args.epochs))
-model.fit(x_train, y_train, nb_epoch=args.epochs, callbacks=callbacks, batch_size=args.batchsize, show_accuracy=True, verbose=args.verbose)
+print('Training on {0} samples at resolution {1}x{2} in batches of size {3} for {4} epochs'.format(x_train.shape[0], resolution[0], resolution[1], args.batchsize, args.epochs))
+model.fit(x_train, y_train, nb_epoch=args.epochs, callbacks=callbacks, batch_size=args.batchsize, show_accuracy=True, verbose=args.verbosity)
 
 #~ Store status
 if args.store_status:
