@@ -49,7 +49,7 @@ class Distortions(keras.callbacks.Callback):
 			res[:,:left,:top] = trans.zoom(image[:,0,0].reshape(3,1,1), zoom=[1,left,top])
 			res[:,right:,:top] = trans.zoom(image[:,-1,0].reshape(3,1,1), zoom=[1,self.resolution[0]-right,top])
 			res[:,:left,bottom:] = trans.zoom(image[:,0,-1].reshape(3,1,1), zoom=[1, left, self.resolution[1]-bottom])
-			res[:,right:,bottom:] = trans.zoom(image[:,-1,-1].reshape(3,1,1), zoom=[1, self.resolution[0]-right, resolution[1]-bottom])
+			res[:,right:,bottom:] = trans.zoom(image[:,-1,-1].reshape(3,1,1), zoom=[1, self.resolution[0]-right, self.resolution[1]-bottom])
 
 			return res
 
