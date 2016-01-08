@@ -1,7 +1,6 @@
 import numpy as np
 import keras.callbacks
 import scipy.ndimage.interpolation as trans
-import scipy.ndimage
 
 class Distortions(keras.callbacks.Callback):
 	def __init__(self, x, number_of_images):
@@ -43,10 +42,10 @@ class Distortions(keras.callbacks.Callback):
 			#res[:,:left,bottom:] = np.empty(res[:,:left,bottom:].shape).fill(image[:,0,-1])
 			#res[:,right:,bottom:] = np.empty(res[:,right:,bottom:].shape).fill(image[:,-1,-1])
 
-			res[:,:left,:top] = scipy.ndimage.zoom(image[:,0,0], (3,left,top), order=0)
-			res[:,right:,:top] = scipy.ndimage.zoom(image[:,-1,0], (3,self.resolution[0]-right,top), order=0)
-			res[:,:left,bottom:] = scipy.ndimage.zoom(image[:,0,-1], (3, left, self.resolution[1]-bottom), order = 0)
-			res[:,right:,bottom:] = scipy.ndimage.zoom(image[:,-1,-1], (3, self.resolution[0]-right, resolution[1]-bottom), order = 0)
+			res[:,:left,:top] = trans.zoom(image[:,0,0], zoom=[3,left,top)])
+			res[:,right:,:top] = trans.zoom(image[:,-1,0], zoom=[3,self.resolution[0]-right,top])
+			res[:,:left,bottom:] = trans.zoom(image[:,0,-1], zoom=[3, left, self.resolution[1]-bottom])
+			res[:,right:,bottom:] = trans.zoom(image[:,-1,-1], zoom=[3, self.resolution[0]-right, resolution[1]-bottom])
 
 			return res
 
