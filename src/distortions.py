@@ -32,20 +32,6 @@ class Distortions(keras.callbacks.Callback):
 			res[:,left:right,bottom:] = image[:,:,-1].reshape(3,-1,1)
 
 			# interpolate empty pixels (topleft, topright, bottomleft, bottomright corner)
-			#res[:,:left,:top] = image[:,0,0].resize(res[:,:left,:top].shape)
-			#res[:,right:,:top] = image[:,-1,0].resize(res[:,right:,:top].shape)
-			#res[:,:left,bottom:] = image[:,0,-1].resize(res[:,:left,bottom:].shape)
-			#res[:,right:,bottom:] = image[:,-1,-1].resize(res[:,right:,bottom:].shape)
-
-			#res[:,:left,:top] = np.empty(res[:,:left,:top].shape).fill(image[:,0,0])
-			#res[:,right:,:top] = np.empty(res[:,right:,:top].shape).fill(image[:,-1,0])
-			#res[:,:left,bottom:] = np.empty(res[:,:left,bottom:].shape).fill(image[:,0,-1])
-			#res[:,right:,bottom:] = np.empty(res[:,right:,bottom:].shape).fill(image[:,-1,-1])
-
-			print("foo" + " " + str(left) + " " + str(top))
-			print(trans.zoom(image[:,0,0].reshape(3,1,1), zoom=[1,left,top]).shape)
-			print("bar")
-
 			res[:,:left,:top] = trans.zoom(image[:,0,0].reshape(3,1,1), zoom=[1,left,top])
 			res[:,right:,:top] = trans.zoom(image[:,-1,0].reshape(3,1,1), zoom=[1,self.resolution[0]-right,top])
 			res[:,:left,bottom:] = trans.zoom(image[:,0,-1].reshape(3,1,1), zoom=[1, left, self.resolution[1]-bottom])
