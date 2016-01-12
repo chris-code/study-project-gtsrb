@@ -44,14 +44,21 @@ def get_gtsrb_layout(input_shape, num_classes):
 	layout.append( ('maxpool2D', {'pool_size': (2,2)}) )
 	layout.append( ('conv2D', {'nb_filter': 250, 'nb_row': 4, 'nb_col': 4, 'init': 'uniform', 'activation': 'tanh'}) )
 	layout.append( ('maxpool2D', {'pool_size': (2,2)}) )
-	layout.append( ('flatten', None) )
+	layout.append( ('flatten', {}) )
 	layout.append( ('dense', {'output_dim': 300, 'init': 'uniform', 'activation': 'tanh'}) )
 	layout.append( ('dense', {'output_dim': num_classes, 'init': 'uniform', 'activation': 'softmax'}) )
 
 	return layout
 
-def get_gtsrb_fixed_filter_layout(input_shape, num_classes):
-	pass
+def get_gtsrb_relu_layout(input_shape, num_classes):
+	'''Same as get_gtsrb_layout(), but using the ReLu activation function'''
+
+	layout = get_gtsrb_layout(input_shape, num_classes)
+	for ltype, lspec in layout:
+		if 'activation' in lspec.keys():
+			lspec['activation'] = 'relu'
+
+	return layout
 
 def get_mnist_layout(input_shape, num_classes):
 	layout = []
@@ -81,12 +88,14 @@ if __name__ == '__main__':
 	args = parser.parse_args()
 
 	#~ Store models to disk
-	print('Storing predefined models in {1}'.format(args.path))
-	if args.path[-1] == '/':
-		gtsrb_path = args.path + 'gtsrb.l'
-		mnist_path = args.path + 'mnist.l'
-	else:
-		gtsrb_path = args.path + '/gtsrb.l'
-		mnist_path = args.path + '/mnist.l'
+	if args.path[-1] != '/':
+		args.path += '/'
+
+	gtsrb_path = args.path + 'gtsrb.l'
 	store_layout(get_gtsrb_layout((3, 48, 48), 43), gtsrb_path)
+
+	gtsrb_relu_path = args.path + 'gtsrb_relu.l'
+	store_layout(get_gtsrb_relu_layout((3, 48, 48), 43), gtsrb_relu_path)
+
+	mnist_path = args.path + 'mnist.l'
 	store_layout(get_mnist_layout((1, 48, 48), 10), mnist_path)

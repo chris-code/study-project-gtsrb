@@ -2,7 +2,7 @@
   [
     "conv2D", 
     {
-      "activation": "tanh", 
+      "activation": "relu", 
       "init": "uniform", 
       "input_shape": [
         3, 
@@ -26,7 +26,7 @@
   [
     "conv2D", 
     {
-      "activation": "tanh", 
+      "activation": "relu", 
       "init": "uniform", 
       "nb_col": 4, 
       "nb_filter": 150, 
@@ -45,7 +45,7 @@
   [
     "conv2D", 
     {
-      "activation": "tanh", 
+      "activation": "relu", 
       "init": "uniform", 
       "nb_col": 4, 
       "nb_filter": 250, 
@@ -68,7 +68,7 @@
   [
     "dense", 
     {
-      "activation": "tanh", 
+      "activation": "relu", 
       "init": "uniform", 
       "output_dim": 300
     }
@@ -76,7 +76,7 @@
   [
     "dense", 
     {
-      "activation": "softmax", 
+      "activation": "relu", 
       "init": "uniform", 
       "output_dim": 43
     }
