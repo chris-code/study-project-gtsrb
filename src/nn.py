@@ -80,6 +80,8 @@ if __name__ == '__main__':
 	parser.add_argument('path', help='Folder to store known layouts in')
 	args = parser.parse_args()
 
+	#~ Store models to disk
+	print('Storing predefined models in {1}'.format(args.path))
 	if args.path[-1] == '/':
 		gtsrb_path = args.path + 'gtsrb.l'
 		mnist_path = args.path + 'mnist.l'
@@ -88,6 +90,3 @@ if __name__ == '__main__':
 		mnist_path = args.path + '/mnist.l'
 	store_layout(get_gtsrb_layout((3, 48, 48), 43), gtsrb_path)
 	store_layout(get_mnist_layout((1, 48, 48), 10), mnist_path)
-
-	l = load_layout(gtsrb_path)
-	build_model_to_layout(l)

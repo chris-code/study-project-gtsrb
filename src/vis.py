@@ -50,21 +50,23 @@ def visualize_filters(model, path):
 if __name__ == "__main__":
 	#~ Parse parameters
 	parser = argparse.ArgumentParser()
-	parser.add_argument('loadpath', help='Path to the weights which are to be loaded')
+	parser.add_argument('weights', help='Path to the weights which are to be loaded')
+	parser.add_argument('layout', help='Path network layout specification')
 	parser.add_argument('-s', '--savepath', help='Path to save location of the visualized filters', default='./')
 	parser.add_argument('-v', '--verbose', help='Determine whether the programm shall print information in the terminal or not', action="store_true")
 	args = parser.parse_args()
 
-	# build model
-	input_shape = (3, 48, 48)
-	num_classes = 43
-	layout = nn.get_gtsrb_layout(input_shape, num_classes)
+	# Load model
+	print('Loading model from {0}'.format(args.layout))
+	layout = nn.load_layout(args.layout)
 	model, optimizer = nn.build_model_to_layout(layout)
 
 	#~ Load weights
-	if args.verbose:
-		print('Loading weights from \"{0}\"'.format(args.loadpath))
-	model.load_weights(args.loadpath)
+	print('Loading weights from \"{0}\"'.format(args.weights))
+	model.load_weights(args.weights)
 
 	# visualize filters
+	print('Generating visualizations and storing to {0}'.format(args.savepath))
 	visualize_filters(model, args.savepath)
+
+	print('Done')
