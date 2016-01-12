@@ -26,10 +26,10 @@ for subdir, dirs, files in os.walk(coilpath):
 			# append image to respective csv file
 			for i in range(nb_testimg):
 				if int(degree) == test_images[int(obj_id) - 1, i]:
-					csv_str_test += "\ndata/COIL100/obj" + obj_id + "__" + degree + ".png;128;128;0;0;128;128;" + obj_id
+					csv_str_test += "\nobj" + obj_id + "__" + degree + ".png;128;128;0;0;128;128;" + str(int(obj_id) - 1)
 					break
 			else:
-				csv_str_train += "\ndata/COIL100/obj" + obj_id + "__" + degree + ".png;128;128;0;0;128;128;" + obj_id
+				csv_str_train += "\nobj" + obj_id + "__" + degree + ".png;128;128;0;0;128;128;" + str(int(obj_id) - 1)
 
 with open("data/COIL100/COIL_TRAIN.csv", "w") as text_file:
 	text_file.write(csv_str_train)
