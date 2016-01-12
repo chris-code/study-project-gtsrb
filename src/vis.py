@@ -57,7 +57,9 @@ if __name__ == "__main__":
 
 	# build model
 	input_shape = (3, 48, 48)
-	model, optimizer = nn.build_model(input_shape)
+	num_classes = 43
+	layout = nn.get_gtsrb_layout(input_shape, num_classes)
+	model, optimizer = nn.build_model_to_layout(layout)
 
 	#~ Load weights
 	if args.verbose:

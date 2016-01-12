@@ -27,7 +27,8 @@ x_test, y_test, num_classes = dataset_io.read_data(args.path, resolution, args.d
 y_test = np_utils.to_categorical(y_test, num_classes)
 
 input_shape = (x_test.shape[1], x_test.shape[2], x_test.shape[3])
-model, optimizer = nn.build_model(input_shape, num_classes)
+layout = nn.get_gtsrb_layout(input_shape, num_classes)
+model, optimizer = nn.build_model_to_layout(layout)
 
 #~ Load weights
 print('Loading weights from {0}'.format(args.weights))
