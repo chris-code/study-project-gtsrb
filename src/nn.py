@@ -1,50 +1,14 @@
 # -*- coding: utf-8 -*-
 
+import argparse
+import json
+
 import theano
 theano.config.openmp = True
 import keras.models as models
 import keras.layers.core as core_layers
 import keras.layers.convolutional as conv_layers
 import keras.optimizers as optimizers
-
-def build_model(input_shape, num_classes=43, momentum=0.0, nesterov=False):
-	'''Builds a keras CNN model according to one column of the Multi-CNN architecture described in
-	Multi-column deep neural network for traffic sign classification
-	(Dan Cireşan ∗ , Ueli Meier, Jonathan Masci, Jürgen Schmidhuber)'''
-
-	#~ Define layers
-	l1 = conv_layers.Convolution2D(100, 7, 7, init='uniform', activation='tanh', input_shape=input_shape)
-	l2 = conv_layers.MaxPooling2D(pool_size=(2, 2))
-
-	l3 = conv_layers.Convolution2D(150, 4, 4, init='uniform', activation='tanh')
-	l4 = conv_layers.MaxPooling2D(pool_size=(2, 2))
-
-	l5 = conv_layers.Convolution2D(250, 4, 4, init='uniform', activation='tanh')
-	l6 = conv_layers.MaxPooling2D(pool_size=(2, 2))
-
-	l7 = core_layers.Flatten() # Transform convolutable to fully connectable layout.
-
-	l8 = core_layers.Dense(300, init='uniform', activation='tanh')
-	l9 = core_layers.Dense(num_classes, init='uniform', activation='softmax')
-
-	#~ Add layers to a model
-	model = models.Sequential()
-
-	model.add(l1)
-	model.add(l2)
-	model.add(l3)
-	model.add(l4)
-	model.add(l5)
-	model.add(l6)
-	model.add(l7)
-	model.add(l8)
-	model.add(l9)
-
-	#~ Configure optimizer and loss
-	sgd = optimizers.SGD(lr=0.1, decay=1e-6, momentum=momentum, nesterov=nesterov) # TODO parameters
-	model.compile(loss='categorical_crossentropy', optimizer=sgd)
-
-	return model, sgd
 
 def build_model_to_layout(layout, momentum=0.0, nesterov=False):
 	model = models.Sequential()
@@ -69,6 +33,10 @@ def build_model_to_layout(layout, momentum=0.0, nesterov=False):
 	return model, sgd
 
 def get_gtsrb_layout(input_shape, num_classes):
+	'''Builds a keras CNN layout according to one column of the Multi-CNN architecture described in
+	Multi-column deep neural network for traffic sign classification
+	(Dan Cireşan ∗ , Ueli Meier, Jonathan Masci, Jürgen Schmidhuber)'''
+
 	layout = []
 	layout.append( ('conv2D', {'nb_filter': 100, 'nb_row': 7, 'nb_col': 7, 'init': 'uniform', 'activation': 'tanh', 'input_shape': input_shape}) )
 	layout.append( ('maxpool2D', {'pool_size': (2,2)}) )
@@ -82,6 +50,9 @@ def get_gtsrb_layout(input_shape, num_classes):
 
 	return layout
 
+def get_gtsrb_fixed_filter_layout(input_shape, num_classes):
+	pass
+
 def get_mnist_layout(input_shape, num_classes):
 	layout = []
 	layout.append( ('conv2D', {'nb_filter': 20, 'nb_row': 5, 'nb_col': 5, 'init': 'uniform', 'input_shape': input_shape}) )
@@ -93,3 +64,30 @@ def get_mnist_layout(input_shape, num_classes):
 	layout.append( ('dense', {'output_dim': num_classes, 'init': 'uniform', 'activation': 'softmax'}) )
 
 	return layout
+
+def load_layout(path):
+	with open(path) as in_file:
+		layout = json.load(in_file)
+	return layout
+
+def store_layout(layout, path):
+	with open(path, 'w') as out_file:
+		json.dump(layout, out_file, indent=2, sort_keys=True)
+
+if __name__ == '__main__':
+	#~ Parse arguments
+	parser = argparse.ArgumentParser()
+	parser.add_argument('path', help='Folder to store known layouts in')
+	args = parser.parse_args()
+
+	if args.path[-1] == '/':
+		gtsrb_path = args.path + 'gtsrb.l'
+		mnist_path = args.path + 'mnist.l'
+	else:
+		gtsrb_path = args.path + '/gtsrb.l'
+		mnist_path = args.path + '/mnist.l'
+	store_layout(get_gtsrb_layout((3, 48, 48), 43), gtsrb_path)
+	store_layout(get_mnist_layout((1, 48, 48), 10), mnist_path)
+
+	l = load_layout(gtsrb_path)
+	build_model_to_layout(l)
