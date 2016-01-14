@@ -110,7 +110,7 @@ if __name__ == '__main__':
 	layouts.append( ('gtsrb', get_gtsrb_layout, {'input_shape': (3, 48, 48), 'num_classes': 43}) )
 	layouts.append( ('gtsrb_relu', get_gtsrb_relu_layout, {'input_shape': (3, 48, 48), 'num_classes': 43}) )
 	layouts.append( ('mnist', get_mnist_layout, {'input_shape': (1, 48, 48), 'num_classes': 10}) )
-	layouts.append( ('coil100', get_mnist_layout, {'input_shape': (3, 48, 48), 'num_classes': 100}) )
+	layouts.append( ('coil100', get_coil100_layout, {'input_shape': (3, 48, 48), 'num_classes': 100}) )
 
 	#~ Store models to disk
 	for name, function, kwargs in layouts:
