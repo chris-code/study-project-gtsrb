@@ -74,12 +74,12 @@ def get_mnist_layout(input_shape, num_classes):
 
 def get_coil100_layout(input_shape, num_classes):
 	layout = []
-	layout.append( ('conv2D', {'nb_filter': 100, 'nb_row': 7, 'nb_col': 7, 'init': 'uniform', 'activation': 'tanh', 'input_shape': input_shape}) )
-	layout.append( ('maxpool2D', {'pool_size': (2,2)}) )
-	layout.append( ('conv2D', {'nb_filter': 150, 'nb_row': 4, 'nb_col': 4, 'init': 'uniform', 'activation': 'tanh'}) )
-	layout.append( ('maxpool2D', {'pool_size': (2,2)}) )
-	layout.append( ('conv2D', {'nb_filter': 250, 'nb_row': 4, 'nb_col': 4, 'init': 'uniform', 'activation': 'tanh'}) )
-	layout.append( ('maxpool2D', {'pool_size': (2,2)}) )
+	layout.append( ('conv2D', {'nb_filter': 100, 'nb_row': 7, 'nb_col': 7, 'init': 'uniform', 'activation': 'tanh', 'trainable': False, 'input_shape': input_shape}) )
+	layout.append( ('maxpool2D', {'pool_size': (2,2), 'trainable': False}) )
+	layout.append( ('conv2D', {'nb_filter': 150, 'nb_row': 4, 'nb_col': 4, 'init': 'uniform', 'activation': 'tanh', 'trainable': False}) )
+	layout.append( ('maxpool2D', {'pool_size': (2,2), 'trainable': False}) )
+	layout.append( ('conv2D', {'nb_filter': 250, 'nb_row': 4, 'nb_col': 4, 'init': 'uniform', 'activation': 'tanh', 'trainable': False}) )
+	layout.append( ('maxpool2D', {'pool_size': (2,2), 'trainable': False}) )
 	layout.append( ('flatten', {}) )
 	layout.append( ('dense', {'output_dim': 300, 'init': 'uniform', 'activation': 'tanh'}) )
 	layout.append( ('dense', {'output_dim': num_classes, 'init': 'uniform', 'activation': 'softmax'}) )
