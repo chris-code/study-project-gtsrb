@@ -76,7 +76,7 @@
   [
     "dense", 
     {
-      "activation": "relu", 
+      "activation": "softmax", 
       "init": "uniform", 
       "output_dim": 43
     }

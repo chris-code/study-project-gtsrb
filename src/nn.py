@@ -54,7 +54,7 @@ def get_gtsrb_relu_layout(input_shape, num_classes):
 	'''Same as get_gtsrb_layout(), but using the ReLu activation function'''
 
 	layout = get_gtsrb_layout(input_shape, num_classes)
-	for ltype, lspec in layout:
+	for ltype, lspec in layout[:-1]:
 		if 'activation' in lspec.keys():
 			lspec['activation'] = 'relu'
 
@@ -87,15 +87,17 @@ if __name__ == '__main__':
 	parser.add_argument('path', help='Folder to store known layouts in')
 	args = parser.parse_args()
 
-	#~ Store models to disk
+	#~ Make sure path ends in a /
 	if args.path[-1] != '/':
 		args.path += '/'
 
-	gtsrb_path = args.path + 'gtsrb.l'
-	store_layout(get_gtsrb_layout((3, 48, 48), 43), gtsrb_path)
+	#~ Generate list of models to store
+	layouts = []
+	layouts.append( ('gtsrb', get_gtsrb_layout, {'input_shape': (3, 48, 48), 'num_classes': 43}) )
+	layouts.append( ('gtsrb_relu', get_gtsrb_relu_layout, {'input_shape': (3, 48, 48), 'num_classes': 43}) )
+	layouts.append( ('mnist', get_mnist_layout, {'input_shape': (1, 48, 48), 'num_classes': 10}) )
 
-	gtsrb_relu_path = args.path + 'gtsrb_relu.l'
-	store_layout(get_gtsrb_relu_layout((3, 48, 48), 43), gtsrb_relu_path)
-
-	mnist_path = args.path + 'mnist.l'
-	store_layout(get_mnist_layout((1, 48, 48), 10), mnist_path)
+	#~ Store models to disk
+	for name, function, kwargs in layouts:
+		path = args.path + name + '.l'
+		store_layout(function(**kwargs), path)
