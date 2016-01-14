@@ -39,10 +39,13 @@ if args.load_status:
 	model.load_weights(weight_filename)
 
 	#~ training parameters
-	train_filename = args.load_status + ".t"
-	with open(train_filename, 'rb') as train_file:
-		optimizer_state = pickle.load(train_file)
-	optimizer.set_state(optimizer_state)
+	try:
+		train_filename = args.load_status + ".t"
+		with open(train_filename, 'rb') as train_file:
+			optimizer_state = pickle.load(train_file)
+		optimizer.set_state(optimizer_state)
+	except IOerror:
+		print('\t{0} not found: using initial parameters'.format(train_filename))
 
 #~ Load data
 input_shape = layout[0][1]['input_shape']
