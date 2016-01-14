@@ -44,7 +44,7 @@ if args.load_status:
 		with open(train_filename, 'rb') as train_file:
 			optimizer_state = pickle.load(train_file)
 		optimizer.set_state(optimizer_state)
-	except IOerror:
+	except IOError:
 		print('\t{0} not found: using initial parameters'.format(train_filename))
 
 #~ Load data
