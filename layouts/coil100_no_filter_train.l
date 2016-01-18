@@ -11,7 +11,8 @@
       ], 
       "nb_col": 7, 
       "nb_filter": 100, 
-      "nb_row": 7 
+      "nb_row": 7, 
+      "trainable": false
     }
   ], 
   [
@@ -20,7 +21,8 @@
       "pool_size": [
         2, 
         2
-      ] 
+      ], 
+      "trainable": false
     }
   ], 
   [
@@ -30,7 +32,8 @@
       "init": "uniform", 
       "nb_col": 4, 
       "nb_filter": 150, 
-      "nb_row": 4
+      "nb_row": 4, 
+      "trainable": false
     }
   ], 
   [
@@ -39,7 +42,8 @@
       "pool_size": [
         2, 
         2
-      ] 
+      ], 
+      "trainable": false
     }
   ], 
   [
@@ -49,7 +53,8 @@
       "init": "uniform", 
       "nb_col": 4, 
       "nb_filter": 250, 
-      "nb_row": 4 
+      "nb_row": 4, 
+      "trainable": false
     }
   ], 
   [
@@ -58,7 +63,8 @@
       "pool_size": [
         2, 
         2
-      ] 
+      ], 
+      "trainable": false
     }
   ], 
   [
@@ -78,7 +84,7 @@
     {
       "activation": "softmax", 
       "init": "uniform", 
-      "output_dim": 15
+      "output_dim": 100
     }
   ]
 ]
