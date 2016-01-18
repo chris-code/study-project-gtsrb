@@ -10,10 +10,16 @@ import keras.layers.core as core_layers
 import keras.layers.convolutional as conv_layers
 import keras.optimizers as optimizers
 
+import stepwise_tanh_op as stanh
+
 def build_model_to_layout(layout, momentum=0.0, nesterov=False):
 	model = models.Sequential()
 
+	stepwise_tanh = stanh.create()
 	for ltype, lspec in layout:
+		if lspec['activation'] == 'stepwise_tanh':
+			lspec['activation'] = stepwise_tanh
+
 		if ltype == 'conv2D':
 			layer = conv_layers.Convolution2D(**lspec)
 		elif ltype == 'maxpool2D':
