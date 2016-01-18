@@ -3,10 +3,20 @@
 import argparse
 import pickle
 
+import numpy as np
 import keras.utils.np_utils as np_utils
 
 import dataset_io
 import nn
+
+def extract_misclassified(image_properties, predictions, labels):
+	pred_labels = np.argmax(predictions, axis=1)
+	labels = np.argmax(labels, axis=1)
+
+	wrong_predictions = predictions[pred_labels != labels]
+	wrong_image_properties = [prop for prop, error in zip(image_properties, wrong_predictions) if not error == True]
+
+	return wrong_image_properties, wrong_predictions
 
 #~ Parse parameters
 parser = argparse.ArgumentParser()
@@ -16,7 +26,7 @@ parser.add_argument('data', help='Path to csv file that lists input images')
 parser.add_argument('path', help='Location for storing the predictions')
 parser.add_argument('-b', '--batchsize', help='Size of the batches to be learned on [default 16]', type=int, default=16)
 parser.add_argument('-d', '--datalimit', help='Maximum number of data points to read from DATA [if missing, read all]', type=int, default=None)
-parser.add_argument('-v', '--verbosity', help='Set the verbosity level of keras (valid values: 0, 1, 2)', type=int, default=0)
+parser.add_argument('-m', '--misclassified', help='Only store predictions for missclassified images', action='store_true')
 args = parser.parse_args()
 
 #~ Load model
@@ -37,7 +47,12 @@ y_test = np_utils.to_categorical(y_test, num_classes)
 
 #~ Create predictions
 print('Predicting labels for {0} samples at resolution {1}x{2} in batches of size {3}'.format(x_test.shape[0], resolution[0], resolution[1], args.batchsize))
-predictions = model.predict_proba(x_test, batch_size=args.batchsize, verbose=args.verbosity)
+predictions = model.predict_proba(x_test, batch_size=args.batchsize)
+
+if args.misclassified:
+	sample_count = len(image_properties)
+	image_properties, predictions = extract_misclassified(image_properties, predictions, y_test)
+	print('Misclassified images: {0} out of {1}'.format(len(image_properties), sample_count)
 
 #~ Store preditions on disk
 with open(args.path, 'wb') as out_file:

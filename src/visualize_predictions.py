@@ -9,16 +9,27 @@ import numpy as np
 import matplotlib.pyplot as ppt
 
 class Image_Loader():
+	'''Provides methods to load an image from a given path and to load an image according to a class
+	id, from a folder containing class representatives, which has to be specified beforehand'''
+
 	def __init__(self, resolution, class_representative_path):
+		'''resolution: 2-tuple of x- and y-resolution
+		class_representative_path: path to a folder of class representative images named class$.ppm where $ is the class id'''
 		self.resolution = resolution
 		self.class_representative_path = class_representative_path
 
 	def get_image(self, path):
+		'''load an image and rescale it to the resolution specified in __init__
+		path: path to the image file
+		returns: the image'''
 		image = pil_img.open(path)
 		image = image.resize(self.resolution)
 		return image
 
 	def get_class_representative(self, class_id):
+		'''load image that represents a certain class in the resolution specified in __init__
+		class_id: id of the class
+		returns: representative image'''
 		path = self.class_representative_path.format(class_id)
 		return self.get_image(path)
 
@@ -27,10 +38,12 @@ def visualize(image_info, class_ids, probabilites, image_loader):
 		fig, axes = ppt.subplots(1, c.size + 1, figsize=(12, 6), subplot_kw={'xticks': [], 'yticks': []})
 		image = image_loader.get_image(i['path'])
 		axes[0].imshow(image, interpolation='none')
+		axes[0].set_title('Input', y=-0.15)
 
-		for idx, class_id in enumerate(c):
+		for idx, (class_id, probability) in enumerate(zip(c,p)):
 			class_representative = image_loader.get_class_representative(class_id)
 			axes[idx+1].imshow(class_representative, interpolation='none')
+			axes[idx+1].set_title('{0:.4f}'.format(probability), y=-0.15)
 
 		ppt.show()
 
