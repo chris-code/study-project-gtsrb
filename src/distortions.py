@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import numpy as np
 import keras.callbacks
 import scipy.ndimage.interpolation as trans

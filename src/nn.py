@@ -50,56 +50,6 @@ def get_gtsrb_layout(input_shape, num_classes):
 
 	return layout
 
-def get_gtsrb_relu_layout(input_shape, num_classes):
-	'''Same as get_gtsrb_layout(), but using the ReLu activation function'''
-
-	layout = get_gtsrb_layout(input_shape, num_classes)
-	for ltype, lspec in layout[:-1]:
-		if 'activation' in lspec.keys():
-			lspec['activation'] = 'relu'
-
-	return layout
-
-def get_mnist_layout(input_shape, num_classes):
-	layout = []
-	layout.append( ('conv2D', {'nb_filter': 20, 'nb_row': 5, 'nb_col': 5, 'init': 'uniform', 'input_shape': input_shape}) )
-	layout.append( ('maxpool2D', {'pool_size': (2,2)}) )
-	layout.append( ('conv2D', {'nb_filter': 20, 'nb_row': 5, 'nb_col': 5, 'init': 'uniform'}) )
-	layout.append( ('maxpool2D', {'pool_size': (2,2)}) )
-	layout.append( ('flatten', None) )
-	layout.append( ('dense', {'output_dim': 500, 'init': 'uniform', 'activation': 'relu'}) )
-	layout.append( ('dense', {'output_dim': num_classes, 'init': 'uniform', 'activation': 'softmax'}) )
-
-	return layout
-
-def get_coil100_layout(input_shape, num_classes):
-	layout = []
-	layout.append( ('conv2D', {'nb_filter': 100, 'nb_row': 7, 'nb_col': 7, 'init': 'uniform', 'activation': 'tanh', 'trainable': False, 'input_shape': input_shape}) )
-	layout.append( ('maxpool2D', {'pool_size': (2,2), 'trainable': False}) )
-	layout.append( ('conv2D', {'nb_filter': 150, 'nb_row': 4, 'nb_col': 4, 'init': 'uniform', 'activation': 'tanh', 'trainable': False}) )
-	layout.append( ('maxpool2D', {'pool_size': (2,2), 'trainable': False}) )
-	layout.append( ('conv2D', {'nb_filter': 250, 'nb_row': 4, 'nb_col': 4, 'init': 'uniform', 'activation': 'tanh', 'trainable': False}) )
-	layout.append( ('maxpool2D', {'pool_size': (2,2), 'trainable': False}) )
-	layout.append( ('flatten', {}) )
-	layout.append( ('dense', {'output_dim': 300, 'init': 'uniform', 'activation': 'tanh'}) )
-	layout.append( ('dense', {'output_dim': num_classes, 'init': 'uniform', 'activation': 'softmax'}) )
-
-	return layout
-
-def get_inria_layout(input_shape, num_classes):
-	layout = []
-	layout.append( ('conv2D', {'nb_filter': 100, 'nb_row': 7, 'nb_col': 7, 'init': 'uniform', 'activation': 'tanh', 'trainable': False, 'input_shape': input_shape}) )
-	layout.append( ('maxpool2D', {'pool_size': (2,2), 'trainable': False}) )
-	layout.append( ('conv2D', {'nb_filter': 150, 'nb_row': 4, 'nb_col': 4, 'init': 'uniform', 'activation': 'tanh', 'trainable': False}) )
-	layout.append( ('maxpool2D', {'pool_size': (2,2), 'trainable': False}) )
-	layout.append( ('conv2D', {'nb_filter': 250, 'nb_row': 4, 'nb_col': 4, 'init': 'uniform', 'activation': 'tanh', 'trainable': False}) )
-	layout.append( ('maxpool2D', {'pool_size': (2,2), 'trainable': False}) )
-	layout.append( ('flatten', {}) )
-	layout.append( ('dense', {'output_dim': 300, 'init': 'uniform', 'activation': 'tanh'}) )
-	layout.append( ('dense', {'output_dim': num_classes, 'init': 'uniform', 'activation': 'softmax'}) )
-
-	return layout
-
 def load_layout(path):
 	with open(path) as in_file:
 		layout = json.load(in_file)
@@ -122,10 +72,6 @@ if __name__ == '__main__':
 	#~ Generate list of models to store
 	layouts = []
 	layouts.append( ('gtsrb', get_gtsrb_layout, {'input_shape': (3, 48, 48), 'num_classes': 43}) )
-	layouts.append( ('gtsrb_relu', get_gtsrb_relu_layout, {'input_shape': (3, 48, 48), 'num_classes': 43}) )
-	layouts.append( ('mnist', get_mnist_layout, {'input_shape': (1, 48, 48), 'num_classes': 10}) )
-	layouts.append( ('coil100', get_coil100_layout, {'input_shape': (3, 48, 48), 'num_classes': 100}) )
-	layouts.append( ('inria', get_inria_layout, {'input_shape': (3, 48, 48), 'num_classes': 15}) )
 
 	#~ Store models to disk
 	for name, function, kwargs in layouts:

@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import argparse
 
 import keras.utils.np_utils as np_utils
@@ -5,6 +7,7 @@ import keras.utils.np_utils as np_utils
 import dataset_io
 import nn
 
+#~ Parse parameters
 parser = argparse.ArgumentParser()
 parser.add_argument('weights', help='Path weights in xyz.w file')
 parser.add_argument('layout', help='Path network layout specification')
