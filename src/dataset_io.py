@@ -46,35 +46,34 @@ def create_image_list(filename):
 
 	return image_list
 
-def read_data(filename, resolution, d=None, normalize=True, gray_scale=False, autocontrast=True):
+def count_classes(image_list):
+	classes = set()
+	for image in image_list:
+		classes.add(image['label'])
+	return len(classes)
+
+def read_data(filename, resolution, d=None, normalize=True, autocontrast=True, return_image_properties=False):
 	'''This method takes a file containing the csv paths and returns a 4D array containing the image data and a 1D array containing the labels.'''
 	# create image list
 	image_list = create_image_list(filename)
 
 	# count classes
-	classes = set()
-	for image in image_list:
-		classes.add(image['label'])
-	num_classes = len(classes)
+	num_classes = count_classes(image_list)
 
 	# check whether there is a limit for the images to be loaded
-	number_of_images = d if d is not None else len(image_list)
+	num_images = d if d is not None else len(image_list)
 
 	# create empty arrays with appropriate size
-	X = np.empty((number_of_images, 1 if gray_scale else 3, resolution[0], resolution[1]), dtype=float)
-	y = np.empty((number_of_images))
+	X = np.empty((num_images, 3, resolution[0], resolution[1]), dtype=float)
+	y = np.empty((num_images))
 
 	# iterate over images
 	for idx, image in enumerate(image_list):
-		if idx >= number_of_images:
+		if idx >= num_images:
 			break
 
 		# open the image
 		im = pil.open(image['path'])
-
-		# to gray scale
-		if gray_scale:
-			im = im.convert('L')
 
 		# crop image
 		im = im.crop(image['corners'])
@@ -87,10 +86,7 @@ def read_data(filename, resolution, d=None, normalize=True, gray_scale=False, au
 		im = im.resize(resolution)
 
 		# save image as array within the result array
-		if not gray_scale:
-			X[idx] = np.transpose(np.asarray(im), [2,0,1])
-		else:
-			X[idx] = np.asarray(im).reshape(1,resolution[0], resolution[1])
+		X[idx] = np.transpose(np.asarray(im), [2,0,1])
 
 		# save label
 		y[idx] = image['label']
@@ -99,7 +95,10 @@ def read_data(filename, resolution, d=None, normalize=True, gray_scale=False, au
 	if normalize:
 		X /= 255.0
 
-	return X, y, num_classes
+	if return_image_properties:
+		return X, y, num_classes, image_list
+	else:
+		return X, y, num_classes
 
 if __name__ == "__main__":
 	size = (48,48)

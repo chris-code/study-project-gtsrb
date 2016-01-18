@@ -19,7 +19,6 @@ parser.add_argument('-e', '--epochs', help='Numper of epochs to train for [defau
 parser.add_argument('-b', '--batchsize', help='Size of the batches to be learned on [default 16]', type=int, default=16)
 parser.add_argument('-d', '--datalimit', help='Maximum number of data points to read from PATH [if missing, read all]', type=int, default=None)
 parser.add_argument('-m', '--morph', help='Morph training data between epochs', action='store_true')
-parser.add_argument('-g', '--gray-scale', help='Determine whether the images shall be transformed to gray scale', action='store_true')
 parser.add_argument('-l', '--load-status', help='Basename of the files to load status from')
 parser.add_argument('-s', '--store-status', help='Basename of the files to store status in')
 parser.add_argument('-v', '--verbosity', help='Set the verbosity level of keras (valid values: 0, 1, 2)', type=int, default=1)
@@ -51,7 +50,7 @@ if args.load_status:
 input_shape = layout[0][1]['input_shape']
 resolution = input_shape[1:]
 print('Loading data from {0} and rescaling it to {1}x{2}'.format(args.path, resolution[0], resolution[1]))
-x_train, y_train, num_classes = dataset_io.read_data(args.path, resolution, args.datalimit, gray_scale=args.gray_scale)
+x_train, y_train, num_classes = dataset_io.read_data(args.path, resolution, args.datalimit)
 y_train = np_utils.to_categorical(y_train, num_classes)
 
 #~ Create distortions callback
