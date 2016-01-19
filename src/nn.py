@@ -17,8 +17,11 @@ def build_model_to_layout(layout, momentum=0.0, nesterov=False):
 
 	stepwise_tanh = stanh.create()
 	for ltype, lspec in layout:
-		if lspec['activation'] == 'stepwise_tanh':
-			lspec['activation'] = stepwise_tanh
+		try:
+			if lspec['activation'] == 'stepwise_tanh':
+				lspec['activation'] = stepwise_tanh
+		except KeyError:
+			pass
 
 		if ltype == 'conv2D':
 			layer = conv_layers.Convolution2D(**lspec)
