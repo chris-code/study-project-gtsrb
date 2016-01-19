@@ -53,4 +53,4 @@ if __name__ == "__main__":
 	out = stepwise_tanh(inp)
 	#assert numpy.allclose(inp * 2, out)
 	print(inp)
-print(out)
+	print(out)
