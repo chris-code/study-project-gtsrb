@@ -52,7 +52,7 @@ predictions = model.predict_proba(x_test, batch_size=args.batchsize)
 if args.misclassified:
 	sample_count = len(image_properties)
 	image_properties, predictions = extract_misclassified(image_properties, predictions, y_test)
-	print('Misclassified images: {0} out of {1}'.format(len(image_properties), sample_count)
+	print('Misclassified images: {0} out of {1}'.format(len(image_properties), sample_count))
 
 #~ Store preditions on disk
 with open(args.path, 'wb') as out_file:
