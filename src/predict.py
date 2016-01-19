@@ -13,8 +13,9 @@ def extract_misclassified(image_properties, predictions, labels):
 	pred_labels = np.argmax(predictions, axis=1)
 	labels = np.argmax(labels, axis=1)
 
-	wrong_predictions = predictions[pred_labels != labels]
-	wrong_image_properties = [prop for prop, error in zip(image_properties, wrong_predictions) if not error == True]
+	mistakes = pred_labels != labels
+	wrong_image_properties = [prop for prop, m in zip(image_properties, mistakes) if m]
+	wrong_predictions = predictions[mistakes]
 
 	return wrong_image_properties, wrong_predictions
 
@@ -50,11 +51,13 @@ print('Predicting labels for {0} samples at resolution {1}x{2} in batches of siz
 predictions = model.predict_proba(x_test, batch_size=args.batchsize)
 
 if args.misclassified:
+	print('Reducing output to misclassified samples')
 	sample_count = len(image_properties)
 	image_properties, predictions = extract_misclassified(image_properties, predictions, y_test)
-	print('Misclassified images: {0} out of {1}'.format(len(image_properties), sample_count))
+	print('\tMisclassified images: {0} out of {1}'.format(len(image_properties), sample_count))
 
 #~ Store preditions on disk
+print('Storing samples to {0}'.format(args.path))
 with open(args.path, 'wb') as out_file:
 	pickle.dump((image_properties, predictions), out_file, pickle.HIGHEST_PROTOCOL)
 
