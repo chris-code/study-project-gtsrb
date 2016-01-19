@@ -15,10 +15,16 @@ import stepwise_tanh_op as stanh
 def build_model_to_layout(layout, momentum=0.0, nesterov=False):
 	model = models.Sequential()
 
-	stepwise_tanh = stanh.create()
+	#stepwise_tanh = stanh.create()
+	x = theano.tensor.matrix()
+	stepwise_tanh = theano.function([x], stanh.stepwise_tanh_op()(x))
+
 	for ltype, lspec in layout:
-		if lspec['activation'] == 'stepwise_tanh':
-			lspec['activation'] = stepwise_tanh
+		try:
+			if lspec['activation'] == 'stepwise_tanh':
+				lspec['activation'] = stepwise_tanh
+		except KeyError:
+			pass
 
 		if ltype == 'conv2D':
 			layer = conv_layers.Convolution2D(**lspec)
