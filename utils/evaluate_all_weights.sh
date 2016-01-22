@@ -23,7 +23,7 @@ generate_paths() {
 
 weights=$(find $weights_path -iname *.w)
 for w in $weights ; do
-	#echo "Evaluating $w"
+	echo "Evaluating $w"
 
 	generate_paths $w
 
@@ -36,7 +36,5 @@ for w in $weights ; do
 	# Create output folders if they don't exist
 	out_dir="$(dirname $out_path)"
 	mkdir -p "$out_dir"
-
-	#mkdir -p "$out_path"
-	echo "python src/test.py $w $layout $dataset > $out_path"
+	nice -n 19 python src/test.py $w $layout $dataset > $out_path
 done
