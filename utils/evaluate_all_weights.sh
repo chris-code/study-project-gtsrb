@@ -21,7 +21,7 @@ generate_paths() {
 	out_path="${results_path}${out_path}.txt"
 }
 
-weights=$(find $weights_path -iname *.w)
+weights=$(find $weights_path -iname *.w | sort) # The list of weights to evaluate
 for w in $weights ; do
 	echo "Evaluating $w"
 

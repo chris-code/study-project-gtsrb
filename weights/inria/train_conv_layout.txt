@@ -1,1 +1,1 @@
-layout/inria.l
+layouts/inria.l
