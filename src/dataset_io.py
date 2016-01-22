@@ -8,13 +8,13 @@ import random
 import csv
 
 def create_image_list(filename):
-	'''This method takes the path to a list of csv files, which contain information about the images.'''
+	'''This method takes the path to a .txt file, which contains the paths to the csv files (one per row), which contain the information about the images, which are to be loaded. The csv files contain the filename (with the path relative to the csv file), the width of the image, the height of the image, the coordinates X1, Y1, X2, Y2 of the bounding box (X1 and Y1 are inclusive, X2 and Y2 exclusive) and the class id of the image. Semicolons are used as seperators.'''
 	# open file which contains the csv list
 	with open(filename, "r") as f:
 		# read csv paths from file and save them in a list
 		csv_paths = f.readlines()
 
-		# create list, which is supposed to save information about the images
+		# create list, which saves a dictionary for each image
 		image_list = []
 
 		# iterate over csv files
@@ -53,7 +53,7 @@ def count_classes(image_list):
 	return len(classes)
 
 def read_data(filename, resolution, d=None, normalize=True, autocontrast=True, return_image_properties=False):
-	'''This method takes a file containing the csv paths and returns a 4D array containing the image data and a 1D array containing the labels.'''
+	'''This method takes the path to a .txt file containing the paths to the csv files, which save information about the images. For a more detailed description of those files cf. method create_image_list(). In addition, this method takes the 'resolution' to which the images are to be scaled, a parameter 'd' which determines how many images are to be processed, a boolean parameter 'normalize' which controls whether the images shall be normalized to the interval [0,1] and a boolean parameter 'autocontrast' which controls whether a PIL intern method shall be used to increase the contrast of the images. The boolean parameter 'return_image_properties' can be set to 'True' in order to return the image list created by the create_image_list method called within this method.'''
 	# create image list
 	image_list = create_image_list(filename)
 
