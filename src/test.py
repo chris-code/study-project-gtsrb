@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
 
+'''Take a network layout and weights, and test its performance on a given data set.
+Print score and accuracy.
+User can specify batchsize, number of samples to consider (randomly chosen), and keras verbosity'''
+
 import argparse
 
 import theano

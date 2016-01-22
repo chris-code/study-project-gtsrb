@@ -14,7 +14,8 @@ import matplotlib.pyplot as ppt
 
 class Image_Loader():
 	'''Provides methods to load an image from a given path and to load an image according to a class
-	id, from a folder containing class representatives, which has to be specified beforehand'''
+	id, from a folder containing class representatives which has to be passed to __init__.
+	All images will be provided in the resolution passed to __init__.'''
 
 	def __init__(self, resolution, class_representative_path):
 		'''resolution: 2-tuple of x- and y-resolution
