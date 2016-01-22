@@ -10,10 +10,20 @@ import dataset_io
 import nn
 
 def extract_misclassified(image_properties, predictions, labels):
-	pred_labels = np.argmax(predictions, axis=1)
-	labels = np.argmax(labels, axis=1)
+	'''Given a list of image properties and the class probabilities, extract the image properties and
+	class probabilities of the misclassified samples.
 
-	mistakes = pred_labels != labels
+	image_properties: list type, content can be anything
+	predictions: numpy array of shape (samples, classes)
+	labels: numpy array of shape (samples, classes), labels in one-hot encoding
+
+	returns wrong_image_properties: the part of image_properties that belongs to misclassified images
+	returns wrong_predictions: the part of predictions that belongs to misclassified images'''
+
+	pred_labels = np.argmax(predictions, axis=1) # from one-hot encoding to a class id
+	labels = np.argmax(labels, axis=1) # same
+
+	mistakes = pred_labels != labels # check which images are misclassified
 	wrong_image_properties = [prop for prop, m in zip(image_properties, mistakes) if m]
 	wrong_predictions = predictions[mistakes]
 
@@ -50,6 +60,7 @@ y_test = np_utils.to_categorical(y_test, num_classes)
 print('Predicting labels for {0} samples at resolution {1}x{2} in batches of size {3}'.format(x_test.shape[0], resolution[0], resolution[1], args.batchsize))
 predictions = model.predict_proba(x_test, batch_size=args.batchsize)
 
+#~ If desired, reduce output to the misclassified images
 if args.misclassified:
 	print('Reducing output to misclassified samples')
 	sample_count = len(image_properties)

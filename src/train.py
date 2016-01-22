@@ -1,7 +1,16 @@
 # -*- coding: utf-8 -*-
 
+'''Will train a neural network with a given layout on a data set. The user can opt to load weights
+before and store them after training. Furthermore, number of epochs, batchsize, maximum number
+of training samples to consider, and keras verbosity can be specified. The user can also chose to
+apply slight affine transformations of the input images before each epoch.
+
+For loading and saving weights, specify paths without a filename extension. Two files will be
+created / read from, a .w file containing the weights, and a .t file containing the training
+parameters like learning rate.'''
+
 import argparse
-import pickle # TODO is this neccessary?
+import pickle
 
 import theano
 theano.config.openmp = True
