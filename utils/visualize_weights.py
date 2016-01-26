@@ -1,10 +1,13 @@
 # -*- coding: utf-8 -*-
 
 import argparse
+import sys
+import os
 
 import numpy as np
 import PIL.Image as pil_img
 
+sys.path.insert(1, os.path.join(sys.path[0], '../src'))
 import nn
 
 def visualize_filters(model, path):
