@@ -79,8 +79,6 @@
 \newcommand\myref[1]{\ref{#1} (S. \pageref{#1})}
 \newcommand\myrefcomma[1]{\ref{#1}, S. \pageref{#1}}
 
-\newcommand\nsm{Nagel-Schreckenberg-Modell }
-
 \begin{document}
 
 \thispagestyle{empty}
@@ -104,7 +102,7 @@
 \begin{titlepage}
     \begin{center}
     \vphantom{0cm}
-    \LARGE \textbf{Documentation}\\
+    \LARGE \textbf{Report}\\
     \vspace{3cm}
     \normalsize
     Study Project Documentation \\
@@ -132,10 +130,15 @@
 
 \newpage
 \section{Introduction}
+Convolutional neural networks (CNNs) are powerful tools in the field of machine learning. Their strength results from the efficient use of free parameters by exploiting the spatial structure of their input. Instead of learning every weight in the INPUT $\times$ OUTPUT matrix of a fully connected layer, a convolutional layer learns the weights in filters of a fixed size. Since the filters are generally tiny compared to a full weight matrix, using many filters and layers becomes feasible. The convolution operation with those filters then produces a layer response that indicates the local features represented by the filters.
 
-%Paper \cite{multi-column-neural-network-gtsrb}
+To reduce the amount of data passed through the network, pooling layers that combine the values in small regions of the input into a single value can be used. One can then think of the consecutive application of convolutional and pooling layers as mechanisms to iteratively integrate features from ever more remote locations of the image into a compact representation. Fully connected layers can the be used on the representations learned by these layers to perform classification of the input.
+
+Since images typically contain a lot of spatial structure, they are well suited for processing by such a CNN. To study and evaluate the properties of CNNs, we considered a network layout described in \cite{multi-column-neural-network-gtsrb}. Multiple networks which consist of three pairs of convolutional and pooling layers followed up with two fully connected layers were combined into a committee to solve the GTSRB challenge described in \cite{gtsrb}. We used the layout of one such network on the GTSRB dataset and two other datasets and measured the resulting accuracy. The filters on the various convolutional layers were visualized. We also transfered the filters learned on the gtsrb dataset to the other datasets and only trained the fully connected layers to evaluate how well they generalize.
 
 \section{Experiments with GTSRB}
+% Morphen vs. nicht morphen
+% Relu
 
 \section{Filter reuse}
 
