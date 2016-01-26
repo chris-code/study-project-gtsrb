@@ -1,4 +1,4 @@
-\documentclass[10pt, a4paper]{article}
+\documentclass[11pt, a4paper]{article}
 
 \usepackage[utf8]{inputenc}
 \usepackage{graphicx}
@@ -32,6 +32,7 @@
 \usepackage{xcolor}
 \usepackage{colortbl}
 \usepackage[parfill]{parskip}
+\usepackage{url}
 
 \usepackage{fancyhdr}
 \pagestyle{fancy}
@@ -145,6 +146,17 @@ Since images typically contain a lot of spatial structure, they are well suited 
 \subsection{COIL100 dataset}
 
 \subsection{INRIA dataset}
+
+After achieving excellent results on the COIL100 dataset, we tried to get similar results on a more difficult dataset. The dataset we chose is the Head Pose Image Database \cite{estimating-face-orientation-inria} from the French Institute for Research in Computer Science and Automation (INRIA). The dataset consists of 15 persons, two series per person and 93 JPEG-images per series. In each series the depicted person changes gradually its posture of the head, in one of the series with a certain feature like glasses (e.g. person 1 and 4) or the hair outside of the bounds of the image (person 6) and in one series without. Figure \ref{fig:inria_different_angles} shoes some example images for person 12.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.8\textwidth]{inria_different_angles}
+	\caption{Person 12 presented from different angles}
+	\label{fig:inria_different_angles}
+\end{figure}
+
+The problem appears to be harder than the COIL100 problem, because the persons in the INRIA dataset are more similar to each other than the objects in the other dataset.
 
 \begin{appendix}
 	\section{Implementation}
