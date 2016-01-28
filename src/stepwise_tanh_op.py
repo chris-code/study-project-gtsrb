@@ -48,8 +48,7 @@ def create():
 
 if __name__ == "__main__":
 	stepwise_tanh = create()
-	import numpy
-	inp = numpy.random.rand(5, 4) * 4 - 2
+	inp = np.random.rand(5, 4) * 4 - 2
 	out = stepwise_tanh(inp)
 	#assert numpy.allclose(inp * 2, out)
 	print(inp)

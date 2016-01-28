@@ -23,18 +23,23 @@ generate_paths() {
 
 weights=$(find $weights_path -iname *.w | sort) # The list of weights to evaluate
 for w in $weights ; do
-	echo "Evaluating $w"
-
 	generate_paths $w
 
 	# If output already exists, don't re-compute it
 	if [ -f $out_path ] ; then
 		echo "Results for $w exist, skipping"
 		continue
+	else
+		echo "Evaluating $w"
 	fi
 
 	# Create output folders if they don't exist
 	out_dir="$(dirname $out_path)"
 	mkdir -p "$out_dir"
 	nice -n 19 python src/test.py $w $layout $dataset > $out_path
+
+	if [ "$?" -ne "0" ] ; then
+		echo "Test failed, deleting $out_path"
+		rm "$out_path"
+	fi
 done
