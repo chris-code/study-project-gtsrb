@@ -21,7 +21,10 @@ generate_paths() {
 	out_path="${results_path}${out_path}.txt"
 }
 
-weights=$(find $weights_path -iname *.w | sort) # The list of weights to evaluate
+# Stage 1: Evaluate all weights in $weights_path, and write the output to
+# $results_path, keeping the folder structure.
+
+weights=$(find $weights_path -iname "*.w" | sort) # The list of weights to evaluate
 for w in $weights ; do
 	generate_paths $w
 
@@ -42,4 +45,50 @@ for w in $weights ; do
 		echo "Test failed, deleting $out_path"
 		rm "$out_path"
 	fi
+done
+
+# Stage 2: Agglomerate the resulting values in a single file per configuration
+# that is gnuplot-readable
+
+results=$(find $results_path -iname "*.txt" | sort) # The list of results to agglomerate
+
+# Remove old files
+for result in $results ; do
+	out_file="${result%.txt}"
+	out_file=$(echo "$out_file" | sed -e "s/[0-9]*$//")
+	out_file="${out_file}result.dat"
+	rm -f "$out_file"
+	#echo "# epoch accuracy" > "$out_file"
+	echo "# epoch accuracy" > "$out_file"
+done
+
+## Write column descriptor
+#for result in $results ; do
+#	out_file="${result%.txt}"
+#	out_file=$(echo "$out_file" | sed -e "s/[0-9]*$//")
+#	out_file="${out_file}result.txt"
+#	#echo "$out_file from $result"
+#	#echo "# epoch accuracy" > "$out_file"
+#done
+
+# Create new ones with fresh values
+for result in $results ; do
+	# The file to store agglomerated results in
+	out_file="${result%.txt}"
+	out_file=$(echo "$out_file" | sed -e "s/[0-9]*$//")
+	out_file="${out_file}result.dat"
+
+	# Epoch number
+	epoch=$(basename "$result")
+	epoch="${epoch%.w}"
+	epoch=$(echo "$epoch" | sed 's/[^0-9]//g')
+
+	# Accuracy
+	accuracy_line=$(tail -n 2 "$result" | head -n 1)
+	accuracy=${accuracy_line##"('Test accuracy:', "}
+	accuracy=${accuracy%%)}
+
+	# Write to file
+	line="$epoch $accuracy"
+	echo "$line" >> "$out_file"
 done
