@@ -137,7 +137,10 @@ To reduce the amount of data passed through the network, pooling layers that com
 
 Since images typically contain a lot of spatial structure, they are well suited for processing by such a CNN. To study and evaluate the properties of CNNs, we considered a network layout described in \cite{multi-column-neural-network-gtsrb}. Multiple networks which consist of three pairs of convolutional and pooling layers followed up with two fully connected layers were combined into a committee to solve the GTSRB challenge described in \cite{gtsrb}. We used the layout of one such network on the GTSRB dataset and two other datasets and measured the resulting accuracy. The filters on the various convolutional layers were visualized. We also transfered the filters learned on the gtsrb dataset to the other datasets and only trained the fully connected layers to evaluate how well they generalize.
 
+\section{Network details}
+
 \section{Experiments with GTSRB}
+The GTSRB dataset described in \cite{gtsrb} is a collection of $39209$ images in a training set and $12630$ images in a test set. In total, there are $43$ classes. The images were taken while driving through german streets and cropped to only contain the traffic sign and some boundary around it. For each physical traffic sign there are many images that vary in distance, angle and occlusion since they were taken while the car passes them. For each image, annotations exist that locate the bounding box of the traffic sign. To generate fixed-size images for our network, we extracted only that part given by the bounding box and rescaled it to $48\times48$ pixels. As an additional preprocessing step, contrast normalization was applied to reduce the considerable illumination differences present in the images.
 % Morphen vs. nicht morphen
 % Relu
 
