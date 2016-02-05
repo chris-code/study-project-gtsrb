@@ -139,37 +139,63 @@ Since images typically contain a lot of spatial structure, they are well suited 
 
 \section{Network details}
 
-\section{Experiments with GTSRB}
+\section{Experiments with the GTSRB dataset}
 The GTSRB dataset described in \cite{gtsrb} is a collection of $39209$ images in a training set and $12630$ images in a test set. In total, there are $43$ classes. The images were taken while driving through german streets and cropped to only contain the traffic sign and some boundary around it. For each physical traffic sign there are many images that vary in distance, angle and occlusion since they were taken while the car passes them. For each image, annotations exist that locate the bounding box of the traffic sign. To generate fixed-size images for our network, we extracted only that part given by the bounding box and rescaled it to $48\times48$ pixels. As an additional preprocessing step, contrast normalization was applied to reduce the considerable illumination differences present in the images.
 
+\subsection{Simple setup}
 %TODO fix epoch count
-A network was trained on all images of the training set for $10$ epochs. On a TODO CPU with TODO RAM, one epochs takes abount 9 hours. The performance development over the epochs is visualized in figure \ref{fig:gtsrb-results}, and the accuracy is given in table \ref{tab:gtsrb-results}. After achieving $0.9359$ after the first epoch, it rises monotonically and starts to levels off near $0.9640$ after about 6 epochs.
+A network was trained on all images of the training set for $10$ epochs. On a TODO CPU with TODO RAM, one epochs takes abount 9 hours. The performance development over the epochs is visualized in figure \ref{fig:gtsrb-results}, and the accuracy is given in a table. After achieving $0.9359$ after the first epoch, it rises monotonically and starts to levels off near $0.9640$ after about 6 epochs.
 
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=1\textwidth]{gtsrb_results}
-	\caption{Results of 3 network and training variants on the GTSRB dataset. A network with a $\tanh$ activation function was trained on the data with and without transformation. Additionally, a network with the relu activation function was trained on the continually transformed data.}
-	\label{fig:gtsrb-results}
-\end{figure}
-
-\begin{table}[h!]
-	\centering
+	%TODO more epochs in table
 	\begin{tabular}{|l|lllllll|}
 		\hline
 		Epoch & 1 & 2 & 3 & 4 & 5 & 6 & 7\\
 		\hline
-		without transformations & 0.9359 & 0.9504 & 0.9578 & 0.9609 & 0.9625 & 0.9638 & 0.9640\\
-		with transformations & 32 & 33 & 34 & 35 & 36 & 37 & 38\\
-		with transformations (relu) & 42 & 43 & 44 & 45 & 46 & 47 & 48\\
+		without distortions & 0.9359 & 0.9504 & 0.9578 & 0.9609 & 0.9625 & 0.9638 & 0.9640\\
+		with distortions & 32 & 33 & 34 & 35 & 36 & 37 & 38\\
+		with distortions (relu) & 42 & 43 & 44 & 45 & 46 & 47 & 48\\
 		\hline
 	\end{tabular}
-	\caption{foo}
-	\label{tab:gtsrb-results}
-\end{table}
+	\caption{Results of 3 network and training variants on the GTSRB dataset. A network with a $\tanh$ activation function was trained on the data with and without distortions. Additionally, a network with the relu activation function was trained on the continually distorted data.}
+	\label{fig:gtsrb-results}
+\end{figure}
 
+In the convolutional layers, the network learns filters that are applied to the 3 channels of the color image (in the lowest layer) and to the output of the previous layer (in later cases). Some of these filters are visualized in figure \ref{fig:gtsrb-filters}.
+
+One can observe that the filters on the first layer exhibit a notable spatial structure. In most of them, we see rather broad regions that contain either high or low values. Due to this, one can easily see how they work as feature detectors for the network. They seem to be tuned for edges and corners of various orientations, since this is what the shape of the borders between bright and dark regions mostly suggest. It is also striking that the filters for the 3 channels share a common layout, save for a few details. This indicates that the first layer combines the channels into a unified representation without discriminating between colors. Thus, it seems that the network learns to classify the traffic signs without a lot of dependence on color information. %TODO verify this?
+
+The filters on the higher layers are not so easy to reason about. They have less room to expose structure since they are smaller, but even so there doesn't seem to be a separation between regions of high and low values as strong as on the lowest layer. Since there are a lot of filters for every one of the many input maps to those layers, there is a sizable number of filters involved. This high number of filters might make it useful to increase the specialization of those filters, leading to structures that do not correspond to a visually striking layout. %TODO verify this. Is there more visual structure with fewer filters?
+
+\begin{figure}
+	\centering
+	\begin{subfigure}{\textwidth}
+		\includegraphics[width=1\textwidth]{filter_visualizations/gtsrb_nomorph_filters_0}
+		\caption{Layer 0}
+		\label{fig:gtsrb-filters-0}
+	\end{subfigure}
+	\begin{subfigure}{\textwidth}
+		\includegraphics[width=1\textwidth]{filter_visualizations/gtsrb_nomorph_filters_2}
+		\caption{Layer 2}
+		\label{fig:gtsrb-filters-2}
+	\end{subfigure}
+	\begin{subfigure}{\textwidth}
+		\includegraphics[width=1\textwidth]{filter_visualizations/gtsrb_nomorph_filters_4}
+		\caption{Layer 4}
+		\label{fig:gtsrb-filters-4}
+	\end{subfigure}
+	\caption{Filter visualization for the network trained on the original input data after TODO 7 epochs. (\subref{fig:gtsrb-filters-0}): Filters of the first 25 maps from the first convolutional layer. The three rows show the filters for the red, green and blue channel respectively. (\subref{fig:gtsrb-filters-2}) and (\subref{fig:gtsrb-filters-4}): First few maps for the first few filters of the second and third convolutional layers, respectively.}
+	\label{fig:gtsrb-filters}
+\end{figure}
+
+\subsection{Input distortions}
+An additional technique used in \cite{multi-column-neural-network-gtsrb} is the distortion of input data. In order to help the network generalize better from the given training set, slight distortions were applied to each input image between epochs. These distortions comprise rotation, scaling and translation. The details are found in section \ref{sec:implementation-distortions}.
 
 % Morphen vs. nicht morphen
 % Relu
+% Misclassified images
 
 \section{Filter reuse}
 
@@ -196,7 +222,7 @@ In order to be able to present the learning algorithm many different views on on
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=1\textwidth]{gtsrb_vs_coil_filters.png}
-	\caption{Filters of the first 25 maps from the input layer to the second layer. The upper filters are taken from the GTSRB CNN after 12 epochs of training, the lower filters are taken from the COIL100 CNN after 15 epochs of training. Respectively, the first of the three rows shows the filters for the red channel, the second row the filters for the green channel and the last row the filters for the blue channel.}
+	\caption{Filters of the first 25 maps from the input layer to the second layer. The upper filters are taken from the GTSRB CNN after 12 epochs of training, the lower filters are taken from the COIL100 CNN after 15 epochs of training. The three rows show the filters for the red, green and blue channel respectively.}
 	\label{fig:gtsrb_vs_coil_filters}
 \end{figure}
 
@@ -223,6 +249,13 @@ The problem appears to be harder than the COIL100 problem, because the persons i
 
 \begin{appendix}
 	\section{Implementation}
+	
+	\subsection{Keras, etc...}
+	
+	\subsection{Distortions}
+	% TODO be precise about the input being distorted before the first epoch.
+	
+	\label{sec:implementation-distortions}
 	\section{Visualization}
 \end{appendix}
 
