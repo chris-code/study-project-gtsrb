@@ -62,15 +62,6 @@ for result in $results ; do
 	echo "# epoch accuracy" > "$out_file"
 done
 
-## Write column descriptor
-#for result in $results ; do
-#	out_file="${result%.txt}"
-#	out_file=$(echo "$out_file" | sed -e "s/[0-9]*$//")
-#	out_file="${out_file}result.txt"
-#	#echo "$out_file from $result"
-#	#echo "# epoch accuracy" > "$out_file"
-#done
-
 # Create new ones with fresh values
 for result in $results ; do
 	# The file to store agglomerated results in
