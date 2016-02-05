@@ -106,7 +106,7 @@
     \LARGE \textbf{Report}\\
     \vspace{3cm}
     \normalsize
-    Study Project Documentation \\
+    Study Project Report \\
     in the Master Program of \textcolor{AI-BLUE}{[Applied Computerscience]}\\
     at the Ruhr-University Bochum\\
     in the Winter Term 2015/16\\
@@ -133,14 +133,41 @@
 \section{Introduction}
 Convolutional neural networks (CNNs) are powerful tools in the field of machine learning. Their strength results from the efficient use of free parameters by exploiting the spatial structure of their input. Instead of learning every weight in the INPUT $\times$ OUTPUT matrix of a fully connected layer, a convolutional layer learns the weights in filters of a fixed size. Since the filters are generally tiny compared to a full weight matrix, using many filters and layers becomes feasible. The convolution operation with those filters then produces a layer response that indicates the local features represented by the filters.
 
-To reduce the amount of data passed through the network, pooling layers that combine the values in small regions of the input into a single value can be used. One can then think of the consecutive application of convolutional and pooling layers as mechanisms to iteratively integrate features from ever more remote locations of the image into a compact representation. Fully connected layers can the be used on the representations learned by these layers to perform classification of the input.
+To reduce the amount of data passed through the network, pooling layers that combine the values in small regions of the input into a single value can be used. One can then think of the consecutive application of convolutional and pooling layers as mechanisms to iteratively integrate features from ever more remote locations of the image into a compact representation. Fully connected layers can then be used on the representations learned by these layers to perform classification of the input.
 
-Since images typically contain a lot of spatial structure, they are well suited for processing by such a CNN. To study and evaluate the properties of CNNs, we considered a network layout described in \cite{multi-column-neural-network-gtsrb}. Multiple networks which consist of three pairs of convolutional and pooling layers followed up with two fully connected layers were combined into a committee to solve the GTSRB challenge described in \cite{gtsrb}. We used the layout of one such network on the GTSRB dataset and two other datasets and measured the resulting accuracy. The filters on the various convolutional layers were visualized. We also transfered the filters learned on the gtsrb dataset to the other datasets and only trained the fully connected layers to evaluate how well they generalize.
+Since images typically contain a lot of spatial structure, they are well suited for processing by such a CNN. To study and evaluate the properties of CNNs, we considered a network layout described in \cite{multi-column-neural-network-gtsrb}. Multiple networks which consist of three pairs of convolutional and pooling layers followed up with two fully connected layers were combined into a committee to solve the GTSRB challenge described in \cite{gtsrb}. We used the layout of one such network on the GTSRB dataset and two other datasets and measured the resulting accuracy. The filters on the various convolutional layers were visualized. We also transfered the filters learned on the GTSRB dataset to the other datasets and only trained the fully connected layers to evaluate how well they generalize.
 
 \section{Network details}
 
 \section{Experiments with GTSRB}
 The GTSRB dataset described in \cite{gtsrb} is a collection of $39209$ images in a training set and $12630$ images in a test set. In total, there are $43$ classes. The images were taken while driving through german streets and cropped to only contain the traffic sign and some boundary around it. For each physical traffic sign there are many images that vary in distance, angle and occlusion since they were taken while the car passes them. For each image, annotations exist that locate the bounding box of the traffic sign. To generate fixed-size images for our network, we extracted only that part given by the bounding box and rescaled it to $48\times48$ pixels. As an additional preprocessing step, contrast normalization was applied to reduce the considerable illumination differences present in the images.
+
+%TODO fix epoch count
+A network was trained on all images of the training set for $10$ epochs. On a TODO CPU with TODO RAM, one epochs takes abount 9 hours. The performance development over the epochs is visualized in figure \ref{fig:gtsrb-results}, and the accuracy is given in table \ref{tab:gtsrb-results}. After achieving $0.9359$ after the first epoch, it rises monotonically and starts to levels off near $0.9640$ after about 6 epochs.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=1\textwidth]{gtsrb_results}
+	\caption{Results of 3 network and training variants on the GTSRB dataset. A network with a $\tanh$ activation function was trained on the data with and without transformation. Additionally, a network with the relu activation function was trained on the continually transformed data.}
+	\label{fig:gtsrb-results}
+\end{figure}
+
+\begin{table}[h!]
+	\centering
+	\begin{tabular}{|l|lllllll|}
+		\hline
+		Epoch & 1 & 2 & 3 & 4 & 5 & 6 & 7\\
+		\hline
+		without transformations & 0.9359 & 0.9504 & 0.9578 & 0.9609 & 0.9625 & 0.9638 & 0.9640\\
+		with transformations & 32 & 33 & 34 & 35 & 36 & 37 & 38\\
+		with transformations (relu) & 42 & 43 & 44 & 45 & 46 & 47 & 48\\
+		\hline
+	\end{tabular}
+	\caption{foo}
+	\label{tab:gtsrb-results}
+\end{table}
+
+
 % Morphen vs. nicht morphen
 % Relu
 
