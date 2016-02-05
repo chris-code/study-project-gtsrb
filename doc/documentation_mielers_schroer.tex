@@ -172,27 +172,27 @@ A network was trained on all images of the training set for $10$ epochs. On a TO
 
 \section{Filter reuse}
 
-In order to examine how well the convolution filters trained on the GTSRB dataset generalize, we used the GTSRB filters also on other datasets. After several epochs of training on the GTSRB dataset, we copied the weights to another CNN and continued the training of the fully connected layers in the other model. The weights of the convolutional layers, i.e. the filters, remained unchanged. To find out, how well this approch works in terms of training time and classification results, we also trained the weights of all layers completely from scratch on these other datasets and compared the results.
+In order to examine how well the convolution filters trained on the GTSRB dataset generalize, we used the GTSRB filters also on other datasets. After several epochs of training on the GTSRB dataset, we copied the weights to another CNN and continued the training of the fully connected layers in the other model. The weights of the convolutional layers, i.e. the filters, remained unchanged. To evaluate how well this approch works in terms of training time and classification results, we also trained the weights of all layers completely from scratch on these other datasets and compared the results. Those filters trained from the ground up will be called \textit{original} filters in the following considerations, since they are original to this very classification task and classifier.
 
 \subsection{COIL100 dataset}
 
-The first dataset we used is the COIL100 (Columbia Object Image Library 100) dataset (cf. \cite{columbia_object_image_library}), which contains images of 100 different objects. Each object constitutes one class, hence, it is a classification task with 100 classes. The individual objects were placed on a black turntable in front of a black background. 
+The first dataset we used is the COIL100 (Columbia Object Image Library 100) dataset (cf. \cite{columbia_object_image_library}), which contains images of 100 different objects. Figure \ref{fig:coil100_objects} shows a subset of 20 objects of the whole dataset. Each object constitutes one class, hence, it is a classification task with 100 classes. The individual objects were placed on a black turntable in front of a black background. 
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=1\textwidth]{coil100}
 	\caption{A subset of 20 objects taken from the COIL100 dataset.}
 	\label{fig:coil100_objects}
 \end{figure}
-In order to be able to present the learning algorithm many different views on one single object, the camera took a photo of the rotating object, each time it has turned by 5 degrees, yielding 72 images per object and 7200 in total. Since the creators of the dataset do not provide or suggest any established separation in training and test data, we created those sets on our part, randomly dividing the 72 images of each object into 54 training images and 14 test images, totalling in 5400 training images and 1400 test images.\\
+In order to be able to present the learning algorithm many different views on one single object, the camera took a photo of the rotating object, each time it has turned by 5 degrees, yielding 72 images per object and 7200 in total. Since the creators of the dataset do not provide or suggest any established separation in training and test data, we created those sets on our part, randomly dividing the 72 images of each object into 54 training images and 14 test images, totalling in 5400 training and 1400 test images.\\
 Since the provided images are already cropped in a reasonable manner, unlike the images of the GTSRB dataset, we did not crop the images any further. However, we were obliged to rescale the images to a size of $48 \times 48$ pixels to fit the structure of the adopted GTSRB CNN; otherwise we would not have been able to reuse the filters trained on the GTSRB network, because the filter sizes for the COIL100 network would not match the ones, which have already been trained before for the GTSRB network. Since we had found that distorting the images before each training epoch had improved the results, we applied the distortions also to the images of this dataset.
 
 \subsubsection{Results with reused GTSRB filters}
 
-The green curve in figure \ref{fig:coil100_results} illustrates the results on the test set, which we achieved by letting the weights of the convolutional layers unchanged and training only the randomly initialized weights of the fully connected layers. The column "GTSRB filters" in table \ref{tab:coil-results} provides the exact numbers. We observe that the accuracy increases monotonically until the eighth epoch, where we obtained a result of 100\%. The following decrease of the recognition rate can be explained as a consequence of the randomized distortions, which are applied before each epoch. Howsoever, the accuracy does not decrease by a large amount (an accuracy of 99.93\% indicates one misclassfied image, 99.79\% indcate three misclassified images) and stabilizes again at 100\% after 14 epochs. Training one epoch lasts about 300 seconds. Thus, it is possible to construct a reliable classifier for this task in a short time interval by reusing pre-trained filters from another network.%TODO Add information about zappa02 processor ecc.
+The green curve in figure \ref{fig:coil100_results} illustrates the results on the test set, which we achieved by letting the weights of the convolutional layers unchanged and training only the randomly initialized weights of the fully connected layers. The column "GTSRB filters" in table \ref{tab:coil-results} provides the exact numbers. We observe that the accuracy increases monotonically until the eighth epoch, where we obtained a result of 100\%. The following slight decrease of the recognition rate can be explained as a consequence of the randomized distortions, which are applied before each epoch. Howsoever, the accuracy does not decrease by a large amount (an accuracy of 99.93\% indicates one misclassfied image, 99.79\% indcate three misclassified images) and stabilizes again at 100\% after 14 epochs. Training one epoch lasts about 300 seconds on the given hardware configuration. Thus, it is possible to construct a reliable classifier for this task in a short time interval by reusing pre-trained filters from another network.%TODO Add information about zappa02 processor ecc.
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=1\textwidth]{coil100_results.png}
-	\caption{Results on the COIL100 dataset with filters completely trained from scratch and with reused GTSRB filters.}
+	\caption{Results on COIL100 with original filters and with reused GTSRB filters.}
 	\label{fig:coil100_results}
 \end{figure}
 \begin{table}[h!]
@@ -200,7 +200,7 @@ The green curve in figure \ref{fig:coil100_results} illustrates the results on t
 	\begin{tabular}{|r|rr|}
 		\hline
 		Epoch & GTSRB Filters & Fresh Filters\\ \hline
-		00 & 0.02500 & -\\
+		00 & 0.0250 & -\\
 		01 & 0.9286 & 0.7693\\
 		02 & 0.9736 & 0.9107\\
 		03 & 0.9914 & 0.9643\\
@@ -218,11 +218,11 @@ The green curve in figure \ref{fig:coil100_results} illustrates the results on t
 		15 & 1.0000 & 0.9971\\ \hline
 	\end{tabular}
 
-	\caption{Results on the COIL100 dataset with reused GTSRB filters and fresh filters.}
+	\caption{Results on COIL100 with reused GTSRB filters and randomly initialized filters.}
 	\label{tab:coil-results}
 \end{table}
 
-\subsubsection{Results with randomly initialized filters}
+\subsubsection{Results with original filters}
 
 In addition, we set up a network with the same structure, but initialized the weights of all layers randomly. The results of this setup are illustrated by the red curve in figure \ref{fig:coil100_results} and the column "Fresh Filters" in table \ref{tab:coil-results}.
 
