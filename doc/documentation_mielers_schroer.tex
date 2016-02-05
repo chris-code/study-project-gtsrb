@@ -146,18 +146,18 @@ The GTSRB dataset described in \cite{gtsrb} is a collection of $39209$ images in
 
 \section{Filter reuse}
 
-In order to examine how well the convolution filters trained on the GTSRB dataset generalize, we used the GTSRB filters also on other datasets. After several epochs of training on the GTSRB data, we copied the weights to another CNN and continued the training of the fully connected layers in the other model. The weights of the convolutional layers, i.e. the filters, remained unchanged. To find out, how well this approch works in terms of training time and classification results, we also trained completely new weights on these comparison datasets.
+In order to examine how well the convolution filters trained on the GTSRB dataset generalize, we used the GTSRB filters also on other datasets. After several epochs of training on the GTSRB dataset, we copied the weights to another CNN and continued the training of the fully connected layers in the other model. The weights of the convolutional layers, i.e. the filters, remained unchanged. To find out, how well this approch works in terms of training time and classification results, we also trained the weights of all layers completely from scratch on these other datasets and compared the results.
 
 \subsection{COIL100 dataset}
 
-The first dataset we used is the COIL100 dataset (Columbia Object Image Library) \cite{columbia_object_image_library}, which contains images of 100 different objects. The objects were placed on a black turntable in front of a black background. 
+The first dataset we used is the COIL100 (Columbia Object Image Library 100) dataset (cf. \cite{columbia_object_image_library}), which contains images of 100 different objects. Each object constitutes one class, hence, it is a classification task with 100 classes. The individual objects were placed on a black turntable in front of a black background. 
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=1\textwidth]{coil100}
 	\caption{A subset of 20 objects taken from the COIL100 dataset.}
 	\label{fig:coil100_objects}
 \end{figure}
-In order to be able to present the learning algorithm many different views on one single object, the camera took a photo of the rotating object, each time it has turned by 5 degrees.
+In order to be able to present the learning algorithm many different views on one single object, the camera took a photo of the rotating object, each time it has turned by 5 degrees, yielding 72 images per object and 7200 in total. Since the creators of the dataset do not provide or suggest an established separation in training and test data, we created those sets on our part, randomly dividing the 72 images of each object into 54 training images and 14 test images, totalling in 5400 training images and 1400 test images.
 
 \begin{figure}[h!]
 	\centering
@@ -166,6 +166,12 @@ In order to be able to present the learning algorithm many different views on on
 	\label{fig:coil100_results}
 \end{figure}
 
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=1\textwidth]{gtsrb_vs_coil_filters.png}
+	\caption{Filters of the first 25 maps from the input layer to the second layer. The upper filters are taken from the GTSRB CNN after 12 epochs of training, the lower filters are taken from the COIL100 CNN after 15 epochs of training. Respectively, the first of the three rows shows the filters for the red channel, the second row the filters for the green channel and the last row the filters for the blue channel.}
+	\label{fig:gtsrb_vs_coil_filters}
+\end{figure}
 
 
 \subsection{INRIA dataset}
