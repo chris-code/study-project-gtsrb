@@ -184,8 +184,11 @@ The first dataset we used is the COIL100 (Columbia Object Image Library 100) dat
 	\label{fig:coil100_objects}
 \end{figure}
 In order to be able to present the learning algorithm many different views on one single object, the camera took a photo of the rotating object, each time it has turned by 5 degrees, yielding 72 images per object and 7200 in total. Since the creators of the dataset do not provide or suggest any established separation in training and test data, we created those sets on our part, randomly dividing the 72 images of each object into 54 training images and 14 test images, totalling in 5400 training images and 1400 test images.\\
-Since the provided images are already cropped in a reasonable manner, unlike the images of the GTSRB dataset, we did not crop the images any further. However, we were obliged to rescale the images to a size of $48 \times 48$ pixels to fit the structure of the adopted GTSRB CNN; otherwise we would not have been able to reuse the filters trained on the GTSRB network, because the filter sizes for the COIL100 network would not match the ones, which have already been trained before for the GTSRB network. Since we had found that distorting the images before each training epoch had improved the results, we applied the distortions also to the images of this dataset.\\
-The green curve in figure \ref{fig:coil100_results} illustrates the results on the test set, which we achieved by letting the weights of the convolutional layers unchanged and training only the randomly initialized weights of the fully connected layers. The column 'GTSRB filters' in table \ref{tab:coil-results} provides the exact numbers. We observe that the accuracy increases monotonically until the eighth epoch, where we got a result of 100\%. The following decrease of the recognition rate can be explained as a consequence of the randomized distortions, which are applied before every epoch. Howsoever, the accuracy does not decrease by a large amount (an accuracy of 99.93\% indicates one misclassfied image, 99.79\% indcate three misclassified images) and stabilizes again at 100\% after 14 epochs. Training one epoch lasts about 300 seconds. Thus, it is possible to construct a reliable classifier for this classification task in a short time interval by reusing pre-trained filters from another network.
+Since the provided images are already cropped in a reasonable manner, unlike the images of the GTSRB dataset, we did not crop the images any further. However, we were obliged to rescale the images to a size of $48 \times 48$ pixels to fit the structure of the adopted GTSRB CNN; otherwise we would not have been able to reuse the filters trained on the GTSRB network, because the filter sizes for the COIL100 network would not match the ones, which have already been trained before for the GTSRB network. Since we had found that distorting the images before each training epoch had improved the results, we applied the distortions also to the images of this dataset.
+
+\subsubsection{Results with reused GTSRB filters}
+
+The green curve in figure \ref{fig:coil100_results} illustrates the results on the test set, which we achieved by letting the weights of the convolutional layers unchanged and training only the randomly initialized weights of the fully connected layers. The column "GTSRB filters" in table \ref{tab:coil-results} provides the exact numbers. We observe that the accuracy increases monotonically until the eighth epoch, where we obtained a result of 100\%. The following decrease of the recognition rate can be explained as a consequence of the randomized distortions, which are applied before each epoch. Howsoever, the accuracy does not decrease by a large amount (an accuracy of 99.93\% indicates one misclassfied image, 99.79\% indcate three misclassified images) and stabilizes again at 100\% after 14 epochs. Training one epoch lasts about 300 seconds. Thus, it is possible to construct a reliable classifier for this task in a short time interval by reusing pre-trained filters from another network.%TODO Add information about zappa02 processor ecc.
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=1\textwidth]{coil100_results.png}
@@ -219,7 +222,9 @@ The green curve in figure \ref{fig:coil100_results} illustrates the results on t
 	\label{tab:coil-results}
 \end{table}
 
-In addition, we set up a network with the same structure, but initialized the weights of all layers randomly.
+\subsubsection{Results with randomly initialized filters}
+
+In addition, we set up a network with the same structure, but initialized the weights of all layers randomly. The results of this setup are illustrated by the red curve in figure \ref{fig:coil100_results} and the column "Fresh Filters" in table \ref{tab:coil-results}.
 
 \begin{figure}[h!]
 	\centering
