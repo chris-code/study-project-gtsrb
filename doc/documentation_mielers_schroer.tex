@@ -111,7 +111,7 @@
     at the Ruhr-University Bochum\\
     in the Winter Term 2015/16\\
     \vspace{4cm}
-    \huge \textbf{Convolutional Neural Networks} \\
+    \huge \textbf{Deep Convolutional Learning} \\
     \vspace{4cm}
     \normalsize
     \textbf{Project Participants}\\
@@ -211,12 +211,13 @@ The first dataset we used is the COIL100 (Columbia Object Image Library 100) dat
 	\caption{A subset of 20 objects taken from the COIL100 dataset.}
 	\label{fig:coil100_objects}
 \end{figure}
-In order to be able to present the learning algorithm many different views on one single object, the camera took a photo of the rotating object, each time it has turned by 5 degrees, yielding 72 images per object and 7200 in total. Since the creators of the dataset do not provide or suggest any established separation into training and test data, we created those sets on our part, randomly dividing the 72 images of each object into 58 training images and 14 test images, totalling in 5800 training and 1400 test images.\\
+In order to be able to present the learning algorithm many different views on one single object, the camera took a photo of the rotating object, each time it has turned by 5 degrees, yielding 72 images per object and 7200 in total. Since the creators of the dataset do not provide or suggest any established separation into training and test data, we created those sets on our part, randomly dividing the 72 images of each object into 58 training images and 14 test images, totaling in 5800 training and 1400 test images.\\
 Since the provided images are already cropped in a reasonable manner, unlike the images of the GTSRB dataset, we did not crop the images any further. However, we were obliged to rescale the images to a size of $48 \times 48$ pixels to fit the structure of the adopted GTSRB CNN; otherwise we would not have been able to reuse the filters trained on the GTSRB network, because their sizes would not match those of the filters of the COIL100 network. Since we had found that distorting the images before each training epoch had improved the results on the GTSRB dataset, we applied the distortions also to the images of the COIL100 dataset.
 
 \subsubsection{Results with reused GTSRB filters}
 
 The green curve in figure \ref{fig:coil100_results} illustrates the results on the test set, which we achieved by letting the weights of the convolutional layers unchanged and training only the randomly initialized weights of the fully connected layers. The column "GTSRB filters" in table \ref{tab:coil-results} provides the exact numbers rounded to the fourth decimal place. We observe that the accuracy increases monotonically until the eighth epoch, where we obtained a result of 100\%. The following slight decrease of the recognition rate can be explained as a consequence of the randomized distortions, which are applied before each epoch. Howsoever, the accuracy does not decrease by a large amount (an accuracy of 99.93\% indicates one misclassfied image, 99.79\% indcate three misclassified images) and stabilizes again at 100\% after 14 epochs. Training one epoch lasts about 300 seconds on the given hardware configuration. Thus, it is possible to construct a reliable classifier for this task in a short time interval by reusing pre-trained filters from another network.%TODO Add information about zappa02 processor ecc.
+
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=1\textwidth]{coil100_results.png}
@@ -264,16 +265,10 @@ In chapter \ref{subsec:simplesetup} we pointed out that the filters of the first
 \end{figure}
 
 
-
-
-
-%Although the results on the COIL100 dataset seem to confirm this assumption, we will also consider a probably more difficult dataset in chapter \ref{subsec:inria} in order to alleviate the probability of having achieved our results only owing to unfortunate circumstances like noise or a too simple problem.
-
-
 \subsection{INRIA dataset}
 \label{subsec:inria}
 
-After achieving excellent results on the COIL100 dataset, we tried to get similar results on a probably more difficult dataset. The dataset we chose is the Head Pose Image Database \cite{estimating-face-orientation-inria} from the French Institute for Research in Computer Science and Automation (INRIA). The dataset consists of 15 persons, two series per person and 93 JPEG-images per series. In each series the depicted person changes its head posture gradually. One of the two series shows the person with a certain feature like glasses, the other series does not. Figure \ref{fig:inria_different_angles} shows some example images for one person taken from one series.
+After achieving excellent results with the GTSRB filters on the COIL100 dataset, we tried to get similar results on a probably more difficult dataset in order to alleviate the probability of having achieved our results only owing to unfortunate circumstances like noise or a too simple problem. The dataset we chose is the Head Pose Image Database \cite{estimating-face-orientation-inria} from the French Institute for Research in Computer Science and Automation (INRIA). The dataset consists of 15 persons, two series per person and 93 JPEG-images per series. In each series the depicted person changes its head posture gradually. One of the two series shows the person with a certain feature like glasses, while the other series does not. Figure \ref{fig:inria_different_angles} presents a subset of images taken from one series for one person.
 
 \begin{figure}[h!]
 	\centering
@@ -282,13 +277,51 @@ After achieving excellent results on the COIL100 dataset, we tried to get simila
 	\label{fig:inria_different_angles}
 \end{figure}
 
-The problem appears to be harder than the COIL100 problem, because the persons in the INRIA dataset are more similar to each other than the objects in the other dataset.
+The problem appears to be harder than the COIL100 problem, because the persons in the INRIA dataset are more similar to each other than the objects in the COIL100 dataset. For instance, the persons are not well distinguishable by color, given that all persons have a similar hair and a similar skin color. Hence, the network will most likely not assemble filters for the first layer, which differ a lot for the three single color channels.\\
+Even if the images of this dataset have a larger margin than the images of the COIL100 dataset, we did not define a bounding box to crop of the probably unneccessary information for the images.
 
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=1\textwidth]{inria_results.png}
 	\caption{Results on the INRIA dataset with filters completely trained from scratch and with reused GTSRB filters.}
 	\label{fig:inria_results}
+\end{figure}
+
+\begin{table}[h!]
+	\centering
+	\begin{tabular}{|r|rr|}
+		\hline
+		Epoch & GTSRB Filters & Original Filters\\ \hline
+		00 & 0.0667 & -\\
+		01 & 0.7369 & 0.4811\\
+		02 & 0.7748 & 0.7189\\
+		03 & 0.8937 & 0.7171\\
+		04 & 0.9658 & 0.8234\\
+		05 & 0.9459 & 0.9117\\
+		06 & 0.9748 & 0.9604\\
+		07 & 0.9928 & 0.9423\\
+		08 & 0.9964 & 0.9784\\
+		09 & 0.9946 & 0.9658\\
+		10 & 0.9946 & 0.9874\\
+		11 & 0.9910 & 0.9279\\
+		12 & 0.9910 & 0.9910\\
+		13 & 0.9928 & 0.9838\\
+		14 & 0.9964 & 0.9892\\
+		15 & 0.9928 & 0.9964\\
+		16 & 0.9964 & 0.9982\\
+		17 & 0.9946 & 0.9946\\ \hline
+	\end{tabular}
+
+	\caption{Results on COIL100 with reused GTSRB filters and original filters. }
+	\label{tab:coil-results}
+\end{table}
+
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=1\textwidth]{gtsrb_vs_inria_filters.png}
+	\caption{Filters of the first 25 maps from the input layer to the second layer. The upper filters are taken from the GTSRB CNN after 12 epochs of training, the lower filters are taken from the INRIA CNN after 17 epochs of training.}
+	\label{fig:gtsrb_vs_coil_filters}
 \end{figure}
 
 \begin{appendix}
