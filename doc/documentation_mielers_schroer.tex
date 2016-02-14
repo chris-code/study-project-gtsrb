@@ -138,6 +138,29 @@ To reduce the amount of data passed through the network, pooling layers that com
 Since images typically contain a lot of spatial structure, they are well suited for processing by such a CNN. To study and evaluate the properties of CNNs, we considered a network layout described in \cite{multi-column-neural-network-gtsrb}. Multiple networks which consist of three pairs of convolutional and pooling layers followed up with two fully connected layers were combined into a committee to solve the GTSRB challenge described in \cite{gtsrb}. We used the layout of one such network on the GTSRB dataset and two other datasets and measured the resulting accuracy. The filters on the various convolutional layers were visualized. We also transfered the filters learned on the GTSRB dataset to the other datasets and only trained the fully connected layers to evaluate how well they generalize.
 
 \section{Network details}
+The network layout we used is described in \cite{multi-column-neural-network-gtsrb} and summarized in table \ref{tab:network-layout}. It starts with a succession of 3 pairs of convolutional and max-pooling layers, where the number of filters increases with the depth of the network. The convolutions are executed such the output only consists of points for which all neccessary input values are available, and the max-pooling layers use non-overlapping regions to pool from. The convolutional-max-pooling pairs are followed by two fully connected layers, the latter of which has as many neurons as there are classes in the GTSRB dataset, suitable for one-hot encoding of class membership. Together with the notion that the first layer expects a 3-channel (RGB) image of size $48\times48$, the input and output sizes on all layers are determined.
+
+\begin{table}[h!!!]
+	\begin{tabular}{llll}
+		Layer & Type & Configuration & Activation function \\
+		\hline
+		0 & Convolutional & 100 filters of size $7\times7$ per channel & $\tanh$ \\
+		1 & Max Pooling & Pool size $2\times2$ & - \\
+		2 & Convolutional & 150 filters of size $4\times4$ per channel & $\tanh$ \\
+		3 & Max Pooling & Pool size $2\times2$ & - \\
+		4 & Convolutional & 250 filters of size $4\times4$ per channel & $\tanh$ \\
+		5 & Max Pooling & Pool size $2\times2$ & - \\
+		6 & Dense & 300 neurons & $\tanh$ \\
+		7 & Dense & 43 neurons & softmax
+	\end{tabular}
+	\caption{The layout of the network broken down by layer.}
+	\label{tab:network-layout}
+\end{table}
+
+%TODO Initialization
+For all layers layers except the last one (and the max-pooling layers), a $\tanh$ activation function is used. The last layer uses a softmax activation to allow the interpretation of the output as class probabilities. All weights were uniformly initialized.
+
+Training was performed by using stochastic gradient descent with an initial learning rate of $0.1$ and a decay of $1.0\times10^{-6}$. No momentum mechanism was used. The loss function optimized by the gradient descent was categorical crossentropy.
 
 \section{Experiments with GTSRB}
 The GTSRB dataset described in \cite{gtsrb} is a collection of $39209$ images in a training set and $12630$ images in a test set. In total, there are $43$ classes. The images were taken while driving through German streets and cropped to only contain the traffic sign and some boundary around it. For each physical traffic sign there are many images, that vary in distance, angle and occlusion since they were taken while the car was passing them. For each image, annotations exist, that locate the bounding box of the traffic sign. To generate fixed-size images for our network, we extracted only that part given by the bounding box and rescaled it to $48\times48$ pixels. As an additional preprocessing step, contrast normalization was applied to reduce the considerable illumination differences present in the images.
@@ -145,7 +168,7 @@ The GTSRB dataset described in \cite{gtsrb} is a collection of $39209$ images in
 \subsection{Simple setup}
 \label{subsec:simplesetup}
 %TODO fix epoch count
-A network was trained on all images of the training set for $10$ epochs. On a TODO CPU with TODO RAM, one epochs takes abount 9 hours. The performance development over the epochs is visualized in figure \ref{fig:gtsrb-results}, and the accuracy is given in a table. After achieving $0.9359$ after the first epoch, it rises monotonically and starts to levels off near $0.9640$ after about 6 epochs.
+A network was trained on all images of the training set for $10$ epochs. On a TODO CPU with TODO RAM, one epochs takes abount 10 hours. The performance development over the epochs is visualized in figure \ref{fig:gtsrb-results}, and the accuracy is given in a table. After achieving $0.9359$ after the first epoch, it rises monotonically and starts to levels off near $0.9640$ after about 6 epochs.
 
 \begin{figure}[h!]
 	\centering
@@ -168,7 +191,7 @@ In the convolutional layers, the network learns filters that are applied to the 
 
 One can observe that the filters on the first layer exhibit a notable spatial structure. In most of them, we see rather broad regions that contain either high or low values. Due to this, one can easily see how they work as feature detectors for the network. They seem to be tuned for edges and corners of various orientations, since this is what the shape of the borders between bright and dark regions mostly suggest. It is also striking that the filters for the 3 channels share a common layout, save for a few details. This indicates that the first layer combines the channels into a unified representation without discriminating between colors. Thus, it seems that the network learns to classify the traffic signs without a lot of dependence on color information. %TODO verify this?
 
-The filters on the higher layers are not so easy to reason about. They have less room to expose structure since they are smaller, but even so there doesn't seem to be a separation between regions of high and low values as strong as on the lowest layer. Since there are a lot of filters for every one of the many input maps to those layers, there is a sizable number of filters involved. This high number of filters might make it useful to increase the specialization of those filters, leading to structures that do not correspond to a visually striking layout. %TODO verify this. Is there more visual structure with fewer filters?
+The filters on the higher layers are not so easy to reason about. They have less room to expose structure since they are smaller, but even so there doesn't seem to be a separation between regions of high and low values as distinct as on the lowest layer. Since there are a lot of filters for every one of the many input maps to those layers, there is a sizable number of filters involved. This high number of filters might make it useful to increase the specialization of those filters, leading to structures that do not correspond to a visually striking layout. %TODO verify this. Is there more visual structure with fewer filters?
 
 \begin{figure}
 	\centering
