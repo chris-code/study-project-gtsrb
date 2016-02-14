@@ -160,7 +160,7 @@ The network layout we used is described in \cite{multi-column-neural-network-gts
 %TODO Initialization
 For all layers layers except the last one (and the max-pooling layers), a $\tanh$ activation function is used. The last layer uses a softmax activation to allow the interpretation of the output as class probabilities. All weights were uniformly initialized.
 
-Training was performed by using stochastic gradient descent with an initial learning rate of $0.1$ and a decay of $1.0\times10^{-6}$. No momentum mechanism was used. The loss function optimized by the gradient descent was categorical crossentropy.
+Training was performed by using stochastic gradient descent with an initial learning rate of $0.1$ and a decay of $1.0\times10^{-6}$ on the training data which was split into batches of $16$ images each. No momentum mechanism was used. The loss function optimized by the gradient descent was categorical crossentropy.
 
 \section{Experiments with GTSRB}
 The GTSRB dataset described in \cite{gtsrb} is a collection of $39209$ images in a training set and $12630$ images in a test set. In total, there are $43$ classes. The images were taken while driving through German streets and cropped to only contain the traffic sign and some boundary around it. For each physical traffic sign there are many images, that vary in distance, angle and occlusion since they were taken while the car was passing them. For each image, annotations exist, that locate the bounding box of the traffic sign. To generate fixed-size images for our network, we extracted only that part given by the bounding box and rescaled it to $48\times48$ pixels. As an additional preprocessing step, contrast normalization was applied to reduce the considerable illumination differences present in the images.
@@ -183,7 +183,7 @@ A network was trained on all images of the training set for $10$ epochs. On a TO
 		with distortions (relu) & 42 & 43 & 44 & 45 & 46 & 47 & 48\\
 		\hline
 	\end{tabular}
-	\caption{Results of 3 network and training variants on the GTSRB dataset. A network with a $\tanh$ activation function was trained on the data with and without distortions. Additionally, a network with the relu activation function was trained on the continually distorted data.}
+	\caption{Results of 3 network and training variants on the GTSRB test dataset. A network with a $\tanh$ activation function was trained on the data with and without distortions. Additionally, a network with the relu activation function was trained on the continually distorted data.}
 	\label{fig:gtsrb-results}
 \end{figure}
 
@@ -216,6 +216,10 @@ The filters on the higher layers are not so easy to reason about. They have less
 
 \subsection{Input distortions}
 An additional technique used in \cite{multi-column-neural-network-gtsrb} is the distortion of input data. In order to help the network generalize better from the given training set, slight distortions were applied to each input image between epochs. These distortions comprise rotation, scaling and translation. The details are found in section \ref{sec:implementation-distortions}.
+
+As one can see in figure \ref{fig:gtsrb-results}, this significantly boosted the performance. After 14 epochs, the network that was trained on the distorted images achieved a success rate about $1.1$\% higher, with an accuracy of $0.9774$\%. Overall, the curve is a bit more volatile than the one without distortions. This might indicate that the distortions influence the network quite strongly and weaker transformation parameters may lead to steadier learning, but more training rounds would be neccessary to be certain of this.
+
+Visual inspection of the convolutional filters shows that they are not qualitatively different from those in \ref{fig:gtsrb-filters}. As before, the first layer exhibits a visible spatial structure with regions of high and low values. Their shape suggests their role as edge and corner detectors. Again, the filters for all 3 channels share their general appearance, suggesting mostly color independence. On the other convolutional layers, the possibility of visual interpretation is small, just as before.
 
 % Morphen vs. nicht morphen
 % Relu
