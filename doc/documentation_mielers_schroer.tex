@@ -458,7 +458,8 @@ Finally it can be stated that not only the training on the GTSRB dataset but als
 \begin{appendix}
 	\section{Implementation}
 	
-	\subsection{Keras, etc...}
+	\subsection{Neural Network}
+	For the technical realization of the network, we used the \emph{Keras} neural network library for the \emph{Python} programming language. Initially, we tried the \emph{Sharkonvnet} extension for the \emph{Shark} machine learning \emph{C++} library, but realized that it is far from finished. A next option was the \emph{Caffee} neural network \emph{C++} library. This seemed like a versatile and efficient option. However, for its network definitions it relies heavily on the \emph{Google Protobuf} protocol definition standard which would have required a large effort to familiarize with, disproportional to the time available for a study project.
 	
 	\subsection{Distortions}
 	\label{sec:implementation-distortions}
