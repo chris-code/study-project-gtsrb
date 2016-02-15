@@ -306,8 +306,7 @@ Figures \ref{fig:gtsrb-mistakes-05} and \ref{fig:gtsrb-mistakes-06} show cases t
 
 \section{Filter reuse}
 
-%TODO not "serveral epochs", how many?
-In order to examine how well the convolution filters trained on the GTSRB dataset generalize, we also used the GTSRB filters on other datasets. After several epochs of training on the GTSRB dataset, we copied the weights of the convolutional layers to another CNN and trained only the randomly initialized weights of fully-connected layers in the new network. Thus, the weights of the convolutional layers, i.e. the filters, remained unchanged. To evaluate how well this approch works in terms of training time and classification results, we also trained the weights of all layers completely from scratch on these other datasets and compared the results. Those filters trained from the ground up will be called \textit{original} filters in the following considerations, since they are original to this very classification task and classifier.
+In order to examine how well the convolution filters trained on the GTSRB dataset generalize, we also used filters trained by a GTSRB network with distortions and tanh activation function on other datasets. After 12 epochs of training on the GTSRB dataset, we copied the weights of the convolutional layers to another CNN and trained only the randomly initialized weights of fully-connected layers in the new network. Thus, the weights of the convolutional layers, i.e. the filters, remained unchanged. To evaluate how well this approch works in terms of training time and classification results, we also trained the weights of all layers completely from scratch on these other datasets and compared the results. Those filters trained from the ground up will be called \textit{original} filters in the following considerations, since they are original to this very classification task and classifier.
 
 \subsection{COIL100 dataset}
 
@@ -335,9 +334,8 @@ The curve "Reused GTSRB filters" in figure \ref{fig:coil100_results} illustrates
 	\centering
 	\begin{tabular}{|r|rr|}
 		\hline
-		% TODO epoch 00? Why?
 		Epoch & GTSRB Filters & Original Filters\\ \hline
-		0 & 0.0250 & -\\
+		%0 & 0.0250 & -\\
 		1 & 0.9286 & 0.7693\\
 		2 & 0.9736 & 0.9107\\
 		3 & 0.9914 & 0.9643\\
@@ -364,8 +362,8 @@ The curve "Reused GTSRB filters" in figure \ref{fig:coil100_results} illustrates
 In addition to the trial with the reused filters, we set up a network with the same structure, but initialized the weights of all layers randomly and trained them conventionally. The results of this setup are illustrated by the curve "Original COIL100 filters" in figure \ref{fig:coil100_results} and the column "Original Filters" in table \ref{tab:coil-results}. After some fluctuations during the first few epochs, the recognition rate does not exhibit larger variations and yields reliable results. In spite of the fact that the accuracy curve of these original filters is dominated by the curve of the GTSRB filters for the first 12 epochs, we observe that the results with the original filters eventually reach the same level as the GTSRB filters.\\
 A clear disadvantage of training original filters is the extensive training time of approximately 90 minutes per epoch. This is the time needed to train only the weights of the fully connected layers for one epoch multiplied by a factor of about 17.\\
 % TODO what? Don't get the part about assumptions near the middle. We need to be more clear
-In chapter \ref{subsec:simplesetup} we pointed out that the filters of the first convolutional layer of the \text{GTSRB} network exhibit a clear spatial structure, which led us to the assumption that those filters may be sufficiently generalized to provide solid results on other datasets, too. The results achivied by using the GTSRB filters on the COIL100 dataset seem to confirm this assumption. The comparison between the filters of the first convolutional layer of the GTSRB network and those of the same layer in the COIL100 network presented in \text{figure \ref{fig:gtsrb_vs_coil_filters}} reveals that the same assumption cannot be made for the COIL100 filters. In spite of the fact that there are some filters (e.g. those in the 5th and 17th column), which bear resemblance to the GTSRB filters, the overall structure appears much more noisy and less meaningful. This leads to the conclusion that the COIL100 network is overfitted to this very problem and does not extract meaningful features, which could be used for other classification tasks on different datasets. These findings do not necessarily exclude the possibility that a reasonable set of filters can be constructed by training a CNN on the COIL100 dataset. It is probable that the network used in this experiment is just too oversized for a rather easy problem like the classification task on the COIL100 dataset. In a further study one could train a CNN with a more appropriate size on the COIL100 dataset. Such a network could potentially vary in more aspects than just the size.\\
-In contrast to the GTSRB filters, which exhibit a very similar filter structure for all three color channels, the original filters appear to be more color dependent. Although we do find some filter triples which show areas of large values and of small values at virtually identical positions, there are also many filters with quite diverse patterns for the different channels (e.g. those column 14). Given that the COIL100 objects cover a wide range of colors, it seems logical to base the classification decision partially on the available color information.
+In chapter \ref{subsec:simplesetup} we pointed out that the filters of the first convolutional layer of the \text{GTSRB} network exhibit a clear spatial structure, which led us to the assumption that those filters may be sufficiently generalized to provide solid results on other datasets, too. The good results achieved by using the GTSRB filters on the COIL100 dataset seem to confirm this assumption. The comparison between the filters of the first convolutional layer of the GTSRB network and those of the same layer in the COIL100 network presented in \text{figure \ref{fig:gtsrb_vs_coil_filters}} reveals that the same assumption cannot be made for the COIL100 filters. In spite of the fact that there are some filters (e.g. those in the 5th and 17th column), which bear resemblance to the GTSRB filters, the overall structure appears much more noisy and less meaningful. This leads to the conclusion that the COIL100 network is overfitted to this very problem and does not extract meaningful features, which could be used for other classification tasks on different datasets. These findings do not necessarily exclude the possibility that a reasonable set of filters can be constructed by training a CNN on the COIL100 dataset. It is probable that the network used in this experiment is just too oversized for a rather easy problem like the classification task on the COIL100 dataset. In a further study one could train a CNN with a more appropriate size on the COIL100 dataset. Such a network could potentially vary in more aspects than just the size.\\
+In contrast to the GTSRB filters, which exhibit a very similar filter structure for all three color channels, the original filters appear to be more color dependent. Although we do find some filter triples, which show areas of large values and of small values at virtually identical positions, there are also many filters with quite diverse patterns for the different channels (e.g. those in column 14). Given that the COIL100 objects cover a wide range of colors, it seems logical to base the classification decision partially on the available color information.
 
 % TODO Same number of training epochs would be nice
 \begin{figure}[h!]
@@ -379,7 +377,7 @@ In contrast to the GTSRB filters, which exhibit a very similar filter structure 
 \subsection{INRIA dataset}
 \label{subsec:inria}
 
-After achieving excellent results with the GTSRB filters on the COIL100 dataset, we tried to get similar results on a possibly more difficult dataset in order to reduce the probability of having achieved our results only owing to favourable circumstances like noise or a too simple problem. The dataset we chose is the Head Pose Image Database \cite{estimating-face-orientation-inria} from the French Institute for Research in Computer Science and Automation (INRIA). The dataset consists of 15 persons, 2 series per person and 93 JPEG-images per series. In each series the depicted person changes its head posture gradually. Often one of the two series shows the person with a certain feature like glasses, while the other series does not. Since there is no fixed seperation into training and test data given, we randomly splitted the 186 images per person into 149 training and 37 test images, ignoring to which series an image belongs. Figure \ref{fig:inria_different_angles} presents a subset of images taken from one series for one person.
+After achieving excellent results with the GTSRB filters on the COIL100 dataset, we tried to get similar results on a possibly more difficult dataset in order to reduce the probability of having achieved our results only owing to favourable circumstances like noise or a too simple problem. The dataset we chose is the Head Pose Image Database \cite{estimating-face-orientation-inria} from the French Institute for Research in Computer Science and Automation (INRIA). The dataset consists of 15 persons, 2 series per person and 93 JPEG-images per series. In each series the depicted person changes its head posture gradually. Often one of the two series shows the person with a certain feature like glasses, while the other series does not. Since there is no fixed separation into training and test data given, we randomly splitted the 186 images per person into 149 training and 37 test images, ignoring to which series an image belongs. Figure \ref{fig:inria_different_angles} presents a subset of images taken from one series for one person.
 
 \begin{figure}[h!]
 	\centering
@@ -388,14 +386,12 @@ After achieving excellent results with the GTSRB filters on the COIL100 dataset,
 	\label{fig:inria_different_angles}
 \end{figure}
 
-The problem appears to be harder than the COIL100 problem, because the persons in the INRIA dataset are more similar to each other than the objects in the COIL100 dataset. For instance, the persons are not easily distinguishable by color, given that all persons have a similar color and skin tone. Hence, the network will most likely not assemble filters for the first layer that differ a lot between the three color channels.\\
+The problem appears to be harder than the COIL100 problem, because the persons in the INRIA dataset are more similar to each other than the objects in the COIL100 dataset. For instance, the persons are not easily distinguishable by color, given that all persons have a similar hair color and skin tone. Hence, the network will most likely not assemble filters for the first layer that differ a lot between the three color channels.\\
 Even if the images of this dataset have a larger margin than the images of the GTSRB and COIL100 datasets, we did not define a bounding box to crop off the probably unneccessary information from the images. Nonetheless we achieved acceptable results.
 
 \subsubsection{Reused GTSRB filters}
 
-% TODO WHICH GTSRB network? morph or no morph? relu?
-% TODO might also be unclear in the corresponding COIL100 section
-The curve "Reused GTSRB filters" in figure \ref{fig:inria_results} and the column "GTSRB Filters" in table \ref{tab:inria-results} illustrate the test results of a CNN trained on the INRIA dataset. As we did for the COIL100 dataset, we used the weights of the convolutional layers of the GTSRB network after a training time of 12 epochs. Again, the weights of the fully-connected layers were initialized randomly and then trained until an adequate recogniton rate was obtained.
+The curve "Reused GTSRB filters" in figure \ref{fig:inria_results} and the column "GTSRB Filters" in table \ref{tab:inria-results} illustrate the test results of a CNN trained on the INRIA dataset. As we did for the COIL100 dataset, we used the weights of the convolutional layers of the GTSRB network after a training time of 12 epochs. Again, the weights of the fully connected layers were initialized randomly and then trained until an adequate recogniton rate was obtained.
 
 \begin{figure}[h!]
 	\centering
@@ -404,8 +400,14 @@ The curve "Reused GTSRB filters" in figure \ref{fig:inria_results} and the colum
 	\label{fig:inria_results}
 \end{figure}
 
-% If it was trained for 60 epochs, why are only 30 shown in the plot?
-Very good results are reached after only a small number of epochs. After 7 epochs, an accuracy above 99\% was obtained for the first time. Again, the fluctuation of the recognition rate can be explained as a consequence of the random distortions, which are applied before each training epoch. Owing to the short training time, the network was trained in total for 60 epochs with the GTSRB filters. We observed the accuracy falling below a value of 99.5\% only 3 times after the initial 20 epochs. Furthermore we reached a recognition rate of 100\% at several times (for the first time in epoch 26), but could not keep it for more than 4 epochs in a row.
+Very good results are reached after only a small number of epochs. After 7 epochs, an accuracy above 99\% was obtained for the first time. Again, the fluctuation of the recognition rate can be explained as a consequence of the random distortions, which are applied before each training epoch. Owing to the short training time, the network was trained in total for 60 epochs with the GTSRB filters. The results for the epochs, which are missing in the plot of figure \ref{fig:inria_results} for space saving reasons and in order to focus on the accuracy of the early epochs, are shown by the plot in figure \ref{fig:inria_results_only_gtsrb}.
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=1\textwidth]{inria_results_only_gtsrb.png}
+	\caption{Results of the later epochs on the INRIA dataset with reused GTSRB filters.}
+	\label{fig:inria_results_only_gtsrb}
+\end{figure}
+We observed the accuracy falling below a value of 99.5\% only 3 times after the initial 20 epochs. Furthermore we reached a recognition rate of 100\% at several times (for the first time in epoch 26), but could not keep it for more than 4 epochs in a row.
 A consequence of having only $186 \cdot 15 = 2790$ images in total and $(186 - 37) \cdot 15 = 2235$ training images is the fact that training the fully-connected layers for one epoch does not even require 2 minutes (depending on the used hardware).
 
 \begin{table}[h!]
@@ -413,7 +415,7 @@ A consequence of having only $186 \cdot 15 = 2790$ images in total and $(186 - 3
 	\begin{tabular}{|r|rr|}
 		\hline
 		Epoch & GTSRB Filters & Original Filters\\ \hline
-		00 & 0.0667 & -\\
+		%00 & 0.0667 & -\\
 		01 & 0.7369 & 0.4811\\
 		02 & 0.7748 & 0.7189\\
 		03 & 0.8937 & 0.7171\\
@@ -444,9 +446,8 @@ Hence, we find one more time that it is possible to construct a CNN for such a c
 After having found that the GTSRB filters work well on the INRIA dataset, we trained another CNN on this dataset without copying any weights. All weights were randomly initialized and then trained for 17 epochs, yielding the results presented by the curve "Original INRIA filters" in \text{figure \ref{fig:inria_results}} and the column "Original filters" in table \ref{tab:inria-results}.\\
 As already observed for the original COIL100 filters, the results for the original INRIA filters are dominated by the results obtained by using the GTSRB filters on the INRIA dataset. Epoch 15 is the first epoch that shows a better result for the original filters (99.64\%) than for the GTSRB filters (99.28\%).\\
 With regard to the training time required to train the networks with the two different approaches (copying or not copying the GTSRB weights), it can be stated that it demands much more time to train the entire network, including the convolutional layers. It takes over half an hour to train the network including the convolutional filters and a little less than 2 minutes to train the network which relies on the GTSRB filters. This is (as it was for the COIL100 networks) a factor of around 17. So it does not pay off to train a complete network without reused weights in order to yield better results. Quite the contrary, better results in the beginning and approximately equally good results after a certain amount of epochs are obtained in a less expensive way with regards to the training time by resorting to previously trained weights.\\
-% TODO I think that the INRIA filters actually look a bit more noisy than the GTSRB ones (but not as much as the COIL100 ones of course)
-For the COIL100 original filters we found that they were not well-structured and comprised a lot noise. The original INRIA filters, on the other hand, reveal a structure as easily interpretable as the GTSRB filters. \text{Figure \ref{fig:gtsrb_vs_inria_filters}} opposes the GTSRB filters to the original INRIA filters, demonstrating that there is no perceivable qualitative difference between the two filter sets. The filters of both networks should work well as edge and corner detectors and should be largly interchangeable (training a CNN with the original INRIA filters on the COIL100 dataset yielded a result of 99.79\% on the test dataset after 10 epochs). Since one epoch takes around 10 hours for the GTSRB network and only around half an hour for the INRIA network, this is a relevant finding.
-%TODO ADD RESULTS
+For the COIL100 original filters we found that they were not well-structured and comprised a lot noise. The original INRIA filters, on the other hand, reveal a structure as easily interpretable as the GTSRB filters. \text{Figure \ref{fig:gtsrb_vs_inria_filters}} opposes the GTSRB filters to the original INRIA filters, demonstrating that there is no significant qualitative difference between the two filter sets. Although one could consider the original INRIA filters a bit more noisy, the filters of both networks should work well as edge and corner detectors and should be largely interchangeable (training a CNN with the original INRIA filters on the COIL100 dataset yielded a result of 99.79\% on the test dataset after 10 epochs). Since one epoch takes around 10 hours for the GTSRB network and only around half an hour for the INRIA network, this is a relevant finding.
+%TODO ADD RESULTS ============================= Y: WHICH RESULTS?
 
 %TODO filters after the same number of epochs would be nice
 \begin{figure}[h!]
@@ -456,7 +457,7 @@ For the COIL100 original filters we found that they were not well-structured and
 	\label{fig:gtsrb_vs_inria_filters}
 \end{figure}
 
-As expected before training the original filters, the filters in one filter triplet for the 3 color channels are very similar to each other and differ only in rare cases. This observation reaffirms the expectation that the filters work mostly color independent and put much more emphasis in the geometrical shape of the images.\\
+As expected before training the original filters, the filters in one filter triplet for the 3 color channels are very similar to each other and differ only in rare cases. This observation reaffirms the expectation that the filters work mostly color independent and put much more emphasis on the geometrical shape of the images.\\
 Finally it can be stated that not only the training on the GTSRB dataset but also the training on the INRIA dataset produces reasonable filters, which can actually be reused in other networks to solve other classifcation tasks.
 
 
@@ -471,8 +472,7 @@ Finally it can be stated that not only the training on the GTSRB dataset but als
 	
 	\subsection{Distortions}
 	\label{sec:implementation-distortions}
-	% TODO be precise about the input being distorted before the first epoch.
-	As already hinted at in chapter \ref{subsec:inputdistortions}, all training images are distorted before each epoch.
+	As already hinted at in chapter \ref{subsec:inputdistortions}, all training images are distorted before each epoch (and therefore also before the very first epoch).
 	One should notice that the images are already rescaled to the size $a \times b$, which is defined in the layout file for the respective network, before the transformations are applied.\\
 	Firstly, the image is shifted horizontally by $x \sim \mathcal{U}(- 0.1 w, 0.1 w)$ pixels and vertically by $y \sim \mathcal{U}(- 0.1 h, 0.1 h)$ pixels with $w$ as width and $h$ as height of the image and $\mathcal{U}(\alpha,\beta)$ as uniform distribution on the interval $\closedInt{a}{b}$. In a second step, the image is rotated by $r \sim \mathcal{U}(-5, 5)$ degrees. As a third transformation a scaling by a factor $s \sim \mathcal{U}(0.9,1.1)$ is applied to the image.\\
 	After applying the distortions, the images are recropped to the correct size. If the image is larger than required, the cropping frame is centered in the middle of the image and the borders are dismissed. If the image is smaller than required, pixels are added to all four sides of the image. Those pixels are filled with the grayvalue of the closest pixel of the original image after the transformation.\\
