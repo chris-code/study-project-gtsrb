@@ -246,7 +246,64 @@ To examine the influence of the choice of activation function, we trained the sa
 
 One can observe that this network accomplishes a considerably higher performance than the one with the original $\tanh$ activation function at certain points. The $\tanh$ network reaches its peak of $\approx 0.9774$\% accuracy after 14 epochs, while the RELU network peaks at $\approx 0.9803$ after 10 epochs. However, its behavior over the course of training is much more volatile. Epochs where the performance is superior to the $\tanh$ network are interspersed with drops below $\tanh$ performance. More trials would be neccessary to be sure, but it seems that a RELU activation behaves less predictable during training.
 
-% Misclassified images
+\subsection{Misclassified images}
+Useful insights may be gained by looking at the errors that a network makes. To this end, we considered the misclassified images in the test set and looked at the 3 most likely classes predicted by the network. The network with RELU activation has achieved the highest accuracy overall, but since its performance as proven unreliable, we visualized the errors made by the $\tanh$ network after 14 epochs with distorted input data.
+
+\begin{figure}
+	\centering
+	\begin{subfigure}{\textwidth}
+		\centering
+		\caption{}
+		\includegraphics[width=0.7\textwidth]{gtsrb_mistakes/mistake_fussgaenger.png}
+		\label{fig:gtsrb-mistakes-01}
+	\end{subfigure}
+	\begin{subfigure}{\textwidth}
+		\centering
+		\caption{}
+		\includegraphics[width=0.7\textwidth]{gtsrb_mistakes/mistake_vorfahrtstrasse.png}
+		\label{fig:gtsrb-mistakes-02}
+	\end{subfigure}
+	\begin{subfigure}{\textwidth}
+		\centering
+		\caption{}
+		\includegraphics[width=0.7\textwidth]{gtsrb_mistakes/mistake_gefahrenstelle.png}
+		\label{fig:gtsrb-mistakes-03}
+	\end{subfigure}
+	\begin{subfigure}{\textwidth}
+		\centering
+		\caption{}
+		\includegraphics[width=0.7\textwidth]{gtsrb_mistakes/mistake_kreisverkehr.png}
+		\label{fig:gtsrb-mistakes-04}
+	\end{subfigure}
+	\begin{subfigure}{\textwidth}
+		\centering
+		\caption{}
+		\includegraphics[width=0.7\textwidth]{gtsrb_mistakes/mistake_limit_unknown.png}
+		\label{fig:gtsrb-mistakes-05}
+	\end{subfigure}
+	\begin{subfigure}{\textwidth}
+		\centering
+		\caption{}
+		\includegraphics[width=0.7\textwidth]{gtsrb_mistakes/mistake_ueberholen_lkw.png}
+		\label{fig:gtsrb-mistakes-06}
+	\end{subfigure}
+	\begin{subfigure}{\textwidth}
+		\centering
+		\caption{}
+		\includegraphics[width=0.7\textwidth]{gtsrb_mistakes/mistake_limit_120.png}
+		\label{fig:gtsrb-mistakes-07}
+	\end{subfigure}
+	\caption{Selected misclassified images of the network with $\tanh$ activation and distorted input data after 14 epochs. Additionally, the 3 most likely candidates predicted by the network are shown together with their probabilities.}
+	\label{fig:gtsrb-mistakes}
+\end{figure}
+
+An accuracy of $0.9774$\% on a test set with 12630 images implies 285 misclassifications. Most of those instances come from a handful of traffic signs (since there are multiple images of each pyhsical sign). Hand-selected examples of these instances are shown in figure \ref{fig:gtsrb-mistakes}. Although the predicted probabilities can be quite high, they are significantly lower than the predicted probabilities for correctly classified images, which are usually above $95$\%.
+
+Some of the errors seem quite avoidable. For instance, a human could easily classify \ref{fig:gtsrb-mistakes-01} and \ref{fig:gtsrb-mistakes-02}. While the network sticks to triangular traffic signs for \ref{fig:gtsrb-mistakes-01}, it is willing to predict round signs for the rectangular input in \ref{fig:gtsrb-mistakes-01}. In this example, it is also clear that the color of the sign is not crucial for the prediction, as red and blue signs are predicted while the input contains a yellow region.
+
+Other possible causes for misclassification are depicted in \ref{fig:gtsrb-mistakes-03} and \ref{fig:gtsrb-mistakes-04}. Here, shape and color of the predictions match those of the input. The error can be attributed to occlusion occuring on the input, but in both cases a human would stand a reasonable chance to identify the traffic sign.
+
+Figures \ref{fig:gtsrb-mistakes-05} and \ref{fig:gtsrb-mistakes-06} show cases that are somewhat hopeless. Although the former appears to be a speed limit sign and the latter is similar to prediction 2, one can not really be certain by just inspecting the image. A last notable example is \ref{fig:gtsrb-mistakes-07}. Here we see a strongly tilted speed limit sign. It is understandable that this complicates the task, although the distortions applied during training should have induced a slight rotation invariance. It would be interesting to see whether stronger training data distortions would prevent misclassifications like these.
 
 \section{Filter reuse}
 
