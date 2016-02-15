@@ -168,11 +168,11 @@ The GTSRB dataset described in \cite{gtsrb} is a collection of $39209$ images in
 \subsection{Simple setup}
 \label{subsec:simplesetup}
 %TODO fix epoch count
-A network was trained on all images of the training set for $10$ epochs. On a TODO CPU with TODO RAM, one epochs takes abount 10 hours. The performance development over the epochs is visualized in figure \ref{fig:gtsrb-results}, and the accuracy is given in a table. After achieving $0.9359$ after the first epoch, it rises monotonically and starts to levels off near $0.9640$ after about 6 epochs.
+A network was trained on all images of the training set for $10$ epochs. On a TODO CPU with TODO RAM, one epochs takes about 10 hours. The performance development over the epochs is visualized in figure \ref{fig:gtsrb-results}, and the accuracy is given in a table. After achieving $\approx 0.9359$ after the first epoch, it rises monotonically and starts to levels off near $\approx 0.9640$ after about 6 epochs.
 
 \begin{figure}[h!]
 	\centering
-	\includegraphics[width=1\textwidth]{gtsrb_results}
+	\includegraphics{gtsrb_results}
 	%TODO more epochs in table
 	\begin{tabular}{|l|lllllll|}
 		\hline
@@ -217,12 +217,24 @@ The filters on the higher layers are not so easy to reason about. They have less
 \subsection{Input distortions}
 An additional technique used in \cite{multi-column-neural-network-gtsrb} is the distortion of input data. In order to help the network generalize better from the given training set, slight distortions were applied to each input image between epochs. These distortions comprise rotation, scaling and translation. The details are found in section \ref{sec:implementation-distortions}.
 
-As one can see in figure \ref{fig:gtsrb-results}, this significantly boosted the performance. After 14 epochs, the network that was trained on the distorted images achieved a success rate about $1.1$\% higher, with an accuracy of $0.9774$\%. Overall, the curve is a bit more volatile than the one without distortions. This might indicate that the distortions influence the network quite strongly and weaker transformation parameters may lead to steadier learning, but more training rounds would be neccessary to be certain of this.
+As one can see in figure \ref{fig:gtsrb-results}, this significantly boosted the performance. After 14 epochs, the network that was trained on the distorted images achieved a success rate about $1.1$\% higher, with an accuracy of $\approx 0.9774$\%. Overall, the curve is a bit more volatile than the one without distortions. This might indicate that the distortions influence the network quite strongly and weaker transformation parameters may lead to steadier learning, but more training rounds would be neccessary to be certain of this.
 
 Visual inspection of the convolutional filters shows that they are not qualitatively different from those in \ref{fig:gtsrb-filters}. As before, the first layer exhibits a visible spatial structure with regions of high and low values. Their shape suggests their role as edge and corner detectors. Again, the filters for all 3 channels share their general appearance, suggesting mostly color independence. On the other convolutional layers, the possibility of visual interpretation is small, just as before.
 
-% Morphen vs. nicht morphen
-% Relu
+\subsection{RELU activation function}
+The layers in \cite{multi-column-neural-network-gtsrb} used a $\tanh$ activation function. For performance reasons the RELU activation function, as shown in figure \ref{fig:relu} is often used as a fast-to-compute alternative that yields good results.
+
+\begin{figure}[h!!!]
+	\centering
+	\includegraphics{images/relu.png}
+	\caption{RELU activation function}
+	\label{fig:relu}
+\end{figure}
+
+To examine the influence of the choice of activation function, we trained the same network from table \ref{tab:network-layout} from the ground up. The only difference to the old network was the usage of the RELU activation function instead of $\tanh$. Since distortions proved effective, they were again used in this training run. The accuracy over 14 epochs is shown in figure \ref{fig:gtsrb-results}.
+
+One can observe that this network accomplishes a considerably higher performance than the one with the original $\tanh$ activation function at certain points. The $\tanh$ network reaches its peak of $\approx 0.9774$\% accuracy after 14 epochs, while the RELU network peaks at $\approx 0.9803$ after 10 epochs. However, its behavior over the course of training is much more volatile. Epochs where the performance is superior to the $\tanh$ network are interspersed with drops below $\tanh$ performance. More trials would be neccessary to be sure, but it seems that a RELU activation behaves less predictable during training.
+
 % Misclassified images
 
 \section{Filter reuse}
