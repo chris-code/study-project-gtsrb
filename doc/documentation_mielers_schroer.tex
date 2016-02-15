@@ -157,7 +157,6 @@ The network layout we used is described in \cite{multi-column-neural-network-gts
 	\label{tab:network-layout}
 \end{table}
 
-%TODO Initialization
 For all layers except the last one (and the max-pooling layers), a $\tanh$ activation function is used. The last layer uses a softmax activation to allow the interpretation of the output as class probabilities. All weights were uniformly initialized.
 
 Training was performed by using stochastic gradient descent with an initial learning rate of $0.1$ and a decay of $1.0\times10^{-6}$ on the training data which was split into batches of $16$ images each. No momentum mechanism was used. The loss function optimized by the gradient descent was categorical crossentropy.
@@ -167,13 +166,11 @@ The GTSRB dataset described in \cite{gtsrb} is a collection of $39209$ images in
 
 \subsection{Simple setup}
 \label{subsec:simplesetup}
-%TODO fix epoch count
-A network was trained on all images of the training set for $10$ epochs. On a TODO CPU with TODO RAM, one epochs takes about 10 hours. The performance development over the epochs is visualized in figure \ref{fig:gtsrb-results}, and the accuracy is given in a table. After achieving $\approx 0.9359$ after the first epoch, it rises monotonically and starts to levels off near $\approx 0.9640$ after about 6 epochs.
+A network was trained on all images of the training set for $14$ epochs. On a TODO CPU with TODO RAM, one epochs takes about 10 hours. The performance development over the epochs is visualized in figure \ref{fig:gtsrb-results}, and the accuracy is given in a table. After achieving $\approx 0.9359$ after the first epoch, it rises monotonically and starts to levels off near $\approx 0.9640$ after about 6 epochs.
 
 \begin{figure}[h!]
 	\centering
 	\includegraphics{gtsrb_results}
-	%TODO more epochs in table
 	\begin{tabular}{|r|rrr|}
 		\hline
 		Epoch & Simple setup & With distortions & With distortions (RELU) \\
@@ -200,9 +197,9 @@ A network was trained on all images of the training set for $10$ epochs. On a TO
 
 In the convolutional layers, the network learns filters that are applied to the 3 channels of the color image (in the lowest layer) and to the output of the previous layer (in later cases). Some of these filters are visualized in figure \ref{fig:gtsrb-filters}.
 
-One can observe that the filters on the first layer exhibit a notable spatial structure. In most of them, we see rather broad regions that contain either high or low values. Due to this, one can easily see how they work as feature detectors for the network. They seem to be tuned for edges and corners of various orientations, since this is what the shape of the borders between bright and dark regions mostly suggest. It is also striking that the filters for the 3 channels share a common layout, save for a few details. This indicates that the first layer combines the channels into a unified representation without discriminating between colors. Thus, it seems that the network learns to classify the traffic signs without a lot of dependence on color information. %TODO verify this?
+One can observe that the filters on the first layer exhibit a notable spatial structure. In most of them, we see rather broad regions that contain either high or low values. Due to this, one can easily see how they work as feature detectors for the network. They seem to be tuned for edges and corners of various orientations, since this is what the shape of the borders between bright and dark regions mostly suggest. It is also striking that the filters for the 3 channels share a common layout, save for a few details. This indicates that the first layer combines the channels into a unified representation without discriminating between colors. Thus, it seems that the network learns to classify the traffic signs without a lot of dependence on color information.
 
-The filters on the higher layers are not so easy to reason about. They have less room to expose structure since they are smaller, but even so there doesn't seem to be a separation between regions of high and low values as distinct as on the lowest layer. Since there are a lot of filters for every one of the many input maps to those layers, there is a sizable number of filters involved. This high number of filters might make it useful to increase the specialization of those filters, leading to structures that do not correspond to a visually striking layout. %TODO verify this. Is there more visual structure with fewer filters?
+The filters on the higher layers are not so easy to reason about. They have less room to expose structure since they are smaller, but even so there doesn't seem to be a separation between regions of high and low values as distinct as on the lowest layer. Since there are a lot of filters for every one of the many input maps to those layers, there is a sizable number of filters involved. This high number of filters might make it useful to increase the specialization of those filters, leading to structures that do not correspond to a visually striking layout.
 
 \begin{figure}
 	\centering
@@ -221,7 +218,7 @@ The filters on the higher layers are not so easy to reason about. They have less
 		\caption{Layer 4}
 		\label{fig:gtsrb-filters-4}
 	\end{subfigure}
-	\caption{Filter visualization for the network trained on the original input data after TODO 7 epochs. (\subref{fig:gtsrb-filters-0}): Filters of the first 25 maps from the first convolutional layer. The three rows show the filters for the red, green and blue channel respectively. (\subref{fig:gtsrb-filters-2}) and (\subref{fig:gtsrb-filters-4}): First few maps for the first few filters of the second and third convolutional layers, respectively.}
+	\caption{Filter visualization for the network trained on the original input data after 14 epochs. (\subref{fig:gtsrb-filters-0}): Filters of the first 25 maps from the first convolutional layer. The three rows show the filters for the red, green and blue channel respectively. (\subref{fig:gtsrb-filters-2}) and (\subref{fig:gtsrb-filters-4}): First few filters for the first 25 maps of the second and third convolutional layers, respectively.}
 	\label{fig:gtsrb-filters}
 \end{figure}
 
