@@ -292,7 +292,7 @@ Useful insights may be gained by looking at the errors that a network makes. To 
 		\includegraphics[width=0.7\textwidth]{gtsrb_mistakes/mistake_limit_120.png}
 		\label{fig:gtsrb-mistakes-07}
 	\end{subfigure}
-	\caption{Selected misclassified images of the network with $\tanh$ activation and distorted input data after 14 epochs. Additionally, the 3 most likely candidates predicted by the network are shown together with their probabilities.}
+	\caption{Selected misclassified test images of the network with $\tanh$ activation and distorted input data after 14 epochs. Additionally, the 3 most likely classes predicted by the network are shown together with their probabilities and a representative image.}
 	\label{fig:gtsrb-mistakes}
 \end{figure}
 
@@ -389,6 +389,7 @@ After achieving excellent results with the GTSRB filters on the COIL100 dataset,
 The problem appears to be harder than the COIL100 problem, because the persons in the INRIA dataset are more similar to each other than the objects in the COIL100 dataset. For instance, the persons are not easily distinguishable by color, given that all persons have a similar hair color and skin tone. Hence, the network will most likely not assemble filters for the first layer that differ a lot between the three color channels.\\
 Even if the images of this dataset have a larger margin than the images of the GTSRB and COIL100 datasets, we did not define a bounding box to crop off the probably unneccessary information from the images. Nonetheless we achieved acceptable results.
 
+%TODO use same naming scheme for chapters 4.1 and 4.2
 \subsubsection{Reused GTSRB filters}
 
 The curve "Reused GTSRB filters" in figure \ref{fig:inria_results} and the column "GTSRB Filters" in table \ref{tab:inria-results} illustrate the test results of a CNN trained on the INRIA dataset. As we did for the COIL100 dataset, we used the weights of the convolutional layers of the GTSRB network after a training time of 12 epochs. Again, the weights of the fully connected layers were initialized randomly and then trained until an adequate recogniton rate was obtained.
@@ -462,13 +463,21 @@ Finally it can be stated that not only the training on the GTSRB dataset but als
 
 
 \section{Conclusion}
+Starting out with a given layout for a deep neural network consisting of three pairs of convolutional and max-pooling layers and two fully connected layers, we observed that gradient descent training on a large traffic sign dataset with nearly 40000 training images yields reasonable results, although training takes a long time. Visual inspection of the learned convolutional kernels shows that the filters on the lowest layer feature a notable spatial structure suitable to identify edges and corners. The filters for the different color channels are very similar, indicating independence from color information. On the higher convolutional layers, geometrical interpretation becomes difficult as the clear spearation between active and inactive regions disappears.
 
+Significant classification accuracy improvements were accomplished by applying affine distortions to the input data before each epoch. The modified input data incentivises the network to generalize better to similar but slightly different images, leading to better performance on the test set.
+
+A popular alternative to the $\tanh$ activation function is the unbounded, but efficiently computable RELU activation function. To see how it performs in the given scenario, all $\tanh$ functions were replaced by RELU functions and a new network was trained, using input distortions since they have proven useful. We observed that the resulting network surpassed the $\tanh$-based network at some points, but also experienced performance drops that made its performance seem worse by comparison. Overall, the performance of the RELU-based network appeared much more volatile. As a consequence, the $\tanh$ activation function was used for subsequent trials.
+
+An examination of the misclassified test images and the network's predictions allowed some insight into possible error causes and the way the network processes data. In addition to images that are easy to correctly classify for a human, the network struggled with partially occluded traffic signs and images of such poor quality in terms of contrast and resolution that they would be difficult for humans as well.
 
 \begin{appendix}
 	\section{Implementation}
 	
 	\subsection{Neural Network}
-	For the technical realization of the network, we used the \emph{Keras} neural network library for the \emph{Python} programming language. Initially, we tried the \emph{Sharkonvnet} extension for the \emph{Shark} machine learning \emph{C++} library, but realized that it is far from finished. A next option was the \emph{Caffe} neural network \emph{C++} library. This seemed like a versatile and efficient option. However, for its network definitions it relies heavily on the \emph{Google Protobuf} protocol definition standard which would have required a large effort to familiarize with, disproportional to the time available for a study project.
+	For the technical realization of the network, we used the \emph{Keras} neural network library for the \emph{Python} programming language. Initially, we tried the \emph{Sharkonvnet} extension for the \emph{Shark} machine learning \emph{C++} library, but realized that it is far from finished. A next option was the \emph{Caffe} neural network \emph{C++} library. This seemed like a versatile and efficient option. However, for its network definitions it relies heavily on the \emph{Google Protobuf} protocol definition standard which would have required a large effort to familiarize with, infeasible given the time span available for a study project.
+	
+	To employ the extensive resources of the available compute servers, the \emph{OpenMP} multithreading support of \emph{Keras} was used. This allowed the use of all the machine's CPU cores. However, as \emph{OpenMP} is not the fastest way to do multithreading, it stands to reason that a different library like \emph{Caffe} could reduce the training time for one epoch even further-
 	
 	\subsection{Distortions}
 	\label{sec:implementation-distortions}
