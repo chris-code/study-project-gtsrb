@@ -157,7 +157,6 @@ The network layout we used is described in \cite{multi-column-neural-network-gts
 	\label{tab:network-layout}
 \end{table}
 
-%TODO Initialization
 For all layers except the last one (and the max-pooling layers), a $\tanh$ activation function is used. The last layer uses a softmax activation to allow the interpretation of the output as class probabilities. All weights were uniformly initialized.
 
 Training was performed by using stochastic gradient descent with an initial learning rate of $0.1$ and a decay of $1.0\times10^{-6}$ on the training data which was split into batches of $16$ images each. No momentum mechanism was used. The loss function optimized by the gradient descent was categorical crossentropy.
@@ -167,13 +166,11 @@ The GTSRB dataset described in \cite{gtsrb} is a collection of $39209$ images in
 
 \subsection{Simple setup}
 \label{subsec:simplesetup}
-%TODO fix epoch count
-A network was trained on all images of the training set for $10$ epochs. On a TODO CPU with TODO RAM, one epochs takes about 10 hours. The performance development over the epochs is visualized in figure \ref{fig:gtsrb-results}, and the accuracy is given in a table. After achieving $\approx 0.9359$ after the first epoch, it rises monotonically and starts to levels off near $\approx 0.9640$ after about 6 epochs.
+A network was trained on all images of the training set for $14$ epochs. On a TODO CPU with TODO RAM, one epochs takes about 10 hours. The performance development over the epochs is visualized in figure \ref{fig:gtsrb-results}, and the accuracy is given in a table. After achieving $\approx 0.9359$ after the first epoch, it rises monotonically and starts to levels off near $\approx 0.9640$ after about 6 epochs.
 
 \begin{figure}[h!]
 	\centering
 	\includegraphics{gtsrb_results}
-	%TODO more epochs in table
 	\begin{tabular}{|r|rrr|}
 		\hline
 		Epoch & Simple setup & With distortions & With distortions (RELU) \\
@@ -200,9 +197,9 @@ A network was trained on all images of the training set for $10$ epochs. On a TO
 
 In the convolutional layers, the network learns filters that are applied to the 3 channels of the color image (in the lowest layer) and to the output of the previous layer (in later cases). Some of these filters are visualized in figure \ref{fig:gtsrb-filters}.
 
-One can observe that the filters on the first layer exhibit a notable spatial structure. In most of them, we see rather broad regions that contain either high or low values. Due to this, one can easily see how they work as feature detectors for the network. They seem to be tuned for edges and corners of various orientations, since this is what the shape of the borders between bright and dark regions mostly suggest. It is also striking that the filters for the 3 channels share a common layout, save for a few details. This indicates that the first layer combines the channels into a unified representation without discriminating between colors. Thus, it seems that the network learns to classify the traffic signs without a lot of dependence on color information. %TODO verify this?
+One can observe that the filters on the first layer exhibit a notable spatial structure. In most of them, we see rather broad regions that contain either high or low values. Due to this, one can easily see how they work as feature detectors for the network. They seem to be tuned for edges and corners of various orientations, since this is what the shape of the borders between bright and dark regions mostly suggest. It is also striking that the filters for the 3 channels share a common layout, save for a few details. This indicates that the first layer combines the channels into a unified representation without discriminating between colors. Thus, it seems that the network learns to classify the traffic signs without a lot of dependence on color information.
 
-The filters on the higher layers are not so easy to reason about. They have less room to expose structure since they are smaller, but even so there doesn't seem to be a separation between regions of high and low values as distinct as on the lowest layer. Since there are a lot of filters for every one of the many input maps to those layers, there is a sizable number of filters involved. This high number of filters might make it useful to increase the specialization of those filters, leading to structures that do not correspond to a visually striking layout. %TODO verify this. Is there more visual structure with fewer filters?
+The filters on the higher layers are not so easy to reason about. They have less room to expose structure since they are smaller, but even so there doesn't seem to be a separation between regions of high and low values as distinct as on the lowest layer. Since there are a lot of filters for every one of the many input maps to those layers, there is a sizable number of filters involved. This high number of filters might make it useful to increase the specialization of those filters, leading to structures that do not correspond to a visually striking layout.
 
 \begin{figure}
 	\centering
@@ -221,7 +218,7 @@ The filters on the higher layers are not so easy to reason about. They have less
 		\caption{Layer 4}
 		\label{fig:gtsrb-filters-4}
 	\end{subfigure}
-	\caption{Filter visualization for the network trained on the original input data after TODO 7 epochs. (\subref{fig:gtsrb-filters-0}): Filters of the first 25 maps from the first convolutional layer. The three rows show the filters for the red, green and blue channel respectively. (\subref{fig:gtsrb-filters-2}) and (\subref{fig:gtsrb-filters-4}): First few maps for the first few filters of the second and third convolutional layers, respectively.}
+	\caption{Filter visualization for the network trained on the original input data after 14 epochs. (\subref{fig:gtsrb-filters-0}): Filters of the first 25 maps from the first convolutional layer. The three rows show the filters for the red, green and blue channel respectively. (\subref{fig:gtsrb-filters-2}) and (\subref{fig:gtsrb-filters-4}): First few filters for the first 25 maps of the second and third convolutional layers, respectively.}
 	\label{fig:gtsrb-filters}
 \end{figure}
 
@@ -248,7 +245,64 @@ To examine the influence of the choice of activation function, we trained the sa
 
 One can observe that this network accomplishes a considerably higher performance than the one with the original $\tanh$ activation function at certain points. The $\tanh$ network reaches its peak of $\approx 0.9774$\% accuracy after 14 epochs, while the RELU network peaks at $\approx 0.9803$ after 10 epochs. However, its behavior over the course of training is much more volatile. Epochs where the performance is superior to the $\tanh$ network are interspersed with drops below $\tanh$ performance. More trials would be neccessary to be sure, but it seems that a RELU activation behaves less predictable during training.
 
-% Misclassified images
+\subsection{Misclassified images}
+Useful insights may be gained by looking at the errors that a network makes. To this end, we considered the misclassified images in the test set and looked at the 3 most likely classes predicted by the network. The network with RELU activation has achieved the highest accuracy overall, but since its performance as proven unreliable, we visualized the errors made by the $\tanh$ network after 14 epochs with distorted input data.
+
+\begin{figure}
+	\centering
+	\begin{subfigure}{\textwidth}
+		\centering
+		\caption{}
+		\includegraphics[width=0.7\textwidth]{gtsrb_mistakes/mistake_fussgaenger.png}
+		\label{fig:gtsrb-mistakes-01}
+	\end{subfigure}
+	\begin{subfigure}{\textwidth}
+		\centering
+		\caption{}
+		\includegraphics[width=0.7\textwidth]{gtsrb_mistakes/mistake_vorfahrtstrasse.png}
+		\label{fig:gtsrb-mistakes-02}
+	\end{subfigure}
+	\begin{subfigure}{\textwidth}
+		\centering
+		\caption{}
+		\includegraphics[width=0.7\textwidth]{gtsrb_mistakes/mistake_gefahrenstelle.png}
+		\label{fig:gtsrb-mistakes-03}
+	\end{subfigure}
+	\begin{subfigure}{\textwidth}
+		\centering
+		\caption{}
+		\includegraphics[width=0.7\textwidth]{gtsrb_mistakes/mistake_kreisverkehr.png}
+		\label{fig:gtsrb-mistakes-04}
+	\end{subfigure}
+	\begin{subfigure}{\textwidth}
+		\centering
+		\caption{}
+		\includegraphics[width=0.7\textwidth]{gtsrb_mistakes/mistake_limit_unknown.png}
+		\label{fig:gtsrb-mistakes-05}
+	\end{subfigure}
+	\begin{subfigure}{\textwidth}
+		\centering
+		\caption{}
+		\includegraphics[width=0.7\textwidth]{gtsrb_mistakes/mistake_ueberholen_lkw.png}
+		\label{fig:gtsrb-mistakes-06}
+	\end{subfigure}
+	\begin{subfigure}{\textwidth}
+		\centering
+		\caption{}
+		\includegraphics[width=0.7\textwidth]{gtsrb_mistakes/mistake_limit_120.png}
+		\label{fig:gtsrb-mistakes-07}
+	\end{subfigure}
+	\caption{Selected misclassified images of the network with $\tanh$ activation and distorted input data after 14 epochs. Additionally, the 3 most likely candidates predicted by the network are shown together with their probabilities.}
+	\label{fig:gtsrb-mistakes}
+\end{figure}
+
+An accuracy of $0.9774$\% on a test set with 12630 images implies 285 misclassifications. Most of those instances come from a handful of traffic signs (since there are multiple images of each pyhsical sign). Hand-selected examples of these instances are shown in figure \ref{fig:gtsrb-mistakes}. Although the predicted probabilities can be quite high, they are significantly lower than the predicted probabilities for correctly classified images, which are usually above $95$\%.
+
+Some of the errors seem quite avoidable. For instance, a human could easily classify \ref{fig:gtsrb-mistakes-01} and \ref{fig:gtsrb-mistakes-02}. While the network sticks to triangular traffic signs for \ref{fig:gtsrb-mistakes-01}, it is willing to predict round signs for the rectangular input in \ref{fig:gtsrb-mistakes-01}. In this example, it is also clear that the color of the sign is not crucial for the prediction, as red and blue signs are predicted while the input contains a yellow region.
+
+Other possible causes for misclassification are depicted in \ref{fig:gtsrb-mistakes-03} and \ref{fig:gtsrb-mistakes-04}. Here, shape and color of the predictions match those of the input. The error can be attributed to occlusion occuring on the input, but in both cases a human would stand a reasonable chance to identify the traffic sign.
+
+Figures \ref{fig:gtsrb-mistakes-05} and \ref{fig:gtsrb-mistakes-06} show cases that are somewhat hopeless. Although the former appears to be a speed limit sign and the latter is similar to prediction 2, one can not really be certain by just inspecting the image. A last notable example is \ref{fig:gtsrb-mistakes-07}. Here we see a strongly tilted speed limit sign. It is understandable that this complicates the task, although the distortions applied during training should have induced a slight rotation invariance. It would be interesting to see whether stronger training data distortions would prevent misclassifications like these.
 
 \section{Filter reuse}
 
