@@ -226,6 +226,8 @@ The filters on the higher layers are not so easy to reason about. They have less
 \end{figure}
 
 \subsection{Input distortions}
+\label{subsec:inputdistortions}
+
 An additional technique used in \cite{multi-column-neural-network-gtsrb} is the distortion of input data. In order to help the network generalize better from the given training set, slight distortions were applied to each input image between epochs. These distortions comprise rotation, scaling and translation. The details are found in section \ref{sec:implementation-distortions}.
 
 As one can see in figure \ref{fig:gtsrb-results}, this significantly boosted the performance. After 14 epochs, the network that was trained on the distorted images achieved a success rate about $1.1$\% higher, with an accuracy of $\approx 0.9774$\%. Overall, the curve is a bit more volatile than the one without distortions. This might indicate that the distortions influence the network quite strongly and weaker transformation parameters may lead to steadier learning, but more training rounds would be neccessary to be certain of this.
@@ -242,7 +244,7 @@ The layers in \cite{multi-column-neural-network-gtsrb} used a $\tanh$ activation
 	\label{fig:relu}
 \end{figure}
 
-To examine the influence of the choice of activation function, we trained the same network from table \ref{tab:network-layout} from the ground up. The only difference to the old network was the usage of the RELU activation function instead of $\tanh$. Since distortions proved effective, they were again used in this training run. The accuracy over 14 epochs is shown in figure \ref{fig:gtsrb-results}.
+To examine the influence of the choice of activation function, we trained the same network from table \ref{tab:network-layout} from the ground up. The only difference to the old network was the usage of the RELU activation function instead of $\tanh$. Since distortions proved effective, they were again used in this training run. The accuracy over 14 epochs is shown in \text{figure \ref{fig:gtsrb-results}}.
 
 One can observe that this network accomplishes a considerably higher performance than the one with the original $\tanh$ activation function at certain points. The $\tanh$ network reaches its peak of $\approx 0.9774$\% accuracy after 14 epochs, while the RELU network peaks at $\approx 0.9803$ after 10 epochs. However, its behavior over the course of training is much more volatile. Epochs where the performance is superior to the $\tanh$ network are interspersed with drops below $\tanh$ performance. More trials would be neccessary to be sure, but it seems that a RELU activation behaves less predictable during training.
 
@@ -378,17 +380,26 @@ Hence, we find one more time, that it is possible to construct a CNN for such a 
 
 \subsubsection{Original filters}
 
-After having shown that the GTSRB filters work well on the INRIA dataset, we trained another CNN on this dataset without copying any weights. All weights were randomly initialized and then trained for 17 epochs, yielding the results presented by the curve "Original INRIA filters" in \text{figure \ref{fig:inria_results}} and the column "Original filters" in table \ref{tab:inria-results}.\\
+After having found that the GTSRB filters work well on the INRIA dataset, we trained another CNN on this dataset without copying any weights. All weights were randomly initialized and then trained for 17 epochs, yielding the results presented by the curve "Original INRIA filters" in \text{figure \ref{fig:inria_results}} and the column "Original filters" in table \ref{tab:inria-results}.\\
 As already observed for the original COIL100 filters, also the results for the original INRIA filters are dominated by the results obtained by using the GTSRB filters on the INRIA dataset. Epoch 15 is the first epoch, which shows a better result for the original filters (99.64\%) than for the GTSRB filters (99.28\%).\\
-With regard to the training time, which is required to train the networks of the two different approaches (copying or not copying the GTSRB weights), it can be stated that it demands much more time to train the network, which trains all weights of all layers. It takes over 2000 seconds to train the network including the convolutional filters and a little less than 120 seconds to train the network, which instead relies on the GTSRB filters. This is (as it was for the COIL100 networks) a factor of around 17. So it does not pay off to train a complete network without reused weights in order to yield better results. Quite the contrary, better results in the beginning and approximately equally good results after a certain amount of epochs are obtained in a less expensive way with regards to the training time by reverting to previously trained weights.
+With regard to the training time, which is required to train the networks of the two different approaches (copying or not copying the GTSRB weights), it can be stated that it demands much more time to train the network, which trains all weights of all layers. It takes over 2000 seconds to train the network including the convolutional filters and a little less than 120 seconds to train the network, which instead relies on the GTSRB filters. This is (as it was for the COIL100 networks) a factor of around 17. So it does not pay off to train a complete network without reused weights in order to yield better results. Quite the contrary, better results in the beginning and approximately equally good results after a certain amount of epochs are obtained in a less expensive way with regards to the training time by reverting to previously trained weights.\\
+For the COIL100 original filters we found that they were not well-structured and comprised a lot noise. The original INRIA filters, on the other hand, reveal a structure as easily interpretable as the GTSRB filters. \text{Figure \ref{fig:gtsrb_vs_inria_filters}} opposes the GTSRB filters to the original INRIA filters, demonstrating that there is no perceivable qualitative difference between the two filter sets. The filters of both networks should work well as edge and corner detectors and should be largly interchangeable (training a CNN with the original INRIA filters on the COIL100 dataset yielded a result of 99.79\% on the test dataset after 10 epochs). Since one epoch takes around 10 hours for the GTSRB network and only around half an hour for the INRIA network, this is a relevant finding.
+%TODO ADD RESULTS
 
 
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=1\textwidth]{gtsrb_vs_inria_filters.png}
 	\caption{Filters of the first 25 maps from the input layer to the second layer. The upper filters are taken from the GTSRB CNN after 12 epochs of training, the lower filters are taken from the INRIA CNN after 17 epochs of training.}
-	\label{fig:gtsrb_vs_inira_filters}
+	\label{fig:gtsrb_vs_inria_filters}
 \end{figure}
+
+As expected before training the original filters, the filters in one filter triplet for the 3 color channels are very similar to each other and differ only in rare cases. This observation reaffirms the expectation that the filters work mostly color independent and put much more confidence in the geometrical shape of the images.\\
+Finally it can be stated that not only the training on the GTSRB dataset but also the training on the INRIA dataset produces reasonable filters, which can actually be reused in other networks to solve other classifcation tasks.
+
+
+\section{Conclusion}
+
 
 \begin{appendix}
 	\section{Implementation}
@@ -397,6 +408,7 @@ With regard to the training time, which is required to train the networks of the
 	
 	\subsection{Distortions}
 	% TODO be precise about the input being distorted before the first epoch.
+	As already hinted at in chapter \ref{subsec:inputdistortions} 	
 	
 	\label{sec:implementation-distortions}
 	\section{Visualization}
