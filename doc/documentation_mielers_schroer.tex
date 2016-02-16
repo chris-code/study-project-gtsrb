@@ -107,7 +107,7 @@
     \vspace{3cm}
     \normalsize
     Study Project Report \\
-    in the Master Program of \textcolor{AI-BLUE}{[Applied Computerscience]}\\
+    in the Master Program of \textcolor{AI-BLUE}{[Applied Computer Science]}\\
     at the Ruhr-University Bochum\\
     in the Winter Term 2015/16\\
     \vspace{4cm}
@@ -138,7 +138,7 @@ To reduce the amount of data passed through the network, pooling layers that com
 Since images typically contain a lot of spatial structure, they are well suited for processing by such a CNN. To study and evaluate the properties of CNNs, we considered a network layout described in \cite{multi-column-neural-network-gtsrb}. Multiple networks which consist of three pairs of convolutional and pooling layers followed up with two fully connected layers were combined into a committee to solve the GTSRB challenge described in \cite{gtsrb}. We used the layout of one such network on the GTSRB dataset and two other datasets and measured the resulting accuracy. The filters on the various convolutional layers were visualized. We also transfered the filters learned on the GTSRB dataset to the other datasets and only trained the fully connected layers to evaluate how well the filters generalize.
 
 \section{Network details}
-The network layout we used is described in \cite{multi-column-neural-network-gtsrb} and summarized in table \ref{tab:network-layout}. It starts with a succession of 3 pairs of convolutional and max-pooling layers, where the number of filters increases with the depth of the network. The convolutions are executed such the output only consists of points for which all neccessary input values are available, and the max-pooling layers use non-overlapping regions to pool from. The convolutional-max-pooling pairs are followed by two fully connected layers, the latter of which has as many neurons as there are classes in the GTSRB dataset, suitable for one-hot encoding of class membership. Together with the notion that the first layer expects a 3-channel (RGB) image of size $48\times48$, the input and output sizes on all layers are determined.
+The network layout we used is described in \cite{multi-column-neural-network-gtsrb} and summarized in table \ref{tab:network-layout}. It starts with a succession of 3 pairs of convolutional and max-pooling layers, where the number of filters increases with the depth of the network. The convolutions are executed such the output only consists of points for which all necessary input values are available, and the max-pooling layers use non-overlapping regions to pool from. The convolutional-max-pooling pairs are followed by two fully connected layers, the latter of which has as many neurons as there are classes in the GTSRB dataset, suitable for one-hot encoding of class membership. Together with the notion that the first layer expects a 3-channel (RGB) image of size $48\times48$, the input and output sizes on all layers are determined.
 
 \begin{table}[h!!!]
 	\begin{tabular}{clll}
@@ -159,10 +159,10 @@ The network layout we used is described in \cite{multi-column-neural-network-gts
 
 For all layers except the last one (and the max-pooling layers), a $\tanh$ activation function is used. The last layer uses a softmax activation to allow the interpretation of the output as class probabilities. All weights were uniformly initialized.
 
-Training was performed by using stochastic gradient descent with an initial learning rate of $0.1$ and a decay of $1.0\times10^{-6}$ on the training data which was split into batches of $16$ images each. No momentum mechanism was used. The loss function optimized by the gradient descent was categorical crossentropy.
+Training was performed by using stochastic gradient descent with an initial learning rate of $0.1$ and a decay of $1.0\times10^{-6}$ on the training data which was split into batches of $16$ images each. No momentum mechanism was used. The loss function optimized by the gradient descent was categorical cross entropy.
 
 \section{Experiments with GTSRB}
-The GTSRB dataset described in \cite{gtsrb} is a collection of trafic sign images and contains $39209$ images in a training set and $12630$ images in a test set. In total, there are $43$ classes. The images were taken while driving through German streets and cropped to only contain the traffic sign and some boundary around it. For each physical traffic sign there are many images, that vary in distance, angle and occlusion since they were taken while the car was passing them. For each image, annotations exist that locate the bounding box of the traffic sign. To generate fixed-size images for our network, we extracted only that part given by the bounding box and rescaled it to $48\times48$ pixels. As an additional preprocessing step, contrast normalization was applied to reduce the considerable illumination differences present in the images.
+The GTSRB dataset described in \cite{gtsrb} is a collection of traffic sign images and contains $39209$ images in a training set and $12630$ images in a test set. In total, there are $43$ classes. The images were taken while driving through German streets and cropped to only contain the traffic sign and some boundary around it. For each physical traffic sign there are many images, that vary in distance, angle and occlusion since they were taken while the car was passing them. For each image, annotations exist that locate the bounding box of the traffic sign. To generate fixed-size images for our network, we extracted only that part given by the bounding box and rescaled it to $48\times48$ pixels. As an additional preprocessing step, contrast normalization was applied to reduce the considerable illumination differences present in the images.
 
 \subsection{Simple setup}
 \label{subsec:simplesetup}
@@ -191,7 +191,7 @@ A network was trained on all images of the training set for $14$ epochs. On 4 \e
 		14 & 0.9660 & 0.9774 & 0.9695 \\
 		\hline
 	\end{tabular}
-	\caption{Results of 3 network and training variants on the GTSRB test dataset. A network with a $\tanh$ activation function was trained on the data with and without distortions. Additionally, a network with the relu activation function was trained on the continually distorted data.}
+	\caption{Results of 3 network and training variants on the GTSRB test dataset. A network with a $\tanh$ activation function was trained on the data with and without distortions. Additionally, a network with the RELU activation function was trained on the continually distorted data.}
 	\label{fig:gtsrb-results}
 \end{figure}
 
@@ -227,7 +227,7 @@ The filters on the higher layers are not so easy to reason about. They have less
 
 An additional technique used in \cite{multi-column-neural-network-gtsrb} is the distortion of input data. In order to help the network generalize better from the given training set, slight distortions were applied to each input image between epochs. These distortions comprise rotation, scaling and translation. The details are found in section \ref{sec:implementation-distortions}.
 
-As one can see in figure \ref{fig:gtsrb-results}, this significantly boosted the performance. After 14 epochs, the network that was trained on the distorted images achieved a success rate about $1.1$\% higher, with an accuracy of $\approx 0.9774$\%. Overall, the curve is a bit more volatile than the one without distortions. This might indicate that the distortions influence the network quite strongly and weaker transformation parameters may lead to steadier learning, but more training rounds would be neccessary to be certain of this.
+As one can see in figure \ref{fig:gtsrb-results}, this significantly boosted the performance. After 14 epochs, the network that was trained on the distorted images achieved a success rate about $1.1$\% higher, with an accuracy of $\approx 0.9774$\%. Overall, the curve is a bit more volatile than the one without distortions. This might indicate that the distortions influence the network quite strongly and weaker transformation parameters may lead to steadier learning, but more training rounds would be necessary to be certain of this.
 
 Visual inspection of the convolutional filters shows that they are not qualitatively different from those in \ref{fig:gtsrb-filters}. As before, the first layer exhibits a visible spatial structure with regions of high and low values. Their shape suggests their role as edge and corner detectors. Again, the filters for all 3 channels share their general appearance, suggesting mostly color independence. On the other convolutional layers, the possibility of visual interpretation is small, just as before.
 
@@ -243,7 +243,7 @@ The layers in \cite{multi-column-neural-network-gtsrb} used a $\tanh$ activation
 
 To examine the influence of the choice of activation function, we trained the same network from table \ref{tab:network-layout} from the ground up. The only difference to the old network was the usage of the RELU activation function instead of $\tanh$. Since distortions proved effective, they were again used in this training run. The accuracy over 14 epochs is shown in \text{figure \ref{fig:gtsrb-results}}.
 
-One can observe that, at certain points, this network accomplishes a considerably higher performance than the one with the original $\tanh$ activation function. The $\tanh$ network reaches its peak of $\approx 0.9774$\% accuracy after 14 epochs, while the RELU network peaks at $\approx 0.9803$ after 10 epochs. However, its behavior over the course of training is much more volatile. Epochs where the performance is superior to the $\tanh$ network are interspersed with drops below $\tanh$ performance. More trials would be neccessary to be sure, but it seems that a RELU activation behaves less predictable during training.
+One can observe that, at certain points, this network accomplishes a considerably higher performance than the one with the original $\tanh$ activation function. The $\tanh$ network reaches its peak of $\approx 0.9774$\% accuracy after 14 epochs, while the RELU network peaks at $\approx 0.9803$ after 10 epochs. However, its behavior over the course of training is much more volatile. Epochs where the performance is superior to the $\tanh$ network are interspersed with drops below $\tanh$ performance. More trials would be necessary to be sure, but it seems that a RELU activation behaves less predictable during training.
 
 \subsection{Misclassified images}
 Useful insights may be gained by looking at the errors that a network makes. To this end, we considered the misclassified images in the test set and looked at the 3 most likely classes predicted by the network. The network with RELU activation has achieved the highest accuracy overall, but since its performance as proven unreliable, we visualized the errors made by the $\tanh$ network after 14 epochs with distorted input data.
@@ -296,17 +296,17 @@ Useful insights may be gained by looking at the errors that a network makes. To 
 	\label{fig:gtsrb-mistakes}
 \end{figure}
 
-An accuracy of $\approx 0.9774$\% on a test set with 12630 images implies 285 misclassifications. Most of those instances come from a handful of traffic signs (since there are multiple images of each pyhsical sign). Hand-selected examples of these instances are shown in figure \ref{fig:gtsrb-mistakes}. Although the predicted probabilities can be quite high, they are significantly lower than the predicted probabilities for correctly classified images, which are usually above $95$\%.
+An accuracy of $\approx 0.9774$\% on a test set with 12630 images implies 285 misclassifications. Most of those instances come from a handful of traffic signs (since there are multiple images of each physical sign). Hand-selected examples of these instances are shown in figure \ref{fig:gtsrb-mistakes}. Although the predicted probabilities can be quite high, they are significantly lower than the predicted probabilities for correctly classified images, which are usually above $95$\%.
 
 Some of the errors seem quite avoidable. For instance, a human could easily classify \ref{fig:gtsrb-mistakes-01} and \ref{fig:gtsrb-mistakes-02}. While the network sticks to triangular traffic signs for \ref{fig:gtsrb-mistakes-01}, it is willing to predict round signs for the rectangular input in \ref{fig:gtsrb-mistakes-01}. In this example, it is also clear that the color of the sign is not crucial for the prediction, as red and blue signs are predicted while the input contains a yellow region.
 
-Other possible causes for misclassification are depicted in \ref{fig:gtsrb-mistakes-03} and \ref{fig:gtsrb-mistakes-04}. Here, shape and color of the predictions match those of the input. The error can be attributed to occlusion occuring on the input, but in both cases a human would stand a reasonable chance to identify the traffic sign.
+Other possible causes for misclassification are depicted in \ref{fig:gtsrb-mistakes-03} and \ref{fig:gtsrb-mistakes-04}. Here, shape and color of the predictions match those of the input. The error can be attributed to occlusion occurring on the input, but in both cases a human would stand a reasonable chance to identify the traffic sign.
 
 Figures \ref{fig:gtsrb-mistakes-05} and \ref{fig:gtsrb-mistakes-06} show cases that are somewhat hopeless. Although the former appears to be a speed limit sign and the latter is similar to prediction 2, one can not really be certain by just inspecting the image. A last notable example is \ref{fig:gtsrb-mistakes-07}. Here we see a strongly tilted speed limit sign. It is understandable that this complicates the task, although the distortions applied during training should have induced a slight rotation invariance. It would be interesting to see whether stronger training data distortions would prevent misclassifications like these.
 
 \section{Filter reuse}
 
-In order to examine how well the convolution filters trained on the GTSRB dataset generalize, we also used filters trained by a GTSRB network with distortions and tanh activation function on other datasets. After 12 epochs of training on the GTSRB dataset, we copied the weights of the convolutional layers to another CNN and trained only the randomly initialized weights of fully-connected layers in the new network. Thus, the weights of the convolutional layers, i.e. the filters, remained unchanged. To evaluate how well this approch works in terms of training time and classification results, we also trained the weights of all layers completely from scratch on these other datasets and compared the results. Those filters trained from the ground up will be called \textit{original} filters in the following considerations, since they are original to this very classification task and classifier.
+In order to examine how well the convolution filters trained on the GTSRB dataset generalize, we also used filters trained by a GTSRB network with distortions and tanh activation function on other datasets. After 12 epochs of training on the GTSRB dataset, we copied the weights of the convolutional layers to another CNN and trained only the randomly initialized weights of fully-connected layers in the new network. Thus, the weights of the convolutional layers, i.e. the filters, remained unchanged. To evaluate how well this approach works in terms of training time and classification results, we also trained the weights of all layers completely from scratch on these other datasets and compared the results. Those filters trained from the ground up will be called \textit{original} filters in the following considerations, since they are original to this very classification task and classifier.
 
 \subsection{COIL100 dataset}
 
@@ -317,13 +317,13 @@ The first dataset we used is the COIL100 (Columbia Object Image Library 100) dat
 	\caption{A subset of 20 objects taken from the COIL100 dataset.}
 	\label{fig:coil100_objects}
 \end{figure}
-In order to be able to present the learning algorithm many different views on one single object, the camera took a photo of the rotating object, each time it has turned by 5 degrees, yielding 72 images per object and 7200 images in total. Since the creators of the dataset do not provide or suggest any established separation into training and test data, we split the set ouselves, randomly dividing the 72 images of each object into 58 training images and 14 test images, resulting in 5800 training and 1400 test images.
+In order to be able to present the learning algorithm many different views on one single object, the camera took a photo of the rotating object, each time it has turned by 5 degrees, yielding 72 images per object and 7200 images in total. Since the creators of the dataset do not provide or suggest any established separation into training and test data, we split the set ourselves, randomly dividing the 72 images of each object into 58 training images and 14 test images, resulting in 5800 training and 1400 test images.
 
 Since the provided images are already cropped close to the object borders, unlike those of the GTSRB dataset, no additional cropping was performed. However, we had to rescale the images to a size of $48 \times 48$ pixels to fit the structure of the adopted GTSRB CNN; otherwise we would not have been able to reuse the filters trained on the GTSRB network, because their sizes would not match those of the filters of the COIL100 network. Since we found that distorting the images before each training epoch improved the results on the GTSRB dataset, we applied the distortions also to the images of the COIL100 dataset.
 
 \subsubsection{Results with reused GTSRB filters}
 
-The curve "Reused GTSRB filters" in figure \ref{fig:coil100_results} illustrates the results on the test set, which we achieved by keeping the weights of the convolutional layers unchanged and training only the randomly initialized weights of the fully connected layers. The column "GTSRB filters" in table \ref{tab:coil-results} provides the exact numbers rounded to the fourth decimal place. We observe that the accuracy increases monotonically until the eighth epoch, where we obtained a result of 100\%. The subsequent slight decrease of the recognition rate can be explained by the randomness of the distortions that are applied before each epoch. Howsoever, the accuracy does not decrease by a large amount (an accuracy of 99.93\% indicates one misclassfied image, 99.79\% indcate three misclassified images) and stabilizes again at 100\% after 14 epochs. Training one epoch takes about 5 minutes on the given hardware configuration. Thus, it is possible to construct a reliable classifier for this task in a short time interval by reusing pre-trained filters from another network.%TODO Add information about zappa02 processor ecc.
+The curve "Reused GTSRB filters" in figure \ref{fig:coil100_results} illustrates the results on the test set, which we achieved by keeping the weights of the convolutional layers unchanged and training only the randomly initialized weights of the fully connected layers. The column "GTSRB filters" in table \ref{tab:coil-results} provides the exact numbers rounded to the fourth decimal place. We observe that the accuracy increases monotonically until the eighth epoch, where we obtained a result of 100\%. The subsequent slight decrease of the recognition rate can be explained by the randomness of the distortions that are applied before each epoch. Howsoever, the accuracy does not decrease by a large amount (an accuracy of 99.93\% indicates one misclassified image, 99.79\% indicate three misclassified images) and stabilizes again at 100\% after 14 epochs. Training one epoch takes about 5 minutes on a compute server with 2 \emph{Intel Xeon X5450} and 48GB RAM. Thus, it is possible to construct a reliable classifier for this task in a short time interval by reusing pre-trained filters from another network.
 
 \begin{figure}[h!]
 	\centering
@@ -364,7 +364,7 @@ In addition to the trial with the reused filters, we set up a network with the s
 
 A clear disadvantage of training original filters is the extensive training time of approximately 90 minutes per epoch. This is the time needed to train only the weights of the fully connected layers for one epoch multiplied by a factor of about 17.
 
-In chapter \ref{subsec:simplesetup} we pointed out that the filters of the first convolutional layer of the \text{GTSRB} network exhibit a clear spatial structure, which led us to the assumption that those filters may be sufficiently generalized to provide solid results on other datasets, too. The good results achieved by using the GTSRB filters on the COIL100 dataset seem to confirm this assumption. The comparison between the filters of the first convolutional layer of the GTSRB network and the corresponding filters in the COIL100 network presented in \text{figure \ref{fig:gtsrb_vs_coil_filters}}, however, reveals that one cannot assume a good generalization behaviour for the COIL100 filters. In spite of the fact that there are some filters (e.g. those in the 5th and 17th column), which bear resemblance to the GTSRB filters, the overall structure appears much more noisy and less meaningful. This leads to the conclusion that the COIL100 network is overfitted to this very problem and does not extract meaningful features, which could be used for other classification tasks on different datasets. These findings do not necessarily exclude the possibility that a reasonable set of filters can be constructed by training a CNN on the COIL100 dataset. It is probable that the network used in this experiment is just too oversized for a rather easy problem like the classification task on the COIL100 dataset. In a further study one could train a CNN with a more appropriate size on the COIL100 dataset. Such a network could potentially vary in more aspects than just the size.
+In chapter \ref{subsec:simplesetup} we pointed out that the filters of the first convolutional layer of the \text{GTSRB} network exhibit a clear spatial structure, which led us to the assumption that those filters may be sufficiently generalized to provide solid results on other datasets, too. The good results achieved by using the GTSRB filters on the COIL100 dataset seem to confirm this assumption. The comparison between the filters of the first convolutional layer of the GTSRB network and the corresponding filters in the COIL100 network presented in \text{figure \ref{fig:gtsrb_vs_coil_filters}}, however, reveals that one cannot assume a good generalization behavior for the COIL100 filters. In spite of the fact that there are some filters (e.g. those in the 5th and 17th column), which bear resemblance to the GTSRB filters, the overall structure appears much more noisy and less meaningful. This leads to the conclusion that the COIL100 network is over-fitted to this very problem and does not extract meaningful features, which could be used for other classification tasks on different datasets. These findings do not necessarily exclude the possibility that a reasonable set of filters can be constructed by training a CNN on the COIL100 dataset. It is probable that the network used in this experiment is just too oversized for a rather easy problem like the classification task on the COIL100 dataset. In a further study one could train a CNN with a more appropriate size on the COIL100 dataset. Such a network could potentially vary in more aspects than just the size.
 
 In contrast to the GTSRB filters, which exhibit a very similar filter structure for all three color channels, the original filters appear to be more color dependent. Although we do find some filter triples, which show areas of large values and of small values at virtually identical positions, there are also many filters with quite diverse patterns for the different channels (e.g. those in column 14). Given that the COIL100 objects cover a wide range of colors, it seems logical to base the classification decision partially on the available color information.
 
@@ -380,7 +380,7 @@ In contrast to the GTSRB filters, which exhibit a very similar filter structure 
 \subsection{INRIA dataset}
 \label{subsec:inria}
 
-After achieving excellent results with the GTSRB filters on the COIL100 dataset, we tried to get similar results on a possibly more difficult dataset in order to reduce the probability of having achieved our results only owing to favourable circumstances like noise or a too simple problem. The dataset we chose is the Head Pose Image Database \cite{estimating-face-orientation-inria} from the French Institute for Research in Computer Science and Automation (INRIA). The dataset consists of 15 persons, 2 series per person and 93 JPEG-images per series. In each series the depicted person changes its head posture gradually. Often one of the two series shows the person with a certain feature like glasses, while the other series does not. Since there is no fixed separation into training and test data given, we randomly splitted the 186 images per person into 149 training and 37 test images, ignoring to which series an image belongs. Figure \ref{fig:inria_different_angles} presents a subset of images taken from one series for one person.\\
+After achieving excellent results with the GTSRB filters on the COIL100 dataset, we tried to get similar results on a possibly more difficult dataset in order to reduce the probability of having achieved our results only owing to favorable circumstances like noise or a too simple problem. The dataset we chose is the Head Pose Image Database \cite{estimating-face-orientation-inria} from the French Institute for Research in Computer Science and Automation (INRIA). The dataset consists of 15 persons, 2 series per person and 93 JPEG images per series. In each series the depicted person changes its head posture gradually. Often one of the two series shows the person with a certain feature like glasses, while the other series does not. Since there is no fixed separation into training and test data given, we randomly splitted the 186 images per person into 149 training and 37 test images, ignoring to which series an image belongs. Figure \ref{fig:inria_different_angles} presents a subset of images taken from one series for one person.\\
 
 \begin{figure}[h!]
 	\centering
@@ -391,12 +391,11 @@ After achieving excellent results with the GTSRB filters on the COIL100 dataset,
 
 The problem appears to be harder than the COIL100 problem, because the persons in the INRIA dataset are more similar to each other than the objects in the COIL100 dataset. For instance, the persons are not easily distinguishable by color, given that all persons have a similar hair color and skin tone. Hence, the network will most likely not assemble filters for the first layer that differ a lot between the three color channels.
 
-Even if the images of this dataset have a larger margin than the images of the GTSRB and COIL100 datasets, we did not define a bounding box to crop off the probably unneccessary information from the images. Nonetheless we achieved acceptable results.
+Even if the images of this dataset have a larger margin than the images of the GTSRB and COIL100 datasets, we did not define a bounding box to crop off the probably unnecessary information from the images. Nonetheless we achieved acceptable results.
 
-%TODO use same naming scheme for chapters 4.1 and 4.2
-\subsubsection{Reused GTSRB filters}
+\subsubsection{Results with reused GTSRB filters}
 
-The curve "Reused GTSRB filters" in figure \ref{fig:inria_results} and the column "GTSRB Filters" in table \ref{tab:inria-results} illustrate the test results of a CNN trained on the INRIA dataset. As we did for the COIL100 dataset, we used the weights of the convolutional layers of the GTSRB network after a training time of 12 epochs. Again, the weights of the fully connected layers were initialized randomly and then trained until an adequate recogniton rate was obtained.
+The curve "Reused GTSRB filters" in figure \ref{fig:inria_results} and the column "GTSRB Filters" in table \ref{tab:inria-results} illustrate the test results of a CNN trained on the INRIA dataset. As we did for the COIL100 dataset, we used the weights of the convolutional layers of the GTSRB network after a training time of 12 epochs. Again, the weights of the fully connected layers were initialized randomly and then trained until an adequate recognition rate was obtained.
 
 \begin{figure}[h!]
 	\centering
@@ -444,9 +443,18 @@ A consequence of having only $186 \cdot 15 = 2790$ images in total and $(186 - 3
 	\label{tab:inria-results}
 \end{table}
 
+The only misclassified image produced by this network is shown in figure \ref{fig:inria-filter-reuse-mistake}. One can see that the person looking straight down might pose a difficult classification problem. Due to this, the network is much less certain about its prediction than 
+
+\begin{figure}[h!!!]
+	\centering
+	\includegraphics[width=0.9\textwidth]{images/inria_mistakes/mistake_looking_down.png}
+	\caption{Mistake on the INRIA test set made by the network that reuses the GTSRB filters. Additionally, the 3 most likely classes predicted by the network are shown together with their probabilities.}
+	\label{fig:inria-filter-reuse-mistake}
+\end{figure}
+
 Hence, we find one more time that it is possible to construct a CNN for such a classification problem in a comparatively short time interval by copying the apparently sufficiently generalized filters from another network trained on another dataset to a new network and then training only the fully-connected layers.
 
-\subsubsection{Original filters}
+\subsubsection{Results with original filters}
 
 After having found that the GTSRB filters work well on the INRIA dataset, we trained another CNN on this dataset without copying any weights. All weights were randomly initialized and then trained for 17 epochs, yielding the results presented by the curve "Original INRIA filters" in \text{figure \ref{fig:inria_results}} and the column "Original filters" in table \ref{tab:inria-results}.
 
@@ -467,7 +475,7 @@ For the COIL100 original filters we found that they were not well-structured and
 
 As expected before training the original filters, the filters in one filter triplet for the 3 color channels are very similar to each other and differ only in rare cases. This observation reaffirms the expectation that the filters work mostly color independent and put much more emphasis on the geometrical shape of the images.
 
-Finally it can be stated that not only the training on the GTSRB dataset but also the training on the INRIA dataset produces reasonable filters, which can actually be reused in other networks to solve other classifcation tasks.
+Finally it can be stated that not only the training on the GTSRB dataset but also the training on the INRIA dataset produces reasonable filters, which can actually be reused in other networks to solve other classification tasks.
 
 
 \section{Conclusion}
@@ -487,19 +495,19 @@ In order to examine the generalization properties of the GTSRB filters, the weig
 	\subsection{Neural Network}
 	For the technical realization of the network, we used the \emph{Keras} neural network library for the \emph{Python} programming language. Initially, we tried the \emph{Sharkonvnet} extension for the \emph{Shark} machine learning \emph{C++} library, but realized that it is far from finished. A next option was the \emph{Caffe} neural network \emph{C++} library. This seemed like a versatile and efficient option. However, for its network definitions it relies heavily on the \emph{Google Protobuf} protocol definition standard which would have required a large effort to familiarize with, infeasible given the time span available for a study project.
 	
-	To employ the extensive resources of the available compute servers, the \emph{OpenMP} multithreading support of \emph{Keras} was used. This allowed the use of all the machine's CPU cores. However, as \emph{OpenMP} is not the fastest way to do multithreading, it stands to reason that a different library like \emph{Caffe} could reduce the training time for one epoch even further.
+	To employ the extensive resources of the available compute servers, the \emph{OpenMP} multi-threading support of \emph{Keras} was used. This allowed the use of all the machine's CPU cores. However, as \emph{OpenMP} is not the fastest way to do multithreading, it stands to reason that a different library like \emph{Caffe} could reduce the training time for one epoch even further.
 	
 	\subsection{Distortions}
 	\label{sec:implementation-distortions}
 	As already hinted at in chapter \ref{subsec:inputdistortions}, all training images are distorted before each epoch (and therefore also before the very first epoch).
 	One should notice that the images are already rescaled to the size $a \times b$, which is defined in the layout file for the respective network, before the transformations are applied.\\
 	Firstly, the image is shifted horizontally by $x \sim \mathcal{U}(- 0.1 w, 0.1 w)$ pixels and vertically by $y \sim \mathcal{U}(- 0.1 h, 0.1 h)$ pixels with $w$ as width and $h$ as height of the image and $\mathcal{U}(\alpha,\beta)$ as uniform distribution on the interval $\closedInt{a}{b}$. In a second step, the image is rotated by $r \sim \mathcal{U}(-5, 5)$ degrees. As a third transformation a scaling by a factor $s \sim \mathcal{U}(0.9,1.1)$ is applied to the image.\\
-	After applying the distortions, the images are recropped to the correct size. If the image is larger than required, the cropping frame is centered in the middle of the image and the borders are dismissed. If the image is smaller than required, pixels are added to all four sides of the image. Those pixels are filled with the gray value of the closest pixel of the original image after the transformation.\\
+	After applying the distortions, the images are re-cropped to the correct size. If the image is larger than required, the cropping frame is centered in the middle of the image and the borders are dismissed. If the image is smaller than required, pixels are added to all four sides of the image. Those pixels are filled with the gray value of the closest pixel of the original image after the transformation.\\
 	Lastly it must be mentioned that the distorted images are dismissed after finishing one epoch, so that the distortions are always applied to the original images (scaled to the required size $a \times b$). Otherwise the images would be too distorted after a few epochs and further training would become impractical.
 	
 	\section{Visualization}
 	
-	In order to create an indication for the generalization behaviour of the filters, the filters of the convolutional layers were visualized graphically.
+	In order to create an indication for the generalization behavior of the filters, the filters of the convolutional layers were visualized graphically.
 	\begin{figure}[h!]
 		\centering
 		\includegraphics[width=1\textwidth]{weights_on_layer_0_horizontally_epoch_12_morph.png}
