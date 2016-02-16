@@ -232,7 +232,7 @@ As one can see in figure \ref{fig:gtsrb-results}, this significantly boosted the
 Visual inspection of the convolutional filters shows that they are not qualitatively different from those in \ref{fig:gtsrb-filters}. As before, the first layer exhibits a visible spatial structure with regions of high and low values. Their shape suggests their role as edge and corner detectors. Again, the filters for all 3 channels share their general appearance, suggesting mostly color independence. On the other convolutional layers, the possibility of visual interpretation is small, just as before.
 
 \subsection{RELU activation function}
-The layers in \cite{multi-column-neural-network-gtsrb} used a $\tanh$ activation function. For performance reasons the RELU activation function, as shown in figure \ref{fig:relu} is often used as a fast-to-compute alternative that yields good results.
+The layers in \cite{multi-column-neural-network-gtsrb} used a $\tanh$ activation function. For performance reasons the RELU (REctified Linear Unit) activation function, as shown in figure \ref{fig:relu} is often used as a fast-to-compute alternative that yields good results.
 
 \begin{figure}[h!!!]
 	\centering
@@ -480,7 +480,7 @@ A popular alternative to the $\tanh$ activation function is the unbounded, but e
 
 An examination of the misclassified test images and the network's predictions allowed some insight into possible error causes and the way the network processes data. In addition to images that are easy to correctly classify for a human, the network struggled with partially occluded traffic signs and images of such poor quality in terms of contrast and resolution that they would be difficult for humans as well.
 
-%TODO Add part about COIL100 and INRIA
+In order to examine the generalization properties of the GTSRB filters, the weights of the convolutional layers of the GTSRB network were copied to new randomly initialized CNNs, which were used to solve classification tasks on other datasets. By training only the weights of the fully connected layers of those networks, excellent results could be achieved for classification tasks on the COIL100 dataset and on the INRIA dataset. It turns out that during the first few training epochs the results of the GTSRB filters are superior to those, which were yielded by training filters completely from the ground up on the respective dataset (COIL100 or INRIA). Since all the weights of the filters in the convolutional layers do not need to be trained, a lot of time can be saved, such that sophisticated classifiers can be constructed in a short time interval.
 
 \begin{appendix}
 	\section{Implementation}
