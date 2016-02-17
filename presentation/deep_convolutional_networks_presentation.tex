@@ -1,0 +1,230 @@
+\documentclass[xcolor=dvipsnames,compress,handout]{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[ngerman,english]{babel}
+\usepackage{pgf}
+\usepackage{graphicx}
+\graphicspath{ {images/} }
+\usepackage[absolute,overlay]{textpos}
+\usepackage{xcolor}
+\usepackage{comment}
+\usepackage{algorithm2e}
+\usepackage{algorithmic}
+\usepackage{xpatch}
+\usepackage{tabularx}
+\usepackage[export]{adjustbox}
+\usepackage{tikz}
+\usepackage{pgffor}
+\usepackage{blindtext}
+
+% DESIGN
+\definecolor{RUBblue}{rgb}{0,0.21,0.38}
+\definecolor{AIblue}{rgb}{0,0.57,0.87}
+\definecolor{ItalianGreen}{rgb}{0,0.5725,0.2745}
+\definecolor{ItalianRed}{rgb}{0.8078,0.1686,0.2156}
+
+% DO NOT ASK WHAT HAPPENS HERE
+\useoutertheme[subsection=false]{miniframes}
+\usecolortheme{beaver}
+\beamertemplatenavigationsymbolsempty
+\setbeamertemplate{footline}{%
+    \begin{beamercolorbox}[wd=\paperwidth,ht=0ex,left]{default}
+        %\insertauthor\hfill\insertframenumber%
+        \colorbox{AIblue}{\vphantom{2cm}\hspace{14cm}}
+    \end{beamercolorbox}
+}
+\setbeamercolor{item}{fg=RUBblue}
+\setbeamercolor{title}{fg=Black}
+\setbeamercolor{frametitle}{fg=Black}
+\setbeamerfont{title}{size=\large}
+\setbeamertemplate{itemize items}[square]
+\setbeamercolor{section in head/foot}{bg=AIblue}
+\setbeamerfont{footline}{size=\fontsize{15}{12}\selectfont}
+
+
+\xpatchcmd{\itemize}
+  {\def\makelabel}
+  {\setlength{\itemsep}{0.2cm}\def\makelabel}{}{}
+
+ 
+\addtobeamertemplate{frametitle}{}{%
+\begin{textblock*}{100mm}(1.05\textwidth,0.535cm)
+\includegraphics[height=0.975cm,width=0.98cm]{logo-rub.png}
+\end{textblock*}}
+
+% COMMANDS
+\newcommand\NEWLINECOMMENT[1]{\STATE\STATE/* #1 */}
+\newcommand\Only[2]{\only<#1|handout:#1>{#2}}
+\newcommand\overlayImage[6]{
+	\only<#1|handout:#2>{
+		\begin{textblock*}{\textwidth}(#3cm,#4cm)
+			\frame{
+				\includegraphics[width=#5\textwidth]{#6}
+			}
+		\end{textblock*}
+	}
+}
+
+
+% TITLEPAGE
+\title{\textbf{Deep Convolutional Networks}}
+\author{Christian Andreas Mielers\\Phil Yannick Schrör}
+\institute{Ruhr-University Bochum\\Institute for Neural Computation\\Study Project}
+\date{24th of February 2016}
+ 
+\begin{document}
+\section{Welcome}
+\subsection{Welcome}
+\maketitle
+
+\section{Convolutional Neural Networks}
+\subsection{Convolutional Neural Networks}
+
+\frame[<+->]{
+	\frametitle{Convolutional Neural Networks}
+	\begin{itemize}
+		\item What is a Convolutional Neural Network?
+		\item Short description
+		\item Show an image
+	\end{itemize}
+}
+
+\section{GTSRB}
+\subsection{GTSRB}
+
+\frame[<+->]{
+	\frametitle{German Traffic Sign Recognition Benchmark}
+	\begin{itemize}
+		\item German Traffic Sign Recognition Benchmark
+		\item What is the task?
+		\item Show some images
+	\end{itemize}
+	%TODO Maybe create three different plots: the first one shows only the results of the simple setup, the second adds the ones with distortions and the third adds the results, which we achieved by using the RELU activation function
+}
+
+\frame[<+->]{
+	\frametitle{Network Structure}
+	\begin{textblock*}{1.1\textwidth}(0.5cm,2.9cm)
+		\footnotesize{
+			\begin{tabularx}{\textwidth}{cp{0.16\linewidth}p{0.4\linewidth}X}
+			\textbf{Layer} & \textbf{Type} & \textbf{Configuration} & \textbf{Activation function} \\
+			& & & \\
+			\hline
+			& & & \\
+			0 & Convolutional & 100 filters of size $7\times7$ per channel & $\tanh$ \\
+			1 & Max Pooling & Pool size $2\times2$ & - \\
+			2 & Convolutional & 150 filters of size $4\times4$ per channel & $\tanh$ \\
+			3 & Max Pooling & Pool size $2\times2$ & - \\
+			4 & Convolutional & 250 filters of size $4\times4$ per channel & $\tanh$ \\
+			5 & Max Pooling & Pool size $2\times2$ & - \\
+			6 & Dense & 300 neurons & $\tanh$ \\
+			7 & Dense & 43 neurons & softmax
+			\end{tabularx}
+		}
+		%TODO Add image of tanh function somewhere
+	\end{textblock*}
+}
+
+\frame[<+->]{
+	\frametitle{Simple Setup}
+	\begin{itemize}
+		\item Describe Simple Setup
+		\item Present Results
+	\end{itemize}
+}
+
+\begin{frame}
+	\frametitle{Results on GTSRB}
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.85\textwidth]{gtsrb_results.png}
+	\end{figure}
+\end{frame}
+
+\frame[<+->]{
+	\frametitle{Input Distortions}
+	\begin{itemize}
+		\item Mention input distortions
+		\item Explain them
+		\item Present distortion parameters
+		\item Maybe add one or two images before and after the transformations
+	\end{itemize}
+}
+
+\frame[<+->]{
+	\frametitle{Results with RELU}
+	\begin{itemize}
+		\item Add RELU image
+		\item Present results with RELU activation function
+	\end{itemize}
+}
+
+\frame[<+->]{
+	\frametitle{Missclassified images}
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.85\textwidth]{gtsrb_mistakes/mistake_fussgaenger.png}\\
+		\includegraphics[width=0.85\textwidth]{gtsrb_mistakes/mistake_vorfahrtstrasse.png}\\
+		\includegraphics[width=0.85\textwidth]{gtsrb_mistakes/mistake_gefahrenstelle.png}
+	\end{figure}
+	%TODO Maybe choose more significant images
+}
+
+\section{Filter Reuse}
+\subsection{Filter Reuse}
+
+\frame[<+->]{
+	\frametitle{Filter Reuse}
+	\begin{itemize}
+		\item Why Filter Reuse?
+		\item What did we do?
+	\end{itemize}
+}
+
+\frame[<+->]{
+	\frametitle{COIL100}
+	\begin{itemize}
+		\item Describe COIL100 dataset
+		\item Show image
+		\item Show results with reused filters
+		\item Show results with original filters
+	\end{itemize}
+}
+
+\frame[<+->]{
+	\frametitle{INRIA}
+	\begin{itemize}
+		\item Describe INRIA dataset
+		\item Show image
+		\item Show results with reused filters
+		\item Show results with original filters
+	\end{itemize}
+}
+
+\section{Conclusion}
+\subsection{Conclusion}
+
+\frame[<+->]{
+	\frametitle{Conclusion}
+	\begin{itemize}
+		\item Summarize results
+	\end{itemize}
+}
+
+\section{Questions?}
+\subsection{Questions?}
+
+\frame[<+->]{
+	\frametitle{Questions?}
+	\begin{figure}[h!]
+		\begin{textblock*}{\textwidth}(1.0cm,2.3cm)
+			Questions?\\
+			\vspace{0.3cm}
+			\frame{
+				\includegraphics[width=7cm]{fragen.png}
+			}
+		\end{textblock*}
+	\end{figure}
+}
+
+\end{document}
+
