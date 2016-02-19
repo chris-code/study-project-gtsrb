@@ -175,19 +175,31 @@
 \frame[<+->]{
 	\frametitle{Filter Reuse}
 	\begin{itemize}
-		\item Why Filter Reuse?
-		\item What did we do?
+		\item How well do the GTSRB filters generalize?
+		\item Initialize new network with same structure randomly
+		\item Copy GTSRB filters to the new network
+		\item Train only the fully connected layers!
 	\end{itemize}
 }
 
 \frame[<+->]{
 	\frametitle{COIL100}
-	\begin{itemize}
-		\item Describe COIL100 dataset
-		\item Show image
-		\item Show results with reused filters
-		\item Show results with original filters
-	\end{itemize}
+	\begin{textblock*}{1.1\textwidth}(0.5cm,1.6cm)
+		\begin{figure}
+			\centering
+			\includegraphics[width=\textwidth]{coil100.png}
+		\end{figure}
+	\end{textblock*}
+	\begin{textblock*}{1.1\textwidth}(0.5cm,4.6cm)
+		\begin{itemize}
+			\item Columbia Object Image Library 100 $\Rightarrow$ COIL100
+			\item 100 different objects
+			\item Objects turning on a black turntable
+			\item One foto each time the object has turned by $5^\circ$
+			\item 72 images per object, 7200 images in total
+			\item Random separation into 58 training and 14 test images per object
+		\end{itemize}
+	\end{textblock*}
 }
 
 \frame[<+->]{
