@@ -1,4 +1,5 @@
-\documentclass[xcolor=dvipsnames,compress,handout]{beamer}
+%\documentclass[xcolor=dvipsnames,compress,handout]{beamer}
+\documentclass[xcolor=dvipsnames,compress]{beamer}
 \usepackage[utf8]{inputenc}
 \usepackage[ngerman,english]{babel}
 \usepackage{pgf}
@@ -7,8 +8,8 @@
 \usepackage[absolute,overlay]{textpos}
 \usepackage{xcolor}
 \usepackage{comment}
-\usepackage{algorithm2e}
-\usepackage{algorithmic}
+%\usepackage{algorithm2e}
+%\usepackage{algorithmic}
 \usepackage{xpatch}
 \usepackage{tabularx}
 \usepackage[export]{adjustbox}
@@ -19,10 +20,9 @@
 % DESIGN
 \definecolor{RUBblue}{rgb}{0,0.21,0.38}
 \definecolor{AIblue}{rgb}{0,0.57,0.87}
-\definecolor{ItalianGreen}{rgb}{0,0.5725,0.2745}
-\definecolor{ItalianRed}{rgb}{0.8078,0.1686,0.2156}
 
 % DO NOT ASK WHAT HAPPENS HERE
+% Okay...
 \useoutertheme[subsection=false]{miniframes}
 \usecolortheme{beaver}
 \beamertemplatenavigationsymbolsempty
@@ -79,27 +79,26 @@
 \section{Convolutional Neural Networks}
 \subsection{Convolutional Neural Networks}
 
-\frame[<+->]{
+\frame{
 	\frametitle{Convolutional Neural Networks}
-	\begin{itemize}
-		\item What is a Convolutional Neural Network?
-		\item Short description
-		\item Show an image
-	\end{itemize}
+	\begin{columns}
+		\column{0.5\textwidth}
+			\begin{itemize}
+				\item Learns the weights of convolutional filters
+				\item Exploits spatial structure in the input
+				\item Convolving entire input with filter implies shared weights
+				\item Reduced amount of weights allows lots of filters
+				\item Filters specific to color channels
+			\end{itemize}
+		\column{0.5\textwidth}
+			\includegraphics<1>[width=\textwidth]{dense_layer}
+			\includegraphics<2>[width=\textwidth]{convolutional_layer}
+			\includegraphics<3>[width=\textwidth]{color_mapping}
+	\end{columns}
 }
 
 \section{GTSRB}
 \subsection{GTSRB}
-
-\frame[<+->]{
-	\frametitle{German Traffic Sign Recognition Benchmark}
-	\begin{itemize}
-		\item German Traffic Sign Recognition Benchmark
-		\item What is the task?
-		\item Show some images
-	\end{itemize}
-	%TODO Maybe create three different plots: the first one shows only the results of the simple setup, the second adds the ones with distortions and the third adds the results, which we achieved by using the RELU activation function
-}
 
 \frame[<+->]{
 	\frametitle{Network Structure}
@@ -122,6 +121,16 @@
 		}
 		%TODO Add image of tanh function somewhere
 	\end{textblock*}
+}
+
+\frame[<+->]{
+	\frametitle{German Traffic Sign Recognition Benchmark}
+	\begin{itemize}
+		\item German Traffic Sign Recognition Benchmark
+		\item What is the task?
+		\item Show some images
+	\end{itemize}
+	%TODO Maybe create three different plots: the first one shows only the results of the simple setup, the second adds the ones with distortions and the third adds the results, which we achieved by using the RELU activation function
 }
 
 \frame[<+->]{
