@@ -96,6 +96,7 @@
 			\includegraphics<3>[width=\textwidth]{color_mapping}
 	\end{columns}
 }
+%TODO pooling layers
 
 \frame{
 	\frametitle{Network Structure}
@@ -113,7 +114,7 @@
 			4 & Convolutional & 250 filters of size $4\times4$ per channel & $\tanh$ \\
 			5 & Max Pooling & Pool size $2\times2$ & - \\
 			6 & Dense & 300 neurons & $\tanh$ \\
-			7 & Dense & 43 neurons & softmax
+			7 & Dense & \#classes neurons & softmax
 			\end{tabularx}
 		}
 		%TODO Add image of tanh function somewhere
@@ -130,6 +131,7 @@
 			\begin{itemize}
 				\item Dataset of traffic signs taken while on the road
 				\item 39209 training and 12630 test images in 43 classes
+				\item Multiple images per sign
 				\item Images contain a 10\% border around the sign
 				\item Annotations provide precise sign locations
 					\begin{itemize}
@@ -155,20 +157,76 @@
 % TODO not finished yet, more like notes for myself
 \frame{
 	\frametitle{Simple Setup}
-	\begin{itemize}
-		\item Input size $48 \times 48$
-		\item Contrast normalization
-		\item Describe Simple Setup
-		\item Present Results
-	\end{itemize}
+	\begin{columns}
+		\column{0.5\textwidth}
+			\begin{itemize}
+				\item Input size $48 \times 48$
+				\item Contrast normalization
+				\item Gradient descent on batches of 16 images
+			\end{itemize}
+		\column{0.5\textwidth}
+			\centering
+			\includegraphics[width=0.4\textwidth]{gtsrb_00019_00004_00029}
+			
+			\includegraphics[width=0.4\textwidth]{gtsrb_00019_00004_00029_contr}
+	\end{columns}
 }
 
 \begin{frame}
 	\frametitle{Results on GTSRB}
-	\begin{figure}
-		\centering
-		\includegraphics[width=0.85\textwidth]{gtsrb_results.png}
-	\end{figure}
+	\begin{columns}
+		\column{0.4\textwidth}
+			\begin{itemize}
+				\item Levels off after 6 epochs
+				\item Peaks at $\approx 0.9660$ accuracy after 14 epochs
+			\end{itemize}
+		\column{0.6\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{gtsrb_results_1}
+	\end{columns}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Filter visualization}
+	
+	\only<1>{
+		\begin{figure}
+			\includegraphics[width=\textwidth]{filter_visualizations/gtsrb_nomorph_filters_0}
+			\caption{Filters on the first convolutional layer}
+		\end{figure}
+		
+		\begin{itemize}
+			\item Visible structure
+			\item Mostly edge and corner detectors
+			\item Similarity across color channels
+				\begin{itemize}
+					\item Indicates color independence
+				\end{itemize}
+		\end{itemize}
+	}
+	
+	\only<2>{
+		\begin{figure}
+			\includegraphics<2>[width=\textwidth]{filter_visualizations/gtsrb_nomorph_filters_2}
+			\caption{Filters on the second convolutional layer}
+		\end{figure}
+		
+		\begin{itemize}
+			\item Notably less structure
+			\item Might indicate higher specialization due to more filters
+		\end{itemize}
+	}
+	
+	\only<3>{
+		\begin{figure}
+			\includegraphics<3>[width=\textwidth]{filter_visualizations/gtsrb_nomorph_filters_4}
+			\caption{Filters on the third convolutional layer}
+		\end{figure}
+		
+		\begin{itemize}
+			\item No qualitative difference from second convolutional layer
+		\end{itemize}
+	}
 \end{frame}
 
 \frame{
@@ -272,78 +330,6 @@
 		\end{tabular}
 	\end{textblock*}
 }
-
-\frame{
-	\frametitle{COIL100 --- Original filters}
-	\begin{itemize}
-		\item Which advantages does this approach have?
-		\item We need data for a comparison
-		\item Train a new network conventionally on COIL100
-		\item Call the filters \emph{original}, which are created this way
-		\item Compare training time and results!
-	\end{itemize}
-}
-
-
-\frame{
-	\frametitle{COIL100 --- Original Filters Results}
-	\begin{textblock*}{1.1\textwidth}(0.3cm,1.1cm)
-		\begin{figure}
-			\centering
-			\includegraphics[width=1.02\textwidth]{coil100_results.png}
-		\end{figure}
-	\end{textblock*}
-	\begin{textblock*}{0.5\textwidth}(2.8cm,4.5cm)
-		\begin{itemize}
-			\item GTSRB filters dominate
-			\item Similar results in the end
-			\item Training time: $\sim$ 90m
-			\item How do the original filters look like?
-		\end{itemize}
-	\end{textblock*}
-	\begin{textblock*}{1.1\textwidth}(8.2cm,2.945cm)
-		\scriptsize
-		\begin{tabular}{|r|rr|}
-			\hline
-			Epoch & GTSRB & Original\\ \hline
-			1 & 0.9286 & 0.7693\\
-			2 & 0.9736 & 0.9107\\
-			3 & 0.9914 & 0.9643\\
-			4 & 0.9957 & 0.9593\\
-			5 & 0.9979 & 0.9971\\
-			6 & 0.9986 & 0.9850\\
-			7 & 0.9993 & 0.9921\\
-			8 & 1.0000 & 0.9950\\
-			9 & 0.9979 & 0.9964\\
-			10 & 1.0000 & 0.9957\\
-			11 & 0.9993 & 0.9971\\
-			12 & 0.9993 & 0.9964\\
-			13 & 0.9979 & 0.9986\\
-			14 & 1.0000 & 1.0000\\
-			15 & 1.0000 & 0.9971\\ \hline
-		\end{tabular}
-	\end{textblock*}
-}
-
-\frame{
-	\frametitle{COIL100 --- How do the original filters look like?}
-	\begin{textblock*}{1.1\textwidth}(0.3cm,1.3cm)
-		\begin{figure}
-			\centering
-			\includegraphics[width=1.03\textwidth]{gtsrb_vs_coil_filters.png}
-		\end{figure}
-	\end{textblock*}
-	\begin{textblock*}{1.2\textwidth}(-0.1cm,5.3cm)
-		\begin{itemize}
-			\item The spatial structure is not as distinctive as the one of the GTSRB filters
-			\item One cannot assume a good generalization behavior of the COIL100 filters
-			\item Maybe, the CNN is too oversized for the task
-			\item The original filters exhibit more differences between the color channels
-			\item Long training time, but probably overfitted filters
-		\end{itemize}
-	\end{textblock*}
-}
-
 
 \frame{
 	\frametitle{INRIA}
