@@ -97,10 +97,7 @@
 	\end{columns}
 }
 
-\section{GTSRB}
-\subsection{GTSRB}
-
-\frame[<+->]{
+\frame{
 	\frametitle{Network Structure}
 	\begin{textblock*}{1.1\textwidth}(0.5cm,2.9cm)
 		\footnotesize{
@@ -123,19 +120,44 @@
 	\end{textblock*}
 }
 
+\section{GTSRB}
+\subsection{GTSRB}
+
 \frame{
 	\frametitle{German Traffic Sign Recognition Benchmark}
-	\begin{itemize}
-		\item German Traffic Sign Recognition Benchmark
-		\item What is the task?
-		\item Show some images
-	\end{itemize}
+	\begin{columns}
+		\column{0.5\textwidth}
+			\begin{itemize}
+				\item Dataset of traffic signs taken while on the road
+				\item 39209 training and 12630 test images in 43 classes
+				\item Images contain a 10\% border around the sign
+				\item Annotations provide precise sign locations
+					\begin{itemize}
+						\item We cropped out just the sign
+					\end{itemize}
+			\end{itemize}
+		\column{0.5\textwidth}
+			\centering
+			\includegraphics<1>[width=0.4\textwidth]{gtsrb_00002_00029}
+			\includegraphics<2>[width=0.4\textwidth]{gtsrb_00002_00029_border}
+			
+			\includegraphics<1>[width=0.4\textwidth]{gtsrb_00013_00029}
+			\includegraphics<2>[width=0.4\textwidth]{gtsrb_00013_00029_border}
+			
+			\includegraphics<1>[width=0.4\textwidth]{gtsrb_00029_00029}
+			\includegraphics<2>[width=0.4\textwidth]{gtsrb_00029_00029_border}
+	\end{columns}
+	
 	%TODO Maybe create three different plots: the first one shows only the results of the simple setup, the second adds the ones with distortions and the third adds the results, which we achieved by using the RELU activation function
+	% Will do that
 }
 
+% TODO not finished yet, more like notes for myself
 \frame{
 	\frametitle{Simple Setup}
 	\begin{itemize}
+		\item Input size $48 \times 48$
+		\item Contrast normalization
 		\item Describe Simple Setup
 		\item Present Results
 	\end{itemize}
