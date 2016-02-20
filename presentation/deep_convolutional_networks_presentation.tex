@@ -215,18 +215,18 @@
 
 \frame{
 	\frametitle{COIL100}
-	\begin{textblock*}{1.1\textwidth}(0.5cm,1.6cm)
+	\begin{textblock*}{1.09\textwidth}(0.5cm,1.6cm)
 		\begin{figure}
 			\centering
 			\includegraphics[width=\textwidth]{coil100.png}
 		\end{figure}
 	\end{textblock*}
-	\begin{textblock*}{1.1\textwidth}(0.5cm,4.6cm)
+	\begin{textblock*}{1.1\textwidth}(0.5cm,4.55cm)
 		\begin{itemize}
 			\item Columbia Object Image Library 100 $\Rightarrow$ COIL100
 			\item 100 different objects
 			\item Objects turning on a black turntable
-			\item One foto each time the object has turned by $5^\circ$
+			\item One photo each time the object has turned by $5^\circ$
 			\item 72 images per object, 7200 images in total
 			\item Random separation into 58 training and 14 test images per object
 		\end{itemize}
@@ -234,6 +234,46 @@
 }
 
 \frame{
+	\frametitle{COIL100 --- GTSRB Filters Results}
+	\begin{textblock*}{1.1\textwidth}(0.3cm,1.1cm)
+		\begin{figure}
+			\centering
+			\includegraphics[width=1.02\textwidth]{coil100_results_gtsrb_only.png}
+		\end{figure}
+	\end{textblock*}
+	\begin{textblock*}{1.1\textwidth}(1.8cm,4.5cm)
+		\begin{itemize}
+			\item Monotonic increase until the 8th epoch
+			\item Random distortions $\Rightarrow$ Slight decreases
+			\item One epoch takes around 5 minutes
+			\item Good results in a short time
+		\end{itemize}
+	\end{textblock*}
+	\begin{textblock*}{1.1\textwidth}(9.4cm,2.93cm)
+		\scriptsize
+		\begin{tabular}{|r|r|}
+			\hline
+			Epoch & Accuracy\\ \hline
+			1 & 0.9286\\
+			2 & 0.9736\\
+			3 & 0.9914\\
+			4 & 0.9957\\
+			5 & 0.9979\\
+			6 & 0.9986\\
+			7 & 0.9993\\
+			8 & 1.0000\\
+			9 & 0.9979\\
+			10 & 1.0000\\
+			11 & 0.9993\\
+			12 & 0.9993\\
+			13 & 0.9979\\
+			14 & 1.0000\\
+			15 & 1.0000\\ \hline
+		\end{tabular}
+	\end{textblock*}
+}
+
+\frame[<+->]{
 	\frametitle{INRIA}
 	\begin{itemize}
 		\item Describe INRIA dataset
