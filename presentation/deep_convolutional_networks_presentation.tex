@@ -127,7 +127,7 @@
 \frame{
 	\frametitle{German Traffic Sign Recognition Benchmark}
 	\begin{columns}
-		\column{0.5\textwidth}
+		\column{0.54\textwidth}
 			\begin{itemize}
 				\item Dataset of traffic signs taken while on the road
 				\item 39209 training and 12630 test images in 43 classes
@@ -356,8 +356,8 @@
 			\item Very good results in a short time
 		\end{itemize}
 	\end{textblock*}
-	\begin{textblock*}{1.1\textwidth}(9.4cm,2.93cm)
-		\scriptsize
+	\begin{textblock*}{1.1\textwidth}(9.8cm,4.2cm)
+		\tiny
 		\begin{tabular}{|r|r|}
 			\hline
 			Epoch & Accuracy\\ \hline
@@ -400,16 +400,16 @@
 			\includegraphics[width=1.02\textwidth]{coil100_results.png}
 		\end{figure}
 	\end{textblock*}
-	\begin{textblock*}{0.5\textwidth}(2.8cm,4.5cm)
+	\begin{textblock*}{0.5\textwidth}(3.1cm,4.5cm)
 		\begin{itemize}
 			\item GTSRB filters dominate
 			\item Similar results in the end
-			\item Training time: $\sim$ 90m
+			\item Training time: $\sim$90m
 			\item How do the original filters look like?
 		\end{itemize}
 	\end{textblock*}
-	\begin{textblock*}{1.1\textwidth}(8.2cm,2.945cm)
-		\scriptsize
+	\begin{textblock*}{1.1\textwidth}(8.8cm,4.25cm)
+		\tiny
 		\begin{tabular}{|r|rr|}
 			\hline
 			Epoch & GTSRB & Original\\ \hline
@@ -459,22 +459,148 @@
 			\includegraphics[width=0.65\textwidth]{inria_different_angles.jpg}
 		\end{figure}
 	\end{textblock*}
-	\begin{textblock*}{0.44\textwidth}(-0.2cm,1.55cm)
+	\begin{textblock*}{0.44\textwidth}(0.0cm,1.85cm)
 		\begin{itemize}
-			\item Alleviate probability of just having had luck
+			\item Just luck?
 			\item French Institute for Reseach in Computer Science and Automation (INRIA): Head Pose Image Database
 		\end{itemize}
 	\end{textblock*}
-	\begin{textblock*}{1.2\textwidth}(-0.2cm,5.3cm)
+	\begin{textblock*}{1.2\textwidth}(0.0cm,5.3cm)
 		\begin{itemize}
-			\item 15 persons, 2 series per person and 93 images per series
-			\item Person changes its head position gradually
-			\item Often a person has a certain feature like glasses in one series
-			\item Random separation of the 186 images into 149 training and 37 test images
-			\item Probably harder problem due to similar colors in all images
+			\item 15 persons, 2 series per person, 93 images per series
+			\item Gradual change of head position (with or without features like glasses)
+			\item 186 images $\Rightarrow$ 149 training and 37 test images
+			\item Images were not cropped
+			\item Similar colors in all images
 		\end{itemize}
 	\end{textblock*}
 }
+
+\frame{
+	\frametitle{INRIA --- GTSRB Filters Results}
+	\begin{textblock*}{1.06\textwidth}(0.37cm,1.1cm)
+		\begin{figure}
+			\centering
+			\includegraphics[width=1.02\textwidth]{inria_results_only_gtsrb.png}
+		\end{figure}
+	\end{textblock*}
+	\begin{textblock*}{1.1\textwidth}(3.2cm,4.6cm)
+		\begin{itemize}
+			\item Same setup as for COIL100
+			\item Over 99\% after 7 epochs
+			\item Training time $<$ 2 minutes
+			\item Good results in little time
+		\end{itemize}
+	\end{textblock*}
+	\begin{textblock*}{1.1\textwidth}(9.5cm,3.75cm)
+		\tiny
+		\begin{tabular}{|r|r|}
+			\hline
+			Epoch & Accuracy\\ \hline
+			01 & 0.7369\\
+			02 & 0.7748\\
+			03 & 0.8937\\
+			04 & 0.9658\\
+			05 & 0.9459\\
+			06 & 0.9748\\
+			07 & 0.9928\\
+			08 & 0.9964\\
+			09 & 0.9946\\
+			10 & 0.9946\\
+			11 & 0.9910\\
+			12 & 0.9910\\
+			13 & 0.9928\\
+			14 & 0.9964\\
+			15 & 0.9928\\
+			16 & 0.9964\\
+			17 & 0.9946\\ \hline
+		\end{tabular}
+	\end{textblock*}
+}
+
+\frame{
+	\frametitle{INRIA --- GTSRB Filters Results}
+	\begin{textblock*}{1.0\textwidth}(0.8cm,1.5cm)
+		\begin{figure}
+			\centering
+			\includegraphics[width=1.02\textwidth]{inria_results_late_gtsrb.png}
+		\end{figure}
+	\end{textblock*}
+	\begin{textblock*}{1.1\textwidth}(0.2cm,4.85cm)
+		\begin{itemize}
+			\item Low training cost $\Rightarrow$ Many epochs
+			\item Accuracy under 99.5\% only 3 times after first 20 epochs
+		\end{itemize}
+	\end{textblock*}
+	\begin{textblock*}{1.06\textwidth}(0.7cm,6.0cm)
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.9\textwidth]{mistake_looking_down.png}
+		\end{figure}
+	\end{textblock*}
+}
+
+\frame{
+	\frametitle{INRIA --- Original Filters Results}
+	\begin{textblock*}{1.06\textwidth}(0.3cm,1.1cm)
+		\begin{figure}
+			\centering
+			\includegraphics[width=1.\textwidth]{inria_results.png}
+		\end{figure}
+	\end{textblock*}
+	\begin{textblock*}{0.5\textwidth}(3.1cm,4.5cm)
+		\begin{itemize}
+			\item GTSRB filters dominate
+			\item Similar results in the end
+			\item Training time: $\sim$30m
+			\item How do the original filters look like?
+		\end{itemize}
+	\end{textblock*}
+	\begin{textblock*}{1.1\textwidth}(8.2cm,3.6cm)
+		\tiny
+		\begin{tabular}{|r|rr|}
+			\hline
+			Epoch & GTSRB & Original\\ \hline
+			01 & 0.7369 & 0.4811\\
+			02 & 0.7748 & 0.7189\\
+			03 & 0.8937 & 0.7171\\
+			04 & 0.9658 & 0.8234\\
+			05 & 0.9459 & 0.9117\\
+			06 & 0.9748 & 0.9604\\
+			07 & 0.9928 & 0.9423\\
+			08 & 0.9964 & 0.9784\\
+			09 & 0.9946 & 0.9658\\
+			10 & 0.9946 & 0.9874\\
+			11 & 0.9910 & 0.9279\\
+			12 & 0.9910 & 0.9910\\
+			13 & 0.9928 & 0.9838\\
+			14 & 0.9964 & 0.9892\\
+			15 & 0.9928 & 0.9964\\
+			16 & 0.9964 & 0.9982\\
+			17 & 0.9946 & 0.9946\\ \hline
+		\end{tabular}
+	\end{textblock*}
+}
+
+\frame{
+	\frametitle{INRIA --- How do the original filters look like?}
+	\begin{textblock*}{1.1\textwidth}(0.3cm,1.3cm)
+		\begin{figure}
+			\centering
+			\includegraphics[width=1.03\textwidth]{gtsrb_vs_inria_filters.png}
+		\end{figure}
+	\end{textblock*}
+	\begin{textblock*}{1.2\textwidth}(-0.1cm,5.1cm)
+		\begin{itemize}
+			\item No significant qualitative difference between GTSRB and INRIA filters. Mabye, the INRIA filters are slightly more noisy
+			\item Almost no color dependence!
+			\item Both filters sets will probabily generalize well
+			\item INRIA filters yield 99.79\% after 10 epochs on COIL100
+			\item GTSRB 10h vs. INRIA 0.5h
+		\end{itemize}
+	\end{textblock*}
+}
+
 
 \section{Conclusion}
 \subsection{Conclusion}
