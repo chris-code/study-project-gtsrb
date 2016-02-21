@@ -348,14 +348,16 @@
 			\includegraphics[width=1.02\textwidth]{coil100_results_gtsrb_only.png}
 		\end{figure}
 	\end{textblock*}
-	\begin{textblock*}{1.1\textwidth}(1.8cm,4.5cm)
-		\begin{itemize}
-			\item Monotonic increase until the 8th epoch
-			\item Random distortions $\Rightarrow$ Slight decreases
-			\item One epoch takes around 5 minutes
-			\item Very good results in a short time
-		\end{itemize}
-	\end{textblock*}
+	\Only{2}{
+		\begin{textblock*}{1.1\textwidth}(1.8cm,4.5cm)
+			\begin{itemize}
+				\item Monotonic increase until the 8th epoch
+				\item Random distortions $\Rightarrow$ Slight decreases
+				\item One epoch takes around 5 minutes
+				\item Very good results in a short time
+			\end{itemize}
+		\end{textblock*}
+	}
 	\begin{textblock*}{1.1\textwidth}(9.8cm,4.2cm)
 		\tiny
 		\begin{tabular}{|r|r|}
@@ -400,14 +402,16 @@
 			\includegraphics[width=1.02\textwidth]{coil100_results.png}
 		\end{figure}
 	\end{textblock*}
-	\begin{textblock*}{0.5\textwidth}(3.1cm,4.5cm)
-		\begin{itemize}
-			\item GTSRB filters dominate
-			\item Similar results in the end
-			\item Training time: $\sim$90m
-			\item How do the original filters look like?
-		\end{itemize}
-	\end{textblock*}
+	\Only{2}{
+		\begin{textblock*}{0.5\textwidth}(3.1cm,4.5cm)
+			\begin{itemize}
+				\item GTSRB filters dominate
+				\item Similar results in the end
+				\item Training time: $\sim$90m
+				\item How do the original filters look like?
+			\end{itemize}
+		\end{textblock*}
+	}
 	\begin{textblock*}{1.1\textwidth}(8.8cm,4.25cm)
 		\tiny
 		\begin{tabular}{|r|rr|}
@@ -484,14 +488,15 @@
 			\includegraphics[width=1.02\textwidth]{inria_results_only_gtsrb.png}
 		\end{figure}
 	\end{textblock*}
-	\begin{textblock*}{1.1\textwidth}(3.2cm,4.6cm)
-		\begin{itemize}
-			\item Same setup as for COIL100
-			\item Over 99\% after 7 epochs
-			\item Training time $<$ 2 minutes
-			\item Good results in little time
-		\end{itemize}
-	\end{textblock*}
+	\Only{2}{
+		\begin{textblock*}{1.1\textwidth}(3.2cm,4.6cm)
+			\begin{itemize}
+				\item Over 99\% after 7 epochs
+				\item Training time $<$ 2 minutes
+				\item Good results in little time
+			\end{itemize}
+		\end{textblock*}
+	}
 	\begin{textblock*}{1.1\textwidth}(9.5cm,3.75cm)
 		\tiny
 		\begin{tabular}{|r|r|}
@@ -526,7 +531,7 @@
 			\includegraphics[width=1.02\textwidth]{inria_results_late_gtsrb.png}
 		\end{figure}
 	\end{textblock*}
-	\begin{textblock*}{1.1\textwidth}(0.2cm,4.85cm)
+	\begin{textblock*}{1.1\textwidth}(0.2cm,4.75cm)
 		\begin{itemize}
 			\item Low training cost $\Rightarrow$ Many epochs
 			\item Accuracy under 99.5\% only 3 times after first 20 epochs
@@ -548,14 +553,16 @@
 			\includegraphics[width=1.\textwidth]{inria_results.png}
 		\end{figure}
 	\end{textblock*}
-	\begin{textblock*}{0.5\textwidth}(3.1cm,4.5cm)
-		\begin{itemize}
-			\item GTSRB filters dominate
-			\item Similar results in the end
-			\item Training time: $\sim$30m
-			\item How do the original filters look like?
-		\end{itemize}
-	\end{textblock*}
+	\Only{2}{
+		\begin{textblock*}{0.5\textwidth}(3.1cm,4.5cm)
+			\begin{itemize}
+				\item GTSRB filters dominate
+				\item Similar results in the end
+				\item Training time: $\sim$30m
+				\item How do the original filters look like?
+			\end{itemize}
+		\end{textblock*}
+	}
 	\begin{textblock*}{1.1\textwidth}(8.2cm,3.6cm)
 		\tiny
 		\begin{tabular}{|r|rr|}
@@ -609,7 +616,7 @@
 \frame{
 	\frametitle{Conclusion}
 	\begin{itemize}
-		\item Convolutional Networks uses parameters efficiently
+		\item Convolutional Networks use parameters efficiently
 		\item Filters on first layer are well structured
 			\begin{itemize}
 				\item Filters on deeper layers look more noisy
@@ -620,7 +627,7 @@
 				\item At the cost of reliability
 			\end{itemize}
 		\item Occlusion and low image quality impede classification
-		\item GTSRB filters generalize well and can be used to construct reliable classifiers fast.
+		\item GTSRB (and INRIA) filters generalize well and can be used to construct reliable classifiers fast.
 	\end{itemize}
 }
 
