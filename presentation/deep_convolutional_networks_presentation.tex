@@ -228,16 +228,26 @@
 % TODO add one or two images before and after the transformations
 \frame{
 	\frametitle{Input Distortions}
-	\begin{itemize}
-		\item Random distortions were applied before each epoch
-		\item Should improve generalization
-		\item They consist of affine transformations
-			\begin{itemize}
-				\item Translation (10\% of image size)
-				\item Rotation (5 degrees)
-				\item Scaling (10\% of image size)
-			\end{itemize}
-	\end{itemize}
+	\begin{textblock*}{1.1\textwidth}(-0.2cm,1.6cm)
+		\begin{itemize}
+			\item Random distortions  before each epoch
+			\item Should improve generalization
+			\item They consist of affine transformations
+		\end{itemize}
+	\end{textblock*}
+	\begin{textblock*}{1.1\textwidth}(6.7cm,1.6cm)
+		\begin{itemize}
+			\item Translation (10\% of image size)
+			\item Rotation (5 degrees)
+			\item Scaling (10\% of image size)
+		\end{itemize}
+	\end{textblock*}
+	\begin{textblock*}{1.1\textwidth}(0.3cm,3.4cm)
+		\begin{figure}
+			\centering
+			\includegraphics[width=1.02\textwidth]{distortions.png}
+		\end{figure}
+	\end{textblock*}
 }
 
 \frame{
@@ -433,7 +443,7 @@
 	\begin{textblock*}{1.2\textwidth}(-0.1cm,5.3cm)
 		\begin{itemize}
 			\item The spatial structure is not as distinctive as the one of the GTSRB filters
-			\item One cannot assume a good generalization behavior of the COIL100 filters
+			\item One cannot expect a good generalization behavior of the COIL100 filters
 			\item Maybe, the CNN is too oversized for the task
 			\item The original filters exhibit more differences between the color channels
 			\item Long training time, but probably overfitted filters
@@ -443,12 +453,27 @@
 
 \frame{
 	\frametitle{INRIA}
-	\begin{itemize}
-		\item Describe INRIA dataset
-		\item Show image
-		\item Show results with reused filters
-		\item Show results with original filters
-	\end{itemize}
+	\begin{textblock*}{1.09\textwidth}(2.8cm,1.35cm)
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.65\textwidth]{inria_different_angles.jpg}
+		\end{figure}
+	\end{textblock*}
+	\begin{textblock*}{0.44\textwidth}(-0.2cm,1.55cm)
+		\begin{itemize}
+			\item Alleviate probability of just having had luck
+			\item French Institute for Reseach in Computer Science and Automation (INRIA): Head Pose Image Database
+		\end{itemize}
+	\end{textblock*}
+	\begin{textblock*}{1.2\textwidth}(-0.2cm,5.3cm)
+		\begin{itemize}
+			\item 15 persons, 2 series per person and 93 images per series
+			\item Person changes its head position gradually
+			\item Often a person has a certain feature like glasses in one series
+			\item Random separation of the 186 images into 149 training and 37 test images
+			\item Probably harder problem due to similar colors in all images
+		\end{itemize}
+	\end{textblock*}
 }
 
 \section{Conclusion}
