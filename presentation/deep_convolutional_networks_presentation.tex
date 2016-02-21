@@ -154,7 +154,6 @@
 	% Will do that
 }
 
-% TODO not finished yet, more like notes for myself
 \frame{
 	\frametitle{Simple Setup}
 	\begin{columns}
@@ -249,8 +248,8 @@
 	\begin{columns}
 		\column{0.35\textwidth}
 			\begin{itemize}
-				\item Notable improvement
 				\item Peaks at $\approx 0.9774$ accuracy after 14 epochs
+				\item Notable improvement
 				\item More volatility
 			\end{itemize}
 		\column{0.65\textwidth}
@@ -260,11 +259,32 @@
 }
 
 \frame{
+	\frametitle{RELU Activation Function}
+	\begin{columns}
+		\column{0.5\textwidth}
+			\begin{itemize}
+				\item Alternative activation function
+				\item Efficient computation
+				\item Forward pass about $2\times$ faster
+			\end{itemize}
+		\column{0.5\textwidth}
+			\includegraphics[width=\textwidth]{relu}
+	\end{columns}
+}
+
+\frame{
 	\frametitle{Results with RELU}
-	\begin{itemize}
-		\item Add RELU image
-		\item Present results with RELU activation function
-	\end{itemize}
+	\begin{columns}
+		\column{0.35\textwidth}
+			\begin{itemize}
+				\item Peaks at $\approx 0.9803$ accuracy after 10 epochs
+				\item Slightly better sometimes
+				\item Very erratic development
+			\end{itemize}
+		\column{0.65\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{gtsrb_results_3}
+	\end{columns}
 }
 
 \frame{
@@ -304,7 +324,7 @@
 		\begin{itemize}
 			\item Columbia Object Image Library 100 $\Rightarrow$ COIL100
 			\item 100 different objects
-			\item Objects turning on a black turntable
+			\item Objects turning on a black turntable %TODO 'placed' on turntable?
 			\item One photo each time the object has turned by $5^\circ$
 			\item 72 images per object, 7200 images in total
 			\item Random separation into 58 training and 14 test images per object
@@ -365,10 +385,21 @@
 \section{Conclusion}
 \subsection{Conclusion}
 
+% TODO Yannick's conclusions (possibly on a second slide?)
 \frame{
 	\frametitle{Conclusion}
 	\begin{itemize}
-		\item Summarize results
+		\item Convolutional Networks uses parameters efficiently
+		\item Filters on first layer are well structured
+			\begin{itemize}
+				\item Filters on deeper layers look more noisy
+			\end{itemize}
+		\item Random distortions of input greatly improve generalization
+		\item RELU activation is fast and sometimes better
+			\begin{itemize}
+				\item At the cost of reliability
+			\end{itemize}
+		\item Occlusion and low image quality impede classification
 	\end{itemize}
 }
 
@@ -379,7 +410,7 @@
 	\frametitle{Questions?}
 	\begin{figure}[h!]
 		\begin{textblock*}{\textwidth}(1.0cm,2.3cm)
-			Questions?\\
+			%Questions? \\
 			\vspace{0.3cm}
 			\frame{
 				\includegraphics[width=7cm]{fragen.png}
