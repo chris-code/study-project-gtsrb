@@ -314,7 +314,7 @@
 	\frametitle{Filter Reuse}
 	\begin{itemize}
 		\item How well do the GTSRB filters generalize?
-		\item Initialize new network with same structure randomly
+		\item Randomly initialize new network with same structure
 		\item Copy GTSRB filters to the new network
 		\item Train only the fully connected layers!
 	\end{itemize}
@@ -332,7 +332,7 @@
 		\begin{itemize}
 			\item Columbia Object Image Library 100 $\Rightarrow$ COIL100
 			\item 100 different objects
-			\item Objects turning on a black turntable %TODO 'placed' on turntable?
+			\item Objects placed on a black turntable
 			\item One photo each time the object has turned by $5^\circ$
 			\item 72 images per object, 7200 images in total
 			\item Random separation into 58 training and 14 test images per object
@@ -383,10 +383,10 @@
 \frame{
 	\frametitle{COIL100 --- Original filters}
 	\begin{itemize}
-		\item Which advantages does this approach have?
+		\item What are the advantages of this approach?
 		\item We need data for a comparison
 		\item Train a new network conventionally on COIL100
-		\item Call the filters \emph{original}, which are created this way
+		\item Call the filters which are created this way \emph{original}
 		\item Compare training time and results!
 	\end{itemize}
 }
@@ -404,8 +404,8 @@
 		\begin{itemize}
 			\item GTSRB filters dominate
 			\item Similar results in the end
-			\item Training time: $\sim$90m
-			\item How do the original filters look like?
+			\item Training time: $\sim$90min
+			\item What do the original filters look like?
 		\end{itemize}
 	\end{textblock*}
 	\begin{textblock*}{1.1\textwidth}(8.8cm,4.25cm)
@@ -433,7 +433,7 @@
 }
 
 \frame{
-	\frametitle{COIL100 --- How do the original filters look like?}
+	\frametitle{COIL100 --- What do the original filters look like?}
 	\begin{textblock*}{1.1\textwidth}(0.3cm,1.3cm)
 		\begin{figure}
 			\centering
@@ -444,7 +444,7 @@
 		\begin{itemize}
 			\item The spatial structure is not as distinctive as the one of the GTSRB filters
 			\item One cannot expect a good generalization behavior of the COIL100 filters
-			\item Maybe, the CNN is too oversized for the task
+			\item Maybe the CNN is oversized for the task
 			\item The original filters exhibit more differences between the color channels
 			\item Long training time, but probably overfitted filters
 		\end{itemize}
@@ -553,7 +553,7 @@
 			\item GTSRB filters dominate
 			\item Similar results in the end
 			\item Training time: $\sim$30m
-			\item How do the original filters look like?
+			\item What do the original filters look like?
 		\end{itemize}
 	\end{textblock*}
 	\begin{textblock*}{1.1\textwidth}(8.2cm,3.6cm)
@@ -583,7 +583,7 @@
 }
 
 \frame{
-	\frametitle{INRIA --- How do the original filters look like?}
+	\frametitle{INRIA --- What do the original filters look like?}
 	\begin{textblock*}{1.1\textwidth}(0.3cm,1.3cm)
 		\begin{figure}
 			\centering
@@ -596,7 +596,7 @@
 			\item Almost no color dependence!
 			\item Both filters sets will probabily generalize well
 			\item INRIA filters yield 99.79\% after 10 epochs on COIL100
-			\item GTSRB 10h vs. INRIA 0.5h
+			\item GTSRB 10h vs. INRIA 0.5h per epoch
 		\end{itemize}
 	\end{textblock*}
 }
@@ -609,7 +609,7 @@
 \frame{
 	\frametitle{Conclusion}
 	\begin{itemize}
-		\item Convolutional Networks uses parameters efficiently
+		\item Convolutional Networks use parameters efficiently
 		\item Filters on first layer are well structured
 			\begin{itemize}
 				\item Filters on deeper layers look more noisy
