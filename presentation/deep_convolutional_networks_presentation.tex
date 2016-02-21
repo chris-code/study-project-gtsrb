@@ -149,9 +149,6 @@
 			\includegraphics<1>[width=0.4\textwidth]{gtsrb_00029_00029}
 			\includegraphics<2>[width=0.4\textwidth]{gtsrb_00029_00029_border}
 	\end{columns}
-	
-	%TODO Maybe create three different plots: the first one shows only the results of the simple setup, the second adds the ones with distortions and the third adds the results, which we achieved by using the RELU activation function
-	% Will do that
 }
 
 \frame{
@@ -280,6 +277,7 @@
 				\item Peaks at $\approx 0.9803$ accuracy after 10 epochs
 				\item Slightly better sometimes
 				\item Very erratic development
+				\item Use of tanh activation function in further considerations
 			\end{itemize}
 		\column{0.65\textwidth}
 			\centering
@@ -345,7 +343,7 @@
 			\item Monotonic increase until the 8th epoch
 			\item Random distortions $\Rightarrow$ Slight decreases
 			\item One epoch takes around 5 minutes
-			\item Good results in a short time
+			\item Very good results in a short time
 		\end{itemize}
 	\end{textblock*}
 	\begin{textblock*}{1.1\textwidth}(9.4cm,2.93cm)
@@ -400,6 +398,7 @@
 				\item At the cost of reliability
 			\end{itemize}
 		\item Occlusion and low image quality impede classification
+		\item GTSRB filters generalize well and can be used to construct reliable classifiers fast.
 	\end{itemize}
 }
 
