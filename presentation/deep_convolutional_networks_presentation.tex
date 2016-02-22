@@ -226,7 +226,6 @@
 	}
 \end{frame}
 
-% TODO add one or two images before and after the transformations
 \frame{
 	\frametitle{Input Distortions}
 	\begin{textblock*}{1.1\textwidth}(-0.2cm,1.6cm)
@@ -554,27 +553,16 @@
 			\includegraphics[width=1.\textwidth]{inria_results.png}
 		\end{figure}
 	\end{textblock*}
-<<<<<<< HEAD
-	\begin{textblock*}{0.5\textwidth}(3.1cm,4.5cm)
-		\begin{itemize}
-			\item GTSRB filters dominate
-			\item Similar results in the end
-			\item Training time: $\sim$30m
-			\item What do the original filters look like?
-		\end{itemize}
-	\end{textblock*}
-=======
 	\Only{2}{
 		\begin{textblock*}{0.5\textwidth}(3.1cm,4.5cm)
 			\begin{itemize}
 				\item GTSRB filters dominate
 				\item Similar results in the end
 				\item Training time: $\sim$30m
-				\item How do the original filters look like?
+				\item What do the original filters look like?
 			\end{itemize}
 		\end{textblock*}
 	}
->>>>>>> 7b5e572336379c9452a2dcb3dfa9337a3571fb73
 	\begin{textblock*}{1.1\textwidth}(8.2cm,3.6cm)
 		\tiny
 		\begin{tabular}{|r|rr|}
@@ -624,7 +612,6 @@
 \section{Conclusion}
 \subsection{Conclusion}
 
-% TODO Yannick's conclusions (possibly on a second slide?)
 \frame{
 	\frametitle{Conclusion}
 	\begin{itemize}
@@ -639,7 +626,9 @@
 				\item At the cost of reliability
 			\end{itemize}
 		\item Occlusion and low image quality impede classification
-		\item GTSRB (and INRIA) filters generalize well and can be used to construct reliable classifiers fast.
+		\item Very good results with GTSRB filters on COIL100 and INRIA
+		\item COIL100 filters: noisy, INRIA filters: like GTSRB filters
+		\item Reliable classifiers can be constructed in little time
 	\end{itemize}
 }
 
