@@ -472,21 +472,30 @@
 			\includegraphics[width=0.65\textwidth]{inria_different_angles.jpg}
 		\end{figure}
 	\end{textblock*}
-	\begin{textblock*}{0.44\textwidth}(0.0cm,1.6cm)
+	\begin{textblock*}{0.44\textwidth}(0.0cm,1.9cm)
 		\begin{itemize}
 			\item Just luck?
 			\item French Institute for Reseach in Computer Science and Automation (INRIA): Head Pose Image Database
-			\item Details matter
 		\end{itemize}
 	\end{textblock*}
-	\begin{textblock*}{1.2\textwidth}(0.0cm,5.6cm)
+	\begin{textblock*}{1.2\textwidth}(0.0cm,5.3cm)
 		\begin{itemize}
 			\item 15 persons, 2 series per person, 93 images per series
 			\item Gradual change of head position (with or without features like glasses)
 			\item 186 images $\Rightarrow$ 149 training and 37 test images
 			\item Images were not cropped
-			\item Color is not a discriminative feature
+			\item Color is not a discriminative feature, details matter
 		\end{itemize}
+	\end{textblock*}
+}
+
+\frame{
+	\frametitle{INRIA --- Persons}
+	\begin{textblock*}{1.06\textwidth}(0.2cm,1.33cm)
+		\begin{figure}
+			\centering
+			\includegraphics[width=1.08\textwidth]{inria_persons.png}
+		\end{figure}
 	\end{textblock*}
 }
 
@@ -544,7 +553,7 @@
 	\begin{textblock*}{1.1\textwidth}(0.2cm,4.75cm)
 		\begin{itemize}
 			\item Low training cost $\Rightarrow$ Many epochs
-			\item Accuracy under 99.5\% only 3 times after first 20 epochs
+			\item Accuracy below 99.5\% only 3 times after first 20 epochs
 		\end{itemize}
 	\end{textblock*}
 	\begin{textblock*}{1.06\textwidth}(0.7cm,6.0cm)
@@ -564,7 +573,7 @@
 		\end{figure}
 	\end{textblock*}
 	\Only{2}{
-		\begin{textblock*}{0.5\textwidth}(3.1cm,4.5cm)
+		\begin{textblock*}{0.5\textwidth}(2.9cm,4.5cm)
 			\begin{itemize}
 				\item GTSRB filters dominate
 				\item Similar results in the end
@@ -611,7 +620,7 @@
 		\begin{itemize}
 			\item No significant qualitative difference between GTSRB and INRIA filters. Mabye, the INRIA filters are slightly more noisy
 			\item Almost no color dependence!
-			\item Both filters sets will probabily generalize well
+			\item Both filter sets will probabily generalize well
 			\item INRIA filters yield 99.79\% after 10 epochs on COIL100
 			\item GTSRB 10h vs. INRIA 0.5h per epoch
 		\end{itemize}
