@@ -89,11 +89,13 @@
 				\item Convolving entire input with filter implies shared weights
 				\item Reduced amount of weights allows lots of filters
 				\item Filters specific to color channels
+				\item Max pooling integrates remote locations
 			\end{itemize}
 		\column{0.5\textwidth}
 			\includegraphics<1>[width=\textwidth]{dense_layer}
 			\includegraphics<2>[width=\textwidth]{convolutional_layer}
 			\includegraphics<3>[width=\textwidth]{color_mapping}
+			\includegraphics<4>[width=\textwidth]{max_pooling}
 	\end{columns}
 }
 %TODO pooling layers
@@ -273,6 +275,18 @@
 }
 
 \frame{
+	\frametitle{Missclassified images}
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.85\textwidth]{gtsrb_mistakes/mistake_fussgaenger.png}
+		
+		\includegraphics[width=0.85\textwidth]{gtsrb_mistakes/mistake_gefahrenstelle.png}
+		
+		\includegraphics[width=0.85\textwidth]{gtsrb_mistakes/mistake_limit_unknown.png}
+	\end{figure}
+}
+
+\frame{
 	\frametitle{RELU Activation Function}
 	\begin{columns}
 		\column{0.5\textwidth}
@@ -300,18 +314,6 @@
 			\centering
 			\includegraphics[width=\textwidth]{gtsrb_results_3}
 	\end{columns}
-}
-
-\frame{
-	\frametitle{Missclassified images}
-	\begin{figure}
-		\centering
-		\includegraphics[width=0.85\textwidth]{gtsrb_mistakes/mistake_fussgaenger.png}
-		
-		\includegraphics[width=0.85\textwidth]{gtsrb_mistakes/mistake_gefahrenstelle.png}
-		
-		\includegraphics[width=0.85\textwidth]{gtsrb_mistakes/mistake_limit_unknown.png}
-	\end{figure}
 }
 
 \section{Filter Reuse}
