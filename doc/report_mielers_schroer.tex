@@ -170,7 +170,7 @@ A network was trained on all images of the training set for $14$ epochs. On 4 \e
 
 \begin{figure}[h!]
 	\centering
-	\includegraphics{gtsrb_results}
+	\includegraphics{accuracy_plots/gtsrb_results}
 	\begin{tabular}{|r|rrr|}
 		\hline
 		Epoch & Simple setup & With distortions & With distortions (RELU) \\
@@ -236,7 +236,7 @@ The layers in \cite{multi-column-neural-network-gtsrb} used a $\tanh$ activation
 
 \begin{figure}[h!!!]
 	\centering
-	\includegraphics{images/relu.png}
+	\includegraphics{images/relu}
 	\caption{RELU activation function}
 	\label{fig:relu}
 \end{figure}
@@ -253,43 +253,43 @@ Useful insights may be gained by looking at the errors that a network makes. To 
 	\begin{subfigure}{\textwidth}
 		\centering
 		\caption{}
-		\includegraphics[width=0.7\textwidth]{gtsrb_mistakes/mistake_fussgaenger.png}
+		\includegraphics[width=0.7\textwidth]{gtsrb_mistakes/mistake_fussgaenger}
 		\label{fig:gtsrb-mistakes-01}
 	\end{subfigure}
 	\begin{subfigure}{\textwidth}
 		\centering
 		\caption{}
-		\includegraphics[width=0.7\textwidth]{gtsrb_mistakes/mistake_vorfahrtstrasse.png}
+		\includegraphics[width=0.7\textwidth]{gtsrb_mistakes/mistake_vorfahrtstrasse}
 		\label{fig:gtsrb-mistakes-02}
 	\end{subfigure}
 	\begin{subfigure}{\textwidth}
 		\centering
 		\caption{}
-		\includegraphics[width=0.7\textwidth]{gtsrb_mistakes/mistake_gefahrenstelle.png}
+		\includegraphics[width=0.7\textwidth]{gtsrb_mistakes/mistake_gefahrenstelle}
 		\label{fig:gtsrb-mistakes-03}
 	\end{subfigure}
 	\begin{subfigure}{\textwidth}
 		\centering
 		\caption{}
-		\includegraphics[width=0.7\textwidth]{gtsrb_mistakes/mistake_kreisverkehr.png}
+		\includegraphics[width=0.7\textwidth]{gtsrb_mistakes/mistake_kreisverkehr}
 		\label{fig:gtsrb-mistakes-04}
 	\end{subfigure}
 	\begin{subfigure}{\textwidth}
 		\centering
 		\caption{}
-		\includegraphics[width=0.7\textwidth]{gtsrb_mistakes/mistake_limit_unknown.png}
+		\includegraphics[width=0.7\textwidth]{gtsrb_mistakes/mistake_limit_unknown}
 		\label{fig:gtsrb-mistakes-05}
 	\end{subfigure}
 	\begin{subfigure}{\textwidth}
 		\centering
 		\caption{}
-		\includegraphics[width=0.7\textwidth]{gtsrb_mistakes/mistake_ueberholen_lkw.png}
+		\includegraphics[width=0.7\textwidth]{gtsrb_mistakes/mistake_ueberholen_lkw}
 		\label{fig:gtsrb-mistakes-06}
 	\end{subfigure}
 	\begin{subfigure}{\textwidth}
 		\centering
 		\caption{}
-		\includegraphics[width=0.7\textwidth]{gtsrb_mistakes/mistake_limit_120.png}
+		\includegraphics[width=0.7\textwidth]{gtsrb_mistakes/mistake_limit_120}
 		\label{fig:gtsrb-mistakes-07}
 	\end{subfigure}
 	\caption{Selected misclassified test images of the network with $\tanh$ activation and distorted input data after 14 epochs. Additionally, the 3 most likely classes predicted by the network are shown together with their probabilities and a representative image.}
@@ -313,7 +313,7 @@ In order to examine how well the convolution filters trained on the GTSRB datase
 The first dataset we used is the COIL100 (Columbia Object Image Library 100) dataset (cf. \cite{columbia_object_image_library}), which contains images of 100 different objects. Figure \ref{fig:coil100_objects} shows a selection of 20 objects from the whole dataset. Each object constitutes one class, hence, it is a classification problem with 100 classes. The individual objects were placed on a black turntable in front of a black background. 
 \begin{figure}[h!]
 	\centering
-	\includegraphics[width=1\textwidth]{coil100}
+	\includegraphics[width=1\textwidth]{data_examples/coil100}
 	\caption{A subset of 20 objects taken from the COIL100 dataset.}
 	\label{fig:coil100_objects}
 \end{figure}
@@ -327,7 +327,7 @@ The curve "Reused GTSRB filters" in figure \ref{fig:coil100_results} illustrates
 
 \begin{figure}[h!]
 	\centering
-	\includegraphics[width=1\textwidth]{coil100_results.png}
+	\includegraphics[width=1\textwidth]{accuracy_plots/coil100_results}
 	\caption{Results on COIL100 with original filters and with reused GTSRB filters.}
 	\label{fig:coil100_results}
 \end{figure}
@@ -371,7 +371,7 @@ In contrast to the GTSRB filters, which exhibit a very similar filter structure 
 % TODO Same number of training epochs would be nice
 \begin{figure}[h!]
 	\centering
-	\includegraphics[width=1\textwidth]{gtsrb_vs_coil_filters.png}
+	\includegraphics[width=1\textwidth]{filter_visualizations/gtsrb_vs_coil_filters}
 	\caption{Filters of the first 25 maps from the input layer to the second layer. The upper filters are taken from the GTSRB CNN after 12 epochs of training, the lower filters are taken from the COIL100 CNN after 15 epochs of training. The three rows show the filters for the red, green and blue channel respectively.}
 	\label{fig:gtsrb_vs_coil_filters}
 \end{figure}
@@ -384,7 +384,7 @@ After achieving excellent results with the GTSRB filters on the COIL100 dataset,
 
 \begin{figure}[h!]
 	\centering
-	\includegraphics[width=0.8\textwidth]{inria_different_angles}
+	\includegraphics[width=0.8\textwidth]{data_examples/inria}
 	\caption{Several head positions of person 12 with glasses.}
 	\label{fig:inria_different_angles}
 \end{figure}
@@ -399,7 +399,7 @@ The curve "Reused GTSRB filters" in figure \ref{fig:inria_results} and the colum
 
 \begin{figure}[h!]
 	\centering
-	\includegraphics[width=1\textwidth]{inria_results.png}
+	\includegraphics[width=1\textwidth]{accuracy_plots/inria_results}
 	\caption{Results on the INRIA dataset with original filters completely trained from the ground up and with reused GTSRB filters.}
 	\label{fig:inria_results}
 \end{figure}
@@ -407,7 +407,7 @@ The curve "Reused GTSRB filters" in figure \ref{fig:inria_results} and the colum
 Very good results are reached after only a small number of epochs. After 7 epochs, an accuracy above 99\% was obtained for the first time. Again, the fluctuation of the recognition rate can be explained as a consequence of the random distortions, which are applied before each training epoch. Owing to the short training time, the network was trained in total for 60 epochs with the GTSRB filters. The results for the epochs, which are missing in the plot of figure \ref{fig:inria_results} for space saving reasons and in order to focus on the accuracy of the early epochs, are shown by the plot in figure \ref{fig:inria_results_only_gtsrb}.
 \begin{figure}[h!]
 	\centering
-	\includegraphics[width=1\textwidth]{inria_results_only_gtsrb.png}
+	\includegraphics[width=1\textwidth]{accuracy_plots/inria_results_only_gtsrb}
 	\caption{Results of the later epochs on the INRIA dataset with reused GTSRB filters.}
 	\label{fig:inria_results_only_gtsrb}
 \end{figure}
@@ -447,7 +447,7 @@ The only misclassified image produced by this network is shown in figure \ref{fi
 
 \begin{figure}[h!!!]
 	\centering
-	\includegraphics[width=0.9\textwidth]{images/inria_mistakes/mistake_looking_down.png}
+	\includegraphics[width=0.9\textwidth]{images/inria_mistakes/mistake_looking_down}
 	\caption{Mistake on the INRIA test set made by the network that reuses the GTSRB filters. Additionally, the 3 most likely classes predicted by the network are shown together with their probabilities.}
 	\label{fig:inria-filter-reuse-mistake}
 \end{figure}
@@ -467,7 +467,7 @@ For the COIL100 original filters we found that they were not well-structured and
 %TODO filters after the same number of epochs would be nice
 \begin{figure}[h!]
 	\centering
-	\includegraphics[width=1\textwidth]{gtsrb_vs_inria_filters.png}
+	\includegraphics[width=1\textwidth]{filter_visualizations/gtsrb_vs_inria_filters}
 	\caption{Filters of the first 25 maps from the input layer to the second layer. The upper filters are taken from the GTSRB CNN after 12 epochs of training, the lower filters are taken from the INRIA CNN after 17 epochs of training.}
 	\label{fig:gtsrb_vs_inria_filters}
 \end{figure}
@@ -509,7 +509,7 @@ In order to examine the generalization properties of the GTSRB filters, the weig
 	In order to create an indication for the generalization behavior of the filters, the filters of the convolutional layers were visualized graphically.
 	\begin{figure}[h!]
 		\centering
-		\includegraphics[width=1\textwidth]{weights_on_layer_0_horizontally_epoch_12_morph.png}
+		\includegraphics[width=1\textwidth]{filter_visualizations/weights_on_layer_0_horizontally_epoch_12_morph}
 		\caption{All 300 filters from the first to the second layer in the standard GTSRB network}
 		\label{fig:all_gtsrb_filter}
 	\end{figure}
