@@ -92,10 +92,10 @@
 				\item Max pooling integrates remote locations
 			\end{itemize}
 		\column{0.5\textwidth}
-			\includegraphics<1>[width=\textwidth]{dense_layer}
-			\includegraphics<2>[width=\textwidth]{convolutional_layer}
-			\includegraphics<3>[width=\textwidth]{color_mapping}
-			\includegraphics<4>[width=\textwidth]{max_pooling}
+			\includegraphics<1>[width=\textwidth]{convolutional_networks/dense_layer}
+			\includegraphics<2>[width=\textwidth]{convolutional_networks/convolutional_layer}
+			\includegraphics<3>[width=\textwidth]{convolutional_networks/color_mapping}
+			\includegraphics<4>[width=\textwidth]{convolutional_networks/max_pooling}
 	\end{columns}
 }
 %TODO pooling layers
@@ -123,7 +123,7 @@
 	\Only{2}{
 		\begin{textblock*}{1.1\textwidth}(0.95cm,4.0cm)
 			\frame{
-				\includegraphics[width=0.92\textwidth]{tanh}
+				\includegraphics[width=0.92\textwidth]{convolutional_networks/tanh}
 			}
 		\end{textblock*}
 	}
@@ -149,14 +149,14 @@
 			\end{itemize}
 		\column{0.5\textwidth}
 			\centering
-			\includegraphics<1>[width=0.4\textwidth]{gtsrb_00002_00029}
-			\includegraphics<2>[width=0.4\textwidth]{gtsrb_00002_00029_border}
+			\includegraphics<1>[width=0.4\textwidth]{gtsrb/00002_00029}
+			\includegraphics<2>[width=0.4\textwidth]{gtsrb/00002_00029_border}
 			
-			\includegraphics<1>[width=0.4\textwidth]{gtsrb_00013_00029}
-			\includegraphics<2>[width=0.4\textwidth]{gtsrb_00013_00029_border}
+			\includegraphics<1>[width=0.4\textwidth]{gtsrb/00013_00029}
+			\includegraphics<2>[width=0.4\textwidth]{gtsrb/00013_00029_border}
 			
-			\includegraphics<1>[width=0.4\textwidth]{gtsrb_00029_00029}
-			\includegraphics<2>[width=0.4\textwidth]{gtsrb_00029_00029_border}
+			\includegraphics<1>[width=0.4\textwidth]{gtsrb/00029_00029}
+			\includegraphics<2>[width=0.4\textwidth]{gtsrb/00029_00029_border}
 	\end{columns}
 }
 
@@ -172,9 +172,9 @@
 			\end{itemize}
 		\column{0.5\textwidth}
 			\centering
-			\includegraphics[width=0.4\textwidth]{gtsrb_00019_00004_00029}
+			\includegraphics[width=0.4\textwidth]{gtsrb/00019_00004_00029}
 			
-			\includegraphics[width=0.4\textwidth]{gtsrb_00019_00004_00029_contr}
+			\includegraphics[width=0.4\textwidth]{gtsrb/00019_00004_00029_contrast_normalized}
 	\end{columns}
 }
 
@@ -188,7 +188,7 @@
 			\end{itemize}
 		\column{0.65\textwidth}
 			\centering
-			\includegraphics[width=\textwidth]{gtsrb_results_1}
+			\includegraphics[width=\textwidth]{gtsrb/results_1}
 	\end{columns}
 \end{frame}
 
@@ -197,7 +197,7 @@
 	
 	\only<1>{
 		\begin{figure}
-			\includegraphics[width=\textwidth]{filter_visualizations/gtsrb_nomorph_filters_0}
+			\includegraphics[width=\textwidth]{gtsrb/nomorph_filters_0}
 			\caption{Filters on the first convolutional layer}
 		\end{figure}
 		
@@ -213,7 +213,7 @@
 	
 	\only<2>{
 		\begin{figure}
-			\includegraphics<2>[width=\textwidth]{filter_visualizations/gtsrb_nomorph_filters_2}
+			\includegraphics<2>[width=\textwidth]{gtsrb/nomorph_filters_2}
 			\caption{Filters on the second convolutional layer}
 		\end{figure}
 		
@@ -225,7 +225,7 @@
 	
 	\only<3>{
 		\begin{figure}
-			\includegraphics<3>[width=\textwidth]{filter_visualizations/gtsrb_nomorph_filters_4}
+			\includegraphics<3>[width=\textwidth]{gtsrb/nomorph_filters_4}
 			\caption{Filters on the third convolutional layer}
 		\end{figure}
 		
@@ -254,7 +254,7 @@
 	\begin{textblock*}{1.1\textwidth}(0.3cm,4.0cm)
 		\begin{figure}
 			\centering
-			\includegraphics[width=0.8\textwidth]{distortions.png}
+			\includegraphics[width=0.8\textwidth]{gtsrb/distortions.png}
 		\end{figure}
 	\end{textblock*}
 }
@@ -270,7 +270,7 @@
 			\end{itemize}
 		\column{0.65\textwidth}
 			\centering
-			\includegraphics[width=\textwidth]{gtsrb_results_2}
+			\includegraphics[width=\textwidth]{gtsrb/results_2}
 	\end{columns}
 }
 
@@ -278,11 +278,11 @@
 	\frametitle{Missclassified images}
 	\begin{figure}
 		\centering
-		\includegraphics[width=0.85\textwidth]{gtsrb_mistakes/mistake_fussgaenger.png}
+		\includegraphics[width=0.85\textwidth]{gtsrb/mistakes/fussgaenger.png}
 		
-		\includegraphics[width=0.85\textwidth]{gtsrb_mistakes/mistake_gefahrenstelle.png}
+		\includegraphics[width=0.85\textwidth]{gtsrb/mistakes/gefahrenstelle.png}
 		
-		\includegraphics[width=0.85\textwidth]{gtsrb_mistakes/mistake_limit_unknown.png}
+		\includegraphics[width=0.85\textwidth]{gtsrb/mistakes/limit_unknown.png}
 	\end{figure}
 }
 
@@ -296,7 +296,7 @@
 				\item Forward pass about $2\times$ faster
 			\end{itemize}
 		\column{0.5\textwidth}
-			\includegraphics[width=\textwidth]{relu}
+			\includegraphics[width=\textwidth]{gtsrb/relu}
 	\end{columns}
 }
 
@@ -312,7 +312,7 @@
 			\end{itemize}
 		\column{0.65\textwidth}
 			\centering
-			\includegraphics[width=\textwidth]{gtsrb_results_3}
+			\includegraphics[width=\textwidth]{gtsrb/results_3}
 	\end{columns}
 }
 
@@ -334,7 +334,7 @@
 	\begin{textblock*}{1.09\textwidth}(0.5cm,1.6cm)
 		\begin{figure}
 			\centering
-			\includegraphics[width=\textwidth]{coil100.png}
+			\includegraphics[width=\textwidth]{coil100/data_examples}
 		\end{figure}
 	\end{textblock*}
 	\begin{textblock*}{1.1\textwidth}(0.5cm,4.55cm)
@@ -354,7 +354,7 @@
 	\begin{textblock*}{1.1\textwidth}(0.3cm,1.1cm)
 		\begin{figure}
 			\centering
-			\includegraphics[width=1.02\textwidth]{coil100_results_gtsrb_only.png}
+			\includegraphics[width=1.02\textwidth]{coil100/results_1.png}
 		\end{figure}
 	\end{textblock*}
 	\Only{2}{
@@ -408,7 +408,7 @@
 	\begin{textblock*}{1.1\textwidth}(0.3cm,1.1cm)
 		\begin{figure}
 			\centering
-			\includegraphics[width=1.02\textwidth]{coil100_results.png}
+			\includegraphics[width=1.02\textwidth]{coil100/results_2.png}
 		\end{figure}
 	\end{textblock*}
 	\Only{2}{
@@ -450,7 +450,7 @@
 	\begin{textblock*}{1.1\textwidth}(0.3cm,1.3cm)
 		\begin{figure}
 			\centering
-			\includegraphics[width=1.03\textwidth]{gtsrb_vs_coil_filters.png}
+			\includegraphics[width=1.03\textwidth]{coil100/filter_comparison_to_gtsrb}
 		\end{figure}
 	\end{textblock*}
 	\begin{textblock*}{1.2\textwidth}(-0.1cm,5.3cm)
@@ -469,7 +469,7 @@
 	\begin{textblock*}{1.09\textwidth}(2.8cm,1.35cm)
 		\begin{figure}
 			\centering
-			\includegraphics[width=0.65\textwidth]{inria_different_angles.jpg}
+			\includegraphics[width=0.65\textwidth]{inria/different_angles}
 		\end{figure}
 	\end{textblock*}
 	\begin{textblock*}{0.44\textwidth}(0.0cm,1.9cm)
@@ -494,7 +494,7 @@
 	\begin{textblock*}{1.06\textwidth}(0.2cm,1.33cm)
 		\begin{figure}
 			\centering
-			\includegraphics[width=1.08\textwidth]{inria_persons.png}
+			\includegraphics[width=1.08\textwidth]{inria/different_persons}
 		\end{figure}
 	\end{textblock*}
 }
@@ -504,7 +504,7 @@
 	\begin{textblock*}{1.06\textwidth}(0.37cm,1.1cm)
 		\begin{figure}
 			\centering
-			\includegraphics[width=1.02\textwidth]{inria_results_only_gtsrb.png}
+			\includegraphics[width=1.02\textwidth]{inria/results_1.png}
 		\end{figure}
 	\end{textblock*}
 	\Only{2}{
@@ -547,7 +547,7 @@
 	\begin{textblock*}{1.0\textwidth}(0.8cm,1.5cm)
 		\begin{figure}
 			\centering
-			\includegraphics[width=1.02\textwidth]{inria_results_late_gtsrb.png}
+			\includegraphics[width=1.02\textwidth]{inria/results_2.png}
 		\end{figure}
 	\end{textblock*}
 	\begin{textblock*}{1.1\textwidth}(0.2cm,4.75cm)
@@ -559,7 +559,7 @@
 	\begin{textblock*}{1.06\textwidth}(0.7cm,6.0cm)
 		\begin{figure}
 			\centering
-			\includegraphics[width=0.9\textwidth]{mistake_looking_down.png}
+			\includegraphics[width=0.9\textwidth]{inria/mistake_looking_down.png}
 		\end{figure}
 	\end{textblock*}
 }
@@ -569,7 +569,7 @@
 	\begin{textblock*}{1.06\textwidth}(0.3cm,1.1cm)
 		\begin{figure}
 			\centering
-			\includegraphics[width=1.\textwidth]{inria_results.png}
+			\includegraphics[width=1.\textwidth]{inria/results_3.png}
 		\end{figure}
 	\end{textblock*}
 	\Only{2}{
@@ -613,7 +613,7 @@
 	\begin{textblock*}{1.1\textwidth}(0.3cm,1.3cm)
 		\begin{figure}
 			\centering
-			\includegraphics[width=1.03\textwidth]{gtsrb_vs_inria_filters.png}
+			\includegraphics[width=1.03\textwidth]{inria/filter_comparison_to_gtsrb}
 		\end{figure}
 	\end{textblock*}
 	\begin{textblock*}{1.2\textwidth}(-0.1cm,5.1cm)
